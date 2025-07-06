@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII Character Table - The 2025 Edition</title>
+    <!--
+        Imagine your Google Site is a cool new gallery, and Poppins is the signature font
+        that makes all your exhibits (notes!) look super polished and easy to appreciate.
+        We're importing it directly from Google Fonts, so it's always ready to make your text pop.
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+            This is where we set the stage for our awesome table. Think of it like
+            designing the perfect room for your favorite art piece.
+        */
+        body {
+            background: linear-gradient(135deg, #e0f2f7 0%, #c8e6c9 100%); /* A fresh, calming gradient background */
+            font-family: 'Poppins', sans-serif; /* Our chosen sleek font */
+            display: flex;
+            justify-content: center; /* Center the table horizontally */
+            align-items: flex-start; /* Align to the top, allowing content to flow down */
+            min-height: 100vh; /* Ensure it takes at least the full screen height */
+            margin: 0;
+            padding: 40px 20px; /* Generous padding all around, like giving your content space to breathe */
+            box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+            color: #333; /* Dark gray for text, easy on the eyes */
+            overflow-x: hidden; /* Prevent horizontal scrollbar on the body itself */
+        }
+
+        .table-wrapper {
+            /*
+                This wrapper is like a sleek, modern frame for our table. It gives it
+                a beautiful card-like appearance with a soft shadow, making it stand out.
+            */
+            background-color: #ffffff; /* Crisp white background */
+            border-radius: 18px; /* Super smooth, rounded corners – very 2025! */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* A deeper, more prominent shadow */
+            max-width: 100%; /* Ensures it never overflows the body padding */
+            width: 100%; /* Occupy full available width */
+            overflow: hidden; /* Hides any content that might spill outside the rounded corners */
+            margin: 0 auto; /* Center the wrapper itself */
+        }
+
+        table {
+            /*
+                Our actual ASCII table! We're making sure it stretches across the entire width
+                of its container, and the borders are collapsed for a clean, unified look.
+            */
+            width: 100%;
+            border-collapse: collapse; /* No double lines, just clean separation */
+            font-size: 1.05em; /* Slightly larger text for better readability */
+            line-height: 1.6; /* More space between lines, like giving words room to dance */
+            text-align: left; /* Keep text aligned to the left for easy scanning */
+        }
+
+        thead {
+            /*
+                The header of our table – this is the headline! We're giving it a vibrant
+                gradient background that feels dynamic and modern.
+            */
+            background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%); /* A beautiful purple-to-blue gradient */
+            color: #ffffff; /* Pure white text for maximum contrast */
+            position: sticky; /* Makes the header stick to the top when scrolling (if table is long) */
+            top: 0;
+            z-index: 10; /* Ensures header stays above other content */
+        }
+
+        th {
+            /*
+                Each header cell gets ample padding and a slightly bolder font to make
+                the categories clear and inviting.
+            */
+            padding: 20px 25px; /* More padding for a spacious feel */
+            font-weight: 700; /* Extra bold for emphasis */
+            text-transform: uppercase; /* All caps for a modern, clean look */
+            letter-spacing: 0.8px; /* A little space between letters for style */
+            border-right: 1px solid rgba(255, 255, 255, 0.2); /* Subtle separator lines */
+        }
+
+        th:last-child {
+            border-right: none; /* No border on the last header cell */
+        }
+
+        tbody tr {
+            /*
+                Each row in the table body. We're adding a subtle bottom border to separate them,
+                and a smooth transition for our hover effect.
+            */
+            border-bottom: 1px solid #ebf2f5; /* Very light, almost invisible separator */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+        }
+
+        tbody tr:last-child {
+            border-bottom: none; /* No border on the very last row */
+        }
+
+        tbody tr:nth-of-type(even) {
+            /*
+                Alternating row colors for easy readability, like a subtle visual guide.
+            */
+            background-color: #f8fcfd; /* A very light, cool gray */
+        }
+
+        tbody tr:hover {
+            /*
+                When you hover over a row, it gently lifts and changes color, making the table
+                feel interactive and responsive. It's like the row is saying, "Pick me!"
+            */
+            background-color: #e0f7fa; /* A soft, inviting blue on hover */
+            transform: translateY(-2px); /* Slightly lift the row */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Add a subtle shadow on hover */
+        }
+
+        td {
+            /*
+                Data cells also get generous padding for readability.
+            */
+            padding: 18px 25px;
+            border-right: 1px solid #ebf2f5; /* Subtle vertical separators */
+        }
+
+        td:last-child {
+            border-right: none; /* No border on the last data cell */
+        }
+
+        /*
+            For smaller screens (like phones), we need to make sure the table is still usable.
+            We'll allow horizontal scrolling if the content is too wide, and adjust padding.
+        */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px; /* Less padding on very small screens */
+            }
+            .table-wrapper {
+                border-radius: 10px; /* Slightly less rounded corners */
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Less intense shadow */
+                overflow-x: auto; /* Allow horizontal scrolling for the table on small screens */
+            }
+            table {
+                font-size: 0.9em; /* Smaller font size to fit more content */
+                min-width: 700px; /* Ensure table doesn't shrink too much, forcing scroll */
+            }
+            th, td {
+                padding: 15px 18px; /* Adjusted padding for smaller screens */
+            }
+        }
+
+        /* Even smaller screens */
+        @media (max-width: 480px) {
+            th, td {
+                padding: 12px 15px; /* Further reduced padding */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ASCII (Dec)</th>
+                    <th>Hex Value</th>
+                    <th>Meaning (What it does)</th>
+                    <th>Mnemonic (Short Code)</th>
+                    <th>CTRL- Key Combo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Control Characters (0-31) -->
+                <tr><td>0</td><td>00h</td><td>Null: Like a blank slate or an empty envelope. Often used as a terminator.</td><td>NUL</td><td>Ctrl-@</td></tr>
+                <tr><td>1</td><td>01h</td><td>Start of Heading: Signals the beginning of a message header. Think of it as "Chapter 1 Starts Here."</td><td>SOH</td><td>Ctrl-A</td></tr>
+                <tr><td>2</td><td>02h</td><td>Start of Text: Marks where the actual content of a message begins. "Okay, now for the main story."</td><td>STX</td><td>Ctrl-B</td></tr>
+                <tr><td>3</td><td>03h</td><td>End of Text: Signals the end of a message. Like saying "The End" at the end of a book.</td><td>ETX</td><td>Ctrl-C</td></tr>
+                <tr><td>4</td><td>04h</td><td>End of Transmission: Indicates the end of a data stream or transmission. "Data transfer complete!"</td><td>EOT</td><td>Ctrl-D</td></tr>
+                <tr><td>5</td><td>05h</td><td>Enquiry: Used to request a response from another device. "Are you there? Over."</td><td>ENQ</td><td>Ctrl-E</td></tr>
+                <tr><td>6</td><td>06h</td><td>Acknowledge: Confirms that data has been received correctly. "Got it! Thanks!"</td><td>ACK</td><td>Ctrl-F</td></tr>
+                <tr><td>7</td><td>07h</td><td>Bell: Triggers an audible bell or beep sound. "DING! Pay attention!"</td><td>BEL</td><td>Ctrl-G</td></tr>
+                <tr><td>8</td><td>08h</td><td>Backspace: Moves the cursor one position back, deleting the character. "Oops, undo that!"</td><td>BS</td><td>Ctrl-H</td></tr>
+                <tr><td>9</td><td>09h</td><td>Horizontal Tab: Moves the cursor to the next tab stop. Like hitting the 'Tab' key.</td><td>HT</td><td>Ctrl-I</td></tr>
+                <tr><td>10</td><td>0Ah</td><td>Line Feed: Moves the cursor to the next line without returning to the beginning. "Just go down one line."</td><td>LF</td><td>Ctrl-J</td></tr>
+                <tr><td>11</td><td>0Bh</td><td>Vertical Tab: Moves the cursor to the next vertical tab stop. Less common, but like a vertical 'Tab'.</td><td>VT</td><td>Ctrl-K</td></tr>
+                <tr><td>12</td><td>0Ch</td><td>Form Feed: Advances the printer to the next page or the screen to clear. "New page, please!"</td><td>FF</td><td>Ctrl-L</td></tr>
+                <tr><td>13</td><td>0Dh</td><td>Carriage Return: Moves the cursor to the beginning of the current line. "Go back to the start of this line!"</td><td>CR</td><td>Ctrl-M</td></tr>
+                <tr><td>14</td><td>0Eh</td><td>Shift Out: Switches to an alternative character set. "Change language settings!"</td><td>SO</td><td>Ctrl-N</td></tr>
+                <tr><td>15</td><td>0Fh</td><td>Shift In: Switches back to the standard character set. "Back to default language!"</td><td>SI</td><td>Ctrl-O</td></tr>
+                <tr><td>16</td><td>10h</td><td>Data Link Escape: Changes the meaning of a limited number of following characters. "Escape sequence initiated!"</td><td>DLE</td><td>Ctrl-P</td></tr>
+                <tr><td>17</td><td>11h</td><td>Device Control 1 (XON): Used to turn on a device or resume data flow. "Device, you're ON!"</td><td>DC1</td><td>Ctrl-Q</td></tr>
+                <tr><td>18</td><td>12h</td><td>Device Control 2: General purpose device control. "Device, do something specific!"</td><td>DC2</td><td>Ctrl-R</td></tr>
+                <tr><td>19</td><td>13h</td><td>Device Control 3 (XOFF): Used to turn off a device or pause data flow. "Device, you're OFF!"</td><td>DC3</td><td>Ctrl-S</td></tr>
+                <tr><td>20</td><td>14h</td><td>Device Control 4: General purpose device control. "Device, do another specific thing!"</td><td>DC4</td><td>Ctrl-T</td></tr>
+                <tr><td>21</td><td>15h</td><td>Negative Acknowledge: Indicates data was received incorrectly or not at all. "Nope, try again!"</td><td>NAK</td><td>Ctrl-U</td></tr>
+                <tr><td>22</td><td>16h</td><td>Synchronous Idle: Used to provide a signal in synchronous data transmission systems. "Waiting for sync..."</td><td>SYN</td><td>Ctrl-V</td></tr>
+                <tr><td>23</td><td>17h</td><td>End of Transmission Block: Indicates the end of a block of data. "Block over!"</td><td>ETB</td><td>Ctrl-W</td></tr>
+                <tr><td>24</td><td>18h</td><td>Cancel: Indicates that the preceding data is to be disregarded. "Forget that last thing I said!"</td><td>CAN</td><td>Ctrl-X</td></tr>
+                <tr><td>25</td><td>19h</td><td>End of Medium: Indicates the physical end of a data medium. "Reached the end of the tape/disk!"</td><td>EM</td><td>Ctrl-Y</td></tr>
+                <tr><td>26</td><td>1Ah</td><td>Substitute: Used to replace a character that is in error or cannot be represented. "Replace with a placeholder."</td><td>SUB</td><td>Ctrl-Z</td></tr>
+                <tr><td>27</td><td>1Bh</td><td>Escape: Used to provide an escape sequence for general-purpose extensions. "Special command coming up!"</td><td>ESC</td><td>Ctrl-[</td></tr>
+                <tr><td>28</td><td>1Ch</td><td>File Separator: Used to separate files. "Next file, please."</td><td>FS</td><td>Ctrl-\</td></tr>
+                <tr><td>29</td><td>1Dh</td><td>Group Separator: Used to separate groups of information. "New group of data."</td><td>GS</td><td>Ctrl-]</td></tr>
+                <tr><td>30</td><td>1Eh</td><td>Record Separator: Used to separate records. "Next record!"</td><td>RS</td><td>Ctrl-^</td></tr>
+                <tr><td>31</td><td>1Fh</td><td>Unit Separator: Used to separate units of information. "Next unit!"</td><td>US</td><td>Ctrl-_</td></tr>
+
+                <!-- Printable Characters (32-126) -->
+                <tr><td>32</td><td>20h</td><td>Space: The blank space between words.</td><td>SP</td><td></td></tr>
+                <tr><td>33</td><td>21h</td><td>Exclamation Mark</td><td>!</td><td></td></tr>
+                <tr><td>34</td><td>22h</td><td>Double Quote</td><td>"</td><td></td></tr>
+                <tr><td>35</td><td>23h</td><td>Number Sign / Hash</td><td>#</td><td></td></tr>
+                <tr><td>36</td><td>24h</td><td>Dollar Sign</td><td>$</td><td></td></tr>
+                <tr><td>37</td><td>25h</td><td>Percent Sign</td><td>%</td><td></td></tr>
+                <tr><td>38</td><td>26h</td><td>Ampersand</td><td>&</td><td></td></tr>
+                <tr><td>39</td><td>27h</td><td>Single Quote / Apostrophe</td><td>'</td><td></td></tr>
+                <tr><td>40</td><td>28h</td><td>Left Parenthesis</td><td>(</td><td></td></tr>
+                <tr><td>41</td><td>29h</td><td>Right Parenthesis</td><td>)</td><td></td></tr>
+                <tr><td>42</td><td>2Ah</td><td>Asterisk</td><td>*</td><td></td></tr>
+                <tr><td>43</td><td>2Bh</td><td>Plus Sign</td><td>+</td><td></td></tr>
+                <tr><td>44</td><td>2Ch</td><td>Comma</td><td>,</td><td></td></tr>
+                <tr><td>45</td><td>2Dh</td><td>Hyphen / Minus Sign</td><td>-</td><td></td></tr>
+                <tr><td>46</td><td>2Eh</td><td>Period / Dot</td><td>.</td><td></td></tr>
+                <tr><td>47</td><td>2Fh</td><td>Slash</td><td>/</td><td></td></tr>
+                <tr><td>48</td><td>30h</td><td>Digit Zero</td><td>0</td><td></td></tr>
+                <tr><td>49</td><td>31h</td><td>Digit One</td><td>1</td><td></td></tr>
+                <tr><td>50</td><td>32h</td><td>Digit Two</td><td>2</td><td></td></tr>
+                <tr><td>51</td><td>33h</td><td>Digit Three</td><td>3</td><td></td></tr>
+                <tr><td>52</td><td>34h</td><td>Digit Four</td><td>4</td><td></td></tr>
+                <tr><td>53</td><td>35h</td><td>Digit Five</td><td>5</td><td></td></tr>
+                <tr><td>54</td><td>36h</td><td>Digit Six</td><td>6</td><td></td></tr>
+                <tr><td>55</td><td>37h</td><td>Digit Seven</td><td>7</td><td></td></tr>
+                <tr><td>56</td><td>38h</td><td>Digit Eight</td><td>8</td><td></td></tr>
+                <tr><td>57</td><td>39h</td><td>Digit Nine</td><td>9</td><td></td></tr>
+                <tr><td>58</td><td>3Ah</td><td>Colon</td><td>:</td><td></td></tr>
+                <tr><td>59</td><td>3Bh</td><td>Semicolon</td><td>;</td><td></td></tr>
+                <tr><td>60</td><td>3Ch</td><td>Less Than Sign</td><td><</td><td></td></tr>
+                <tr><td>61</td><td>3Dh</td><td>Equals Sign</td><td>=</td><td></td></tr>
+                <tr><td>62</td><td>3Eh</td><td>Greater Than Sign</td><td>></td><td></td></tr>
+                <tr><td>63</td><td>3Fh</td><td>Question Mark</td><td>?</td><td></td></tr>
+                <tr><td>64</td><td>40h</td><td>At Sign</td><td>@</td><td></td></tr>
+                <tr><td>65</td><td>41h</td><td>Uppercase A</td><td>A</td><td></td></tr>
+                <tr><td>66</td><td>42h</td><td>Uppercase B</td><td>B</td><td></td></tr>
+                <tr><td>67</td><td>43h</td><td>Uppercase C</td><td>C</td><td></td></tr>
+                <tr><td>68</td><td>44h</td><td>Uppercase D</td><td>D</td><td></td></tr>
+                <tr><td>69</td><td>45h</td><td>Uppercase E</td><td>E</td><td></td></tr>
+                <tr><td>70</td><td>46h</td><td>Uppercase F</td><td>F</td><td></td></tr>
+                <tr><td>71</td><td>47h</td><td>Uppercase G</td><td>G</td><td></td></tr>
+                <tr><td>72</td><td>48h</td><td>Uppercase H</td><td>H</td><td></td></tr>
+                <tr><td>73</td><td>49h</td><td>Uppercase I</td><td>I</td><td></td></tr>
+                <tr><td>74</td><td>4Ah</td><td>Uppercase J</td><td>J</td><td></td></tr>
+                <tr><td>75</td><td>4Bh</td><td>Uppercase K</td><td>K</td><td></td></tr>
+                <tr><td>76</td><td>4Ch</td><td>Uppercase L</td><td>L</td><td></td></tr>
+                <tr><td>77</td><td>4Dh</td><td>Uppercase M</td><td>M</td><td></td></tr>
+                <tr><td>78</td><td>4Eh</td><td>Uppercase N</td><td>N</td><td></td></tr>
+                <tr><td>79</td><td>4Fh</td><td>Uppercase O</td><td>O</td><td></td></tr>
+                <tr><td>80</td><td>50h</td><td>Uppercase P</td><td>P</td><td></td></tr>
+                <tr><td>81</td><td>51h</td><td>Uppercase Q</td><td>Q</td><td></td></tr>
+                <tr><td>82</td><td>52h</td><td>Uppercase R</td><td>R</td><td></td></tr>
+                <tr><td>83</td><td>53h</td><td>Uppercase S</td><td>S</td><td></td></tr>
+                <tr><td>84</td><td>54h</td><td>Uppercase T</td><td>T</td><td></td></tr>
+                <tr><td>85</td><td>55h</td><td>Uppercase U</td><td>U</td><td></td></tr>
+                <tr><td>86</td><td>56h</td><td>Uppercase V</td><td>V</td><td></td></tr>
+                <tr><td>87</td><td>57h</td><td>Uppercase W</td><td>W</td><td></td></tr>
+                <tr><td>88</td><td>58h</td><td>Uppercase X</td><td>X</td><td></td></tr>
+                <tr><td>89</td><td>59h</td><td>Uppercase Y</td><td>Y</td><td></td></tr>
+                <tr><td>90</td><td>5Ah</td><td>Uppercase Z</td><td>Z</td><td></td></tr>
+                <tr><td>91</td><td>5Bh</td><td>Left Bracket</td><td>[</td><td></td></tr>
+                <tr><td>92</td><td>5Ch</td><td>Backslash</td><td>\</td><td></td></tr>
+                <tr><td>93</td><td>5Dh</td><td>Right Bracket</td><td>]</td><td></td></tr>
+                <tr><td>94</td><td>5Eh</td><td>Caret / Circumflex</td><td>^</td><td></td></tr>
+                <tr><td>95</td><td>5Fh</td><td>Underscore</td><td>_</td><td></td></tr>
+                <tr><td>96</td><td>60h</td><td>Grave Accent</td><td>`</td><td></td></tr>
+                <tr><td>97</td><td>61h</td><td>Lowercase a</td><td>a</td><td></td></tr>
+                <tr><td>98</td><td>62h</td><td>Lowercase b</td><td>b</td><td></td></tr>
+                <tr><td>99</td><td>63h</td><td>Lowercase c</td><td>c</td><td></td></tr>
+                <tr><td>100</td><td>64h</td><td>Lowercase d</td><td>d</td><td></td></tr>
+                <tr><td>101</td><td>65h</td><td>Lowercase e</td><td>e</td><td></td></tr>
+                <tr><td>102</td><td>66h</td><td>Lowercase f</td><td>f</td><td></td></tr>
+                <tr><td>103</td><td>67h</td><td>Lowercase g</td><td>g</td><td></td></tr>
+                <tr><td>104</td><td>68h</td><td>Lowercase h</td><td>h</td><td></td></tr>
+                <tr><td>105</td><td>69h</td><td>Lowercase i</td><td>i</td><td></td></tr>
+                <tr><td>106</td><td>6Ah</td><td>Lowercase j</td><td>j</td><td></td></tr>
+                <tr><td>107</td><td>6Bh</td><td>Lowercase k</td><td>k</td><td></td></tr>
+                <tr><td>108</td><td>6Ch</td><td>Lowercase l</td><td>l</td><td></td></tr>
+                <tr><td>109</td><td>6Dh</td><td>Lowercase m</td><td>m</td><td></td></tr>
+                <tr><td>110</td><td>6Eh</td><td>Lowercase n</td><td>n</td><td></td></tr>
+                <tr><td>111</td><td>6Fh</td><td>Lowercase o</td><td>o</td><td></td></tr>
+                <tr><td>112</td><td>70h</td><td>Lowercase p</td><td>p</td><td></td></tr>
+                <tr><td>113</td><td>71h</td><td>Lowercase q</td><td>q</td><td></td></tr>
+                <tr><td>114</td><td>72h</td><td>Lowercase r</td><td>r</td><td></td></tr>
+                <tr><td>115</td><td>73h</td><td>Lowercase s</td><td>s</td><td></td></tr>
+                <tr><td>116</td><td>74h</td><td>Lowercase t</td><td>t</td><td></td></tr>
+                <tr><td>117</td><td>75h</td><td>Lowercase u</td><td>u</td><td></td></tr>
+                <tr><td>118</td><td>76h</td><td>Lowercase v</td><td>v</td><td></td></tr>
+                <tr><td>119</td><td>77h</td><td>Lowercase w</td><td>w</td><td></td></tr>
+                <tr><td>120</td><td>78h</td><td>Lowercase x</td><td>x</td><td></td></tr>
+                <tr><td>121</td><td>79h</td><td>Lowercase y</td><td>y</td><td></td></tr>
+                <tr><td>122</td><td>7Ah</td><td>Lowercase z</td><td>z</td><td></td></tr>
+                <tr><td>123</td><td>7Bh</td><td>Left Brace / Curly Bracket</td><td>{</td><td></td></tr>
+                <tr><td>124</td><td>7Ch</td><td>Vertical Bar</td><td>|</td><td></td></tr>
+                <tr><td>125</td><td>7Dh</td><td>Right Brace / Curly Bracket</td><td>}</td><td></td></tr>
+                <tr><td>126</td><td>7Eh</td><td>Tilde</td><td>~</td><td></td></tr>
+
+                <!-- Special Control Character -->
+                <tr><td>127</td><td>7Fh</td><td>Delete: Originally used to delete the previous character on paper tape. "Erase this!"</td><td>DEL</td><td></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard Scan Codes Table</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styling for the body, ensuring a clean canvas for our tables */
+        body {
+            background: linear-gradient(135deg, #e0f2f7 0%, #c8e6c9 100%); /* Fresh, calming gradient */
+            font-family: 'Poppins', sans-serif; /* Our chosen sleek font */
+            display: flex;
+            justify-content: center; /* Center the table horizontally */
+            align-items: flex-start; /* Align to the top, allowing content to flow down */
+            min-height: 100vh; /* Ensure it takes at least the full screen height */
+            margin: 0;
+            padding: 40px 20px; /* Generous padding all around */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+            color: #333; /* Dark gray for text */
+            overflow-x: hidden; /* Prevent horizontal scrollbar on the body itself */
+        }
+
+        /* Wrapper for the table, giving it a card-like appearance */
+        .table-wrapper {
+            background-color: #ffffff; /* Crisp white background */
+            border-radius: 18px; /* Smooth, rounded corners */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Prominent shadow */
+            max-width: 100%; /* Ensures it never overflows */
+            width: 100%; /* Occupy full available width */
+            overflow: hidden; /* Hides content spilling outside rounded corners */
+            margin: 0 auto; /* Center the wrapper */
+        }
+
+        /* Styling for the actual table */
+        table {
+            width: 100%;
+            border-collapse: collapse; /* No double lines */
+            font-size: 1.05em; /* Slightly larger text */
+            line-height: 1.6; /* More space between lines */
+            text-align: left; /* Text aligned to the left */
+        }
+
+        /* Table header styling */
+        thead {
+            background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%); /* Vibrant gradient */
+            color: #ffffff; /* White text */
+            position: sticky; /* Makes header stick to the top */
+            top: 0;
+            z-index: 10; /* Ensures header stays above other content */
+        }
+
+        /* Header cell styling */
+        th {
+            padding: 20px 25px; /* Ample padding */
+            font-weight: 700; /* Extra bold */
+            text-transform: uppercase; /* All caps */
+            letter-spacing: 0.8px; /* Space between letters */
+            border-right: 1px solid rgba(255, 255, 255, 0.2); /* Subtle separators */
+        }
+
+        th:last-child {
+            border-right: none; /* No border on the last header cell */
+        }
+
+        /* Table body row styling */
+        tbody tr {
+            border-bottom: 1px solid #ebf2f5; /* Light separator */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+        }
+
+        tbody tr:last-child {
+            border-bottom: none; /* No border on the last row */
+        }
+
+        tbody tr:nth-of-type(even) {
+            background-color: #f8fcfd; /* Alternating row color */
+        }
+
+        tbody tr:hover {
+            background-color: #e0f7fa; /* Inviting blue on hover */
+            transform: translateY(-2px); /* Slightly lift the row */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtle shadow on hover */
+        }
+
+        /* Data cell styling */
+        td {
+            padding: 18px 25px;
+            border-right: 1px solid #ebf2f5; /* Subtle vertical separators */
+        }
+
+        td:last-child {
+            border-right: none; /* No border on the last data cell */
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+            .table-wrapper {
+                border-radius: 10px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                overflow-x: auto; /* Allow horizontal scrolling */
+            }
+            table {
+                font-size: 0.9em;
+                min-width: 600px; /* Ensure table doesn't shrink too much */
+            }
+            th, td {
+                padding: 15px 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            th, td {
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Scancode (Dec)</th>
+                    <th>Hex Value</th>
+                    <th>Description (Key)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>01h</td><td>Escape key (ESC)</td></tr>
+                <tr><td>2</td><td>02h</td><td>'1' key</td></tr>
+                <tr><td>3</td><td>03h</td><td>'2' key</td></tr>
+                <tr><td>4</td><td>04h</td><td>'3' key</td></tr>
+                <tr><td>5</td><td>05h</td><td>'4' key</td></tr>
+                <tr><td>6</td><td>06h</td><td>'5' key</td></tr>
+                <tr><td>7</td><td>07h</td><td>'6' key</td></tr>
+                <tr><td>8</td><td>08h</td><td>'7' key</td></tr>
+                <tr><td>9</td><td>09h</td><td>'8' key</td></tr>
+                <tr><td>10</td><td>0Ah</td><td>'9' key</td></tr>
+                <tr><td>11</td><td>0Bh</td><td>'0' key</td></tr>
+                <tr><td>12</td><td>0Ch</td><td>Minus key (-)</td></tr>
+                <tr><td>13</td><td>0Dh</td><td>Equals key (=)</td></tr>
+                <tr><td>14</td><td>0Eh</td><td>Backspace key</td></tr>
+                <tr><td>15</td><td>0Fh</td><td>Tab key</td></tr>
+                <tr><td>16</td><td>10h</td><td>'Q' key</td></tr>
+                <tr><td>17</td><td>11h</td><td>'W' key</td></tr>
+                <tr><td>18</td><td>12h</td><td>'E' key</td></tr>
+                <tr><td>19</td><td>13h</td><td>'R' key</td></tr>
+                <tr><td>20</td><td>14h</td><td>'T' key</td></tr>
+                <tr><td>21</td><td>15h</td><td>'Y' key</td></tr>
+                <tr><td>22</td><td>16h</td><td>'U' key</td></tr>
+                <tr><td>23</td><td>17h</td><td>'I' key</td></tr>
+                <tr><td>24</td><td>18h</td><td>'O' key</td></tr>
+                <tr><td>25</td><td>19h</td><td>'P' key</td></tr>
+                <tr><td>26</td><td>1Ah</td><td>Left Bracket ([)</td></tr>
+                <tr><td>27</td><td>1Bh</td><td>Right Bracket (])</td></tr>
+                <tr><td>28</td><td>1Ch</td><td>Enter key</td></tr>
+                <tr><td>29</td><td>1Dh</td><td>Left Control key (Ctrl)</td></tr>
+                <tr><td>30</td><td>1Eh</td><td>'A' key</td></tr>
+                <tr><td>31</td><td>1Fh</td><td>'S' key</td></tr>
+                <tr><td>32</td><td>20h</td><td>'D' key</td></tr>
+                <tr><td>33</td><td>21h</td><td>'F' key</td></tr>
+                <tr><td>34</td><td>22h</td><td>'G' key</td></tr>
+                <tr><td>35</td><td>23h</td><td>'H' key</td></tr>
+                <tr><td>36</td><td>24h</td><td>'J' key</td></tr>
+                <tr><td>37</td><td>25h</td><td>'K' key</td></tr>
+                <tr><td>38</td><td>26h</td><td>'L' key</td></tr>
+                <tr><td>39</td><td>27h</td><td>Semicolon (;)</td></tr>
+                <tr><td>40</td><td>28h</td><td>Quote (')</td></tr>
+                <tr><td>41</td><td>29h</td><td>Grave Accent (`)</td></tr>
+                <tr><td>42</td><td>2Ah</td><td>Left Shift key</td></tr>
+                <tr><td>43</td><td>2Bh</td><td>Backslash (\)</td></tr>
+                <tr><td>44</td><td>2Ch</td><td>'Z' key</td></tr>
+                <tr><td>45</td><td>2Dh</td><td>'X' key</td></tr>
+                <tr><td>46</td><td>2Eh</td><td>'C' key</td></tr>
+                <tr><td>47</td><td>2Fh</td><td>'V' key</td></tr>
+                <tr><td>48</td><td>30h</td><td>'B' key</td></tr>
+                <tr><td>49</td><td>31h</td><td>'N' key</td></tr>
+                <tr><td>50</td><td>32h</td><td>'M' key</td></tr>
+                <tr><td>51</td><td>33h</td><td>Comma (,)</td></tr>
+                <tr><td>52</td><td>34h</td><td>Period (.)</td></tr>
+                <tr><td>53</td><td>35h</td><td>Slash (/)</td></tr>
+                <tr><td>54</td><td>36h</td><td>Right Shift key</td></tr>
+                <tr><td>55</td><td>37h</td><td>Keypad Asterisk / Print Screen</td></tr>
+                <tr><td>56</td><td>38h</td><td>Left Alt key</td></tr>
+                <tr><td>57</td><td>39h</td><td>Spacebar</td></tr>
+                <tr><td>58</td><td>3Ah</td><td>Caps Lock</td></tr>
+                <tr><td>59</td><td>3Bh</td><td>F1 key</td></tr>
+                <tr><td>60</td><td>3Ch</td><td>F2 key</td></tr>
+                <tr><td>61</td><td>3Dh</td><td>F3 key</td></tr>
+                <tr><td>62</td><td>3Eh</td><td>F4 key</td></tr>
+                <tr><td>63</td><td>3Fh</td><td>F5 key</td></tr>
+                <tr><td>64</td><td>40h</td><td>F6 key</td></tr>
+                <tr><td>65</td><td>41h</td><td>F7 key</td></tr>
+                <tr><td>66</td><td>42h</td><td>F8 key</td></tr>
+                <tr><td>67</td><td>43h</td><td>F9 key</td></tr>
+                <tr><td>68</td><td>44h</td><td>F10 key</td></tr>
+                <tr><td>69</td><td>45h</td><td>Num Lock</td></tr>
+                <tr><td>70</td><td>46h</td><td>Scroll Lock</td></tr>
+                <tr><td>71</td><td>47h</td><td>Keypad 7 / Home</td></tr>
+                <tr><td>72</td><td>48h</td><td>Keypad 8 / Up Arrow</td></tr>
+                <tr><td>73</td><td>49h</td><td>Keypad 9 / Page Up</td></tr>
+                <tr><td>74</td><td>4Ah</td><td>Keypad Minus (-)</td></tr>
+                <tr><td>75</td><td>4Bh</td><td>Keypad 4 / Left Arrow</td></tr>
+                <tr><td>76</td><td>4Ch</td><td>Keypad 5</td></tr>
+                <tr><td>77</td><td>4Dh</td><td>Keypad 6 / Right Arrow</td></tr>
+                <tr><td>78</td><td>4Eh</td><td>Keypad Plus (+)</td></tr>
+                <tr><td>79</td><td>4Fh</td><td>Keypad 1 / End</td></tr>
+                <tr><td>80</td><td>50h</td><td>Keypad 2 / Down Arrow</td></tr>
+                <tr><td>81</td><td>51h</td><td>Keypad 3 / Page Down</td></tr>
+                <tr><td>82</td><td>52h</td><td>Keypad 0 / Insert</td></tr>
+                <tr><td>83</td><td>53h</td><td>Keypad Period / Delete</td></tr>
+                <tr><td>87</td><td>57h</td><td>F11 key</td></tr>
+                <tr><td>88</td><td>58h</td><td>F12 key</td></tr>
+                <tr><td>121</td><td>79h</td><td>Keypad Enter (Extended)</td></tr>
+                <tr><td>122</td><td>7Ah</td><td>Right Control (Extended)</td></tr>
+                <tr><td>123</td><td>7Bh</td><td>Right Alt (Extended)</td></tr>
+                <tr><td>124</td><td>7Ch</td><td>Home (Extended)</td></tr>
+                <tr><td>125</td><td>7Dh</td><td>Up Arrow (Extended)</td></tr>
+                <tr><td>126</td><td>7Eh</td><td>Page Up (Extended)</td></tr>
+                <tr><td>127</td><td>7Fh</td><td>Left Arrow (Extended)</td></tr>
+                <tr><td>128</td><td>80h</td><td>Right Arrow (Extended)</td></tr>
+                <tr><td>129</td><td>81h</td><td>End (Extended)</td></tr>
+                <tr><td>130</td><td>82h</td><td>Down Arrow (Extended)</td></tr>
+                <tr><td>131</td><td>83h</td><td>Page Down (Extended)</td></tr>
+                <tr><td>132</td><td>84h</td><td>Insert (Extended)</td></tr>
+                <tr><td>133</td><td>85h</td><td>Delete (Extended)</td></tr>
+                <tr><td>134</td><td>86h</td><td>Left Windows Key</td></tr>
+                <tr><td>135</td><td>87h</td><td>Right Windows Key</td></tr>
+                <tr><td>136</td><td>88h</td><td>Application Key (Menu)</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

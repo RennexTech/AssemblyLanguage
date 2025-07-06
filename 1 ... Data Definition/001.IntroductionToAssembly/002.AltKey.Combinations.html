@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alt-Key Combinations Table</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styling for the body, ensuring a clean canvas for our tables */
+        body {
+            background: linear-gradient(135deg, #e0f2f7 0%, #c8e6c9 100%); /* Fresh, calming gradient */
+            font-family: 'Poppins', sans-serif; /* Our chosen sleek font */
+            display: flex;
+            justify-content: center; /* Center the table horizontally */
+            align-items: flex-start; /* Align to the top, allowing content to flow down */
+            min-height: 100vh; /* Ensure it takes at least the full screen height */
+            margin: 0;
+            padding: 40px 20px; /* Generous padding all around */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+            color: #333; /* Dark gray for text */
+            overflow-x: hidden; /* Prevent horizontal scrollbar on the body itself */
+        }
+
+        /* Wrapper for the table, giving it a card-like appearance */
+        .table-wrapper {
+            background-color: #ffffff; /* Crisp white background */
+            border-radius: 18px; /* Smooth, rounded corners */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Prominent shadow */
+            max-width: 100%; /* Ensures it never overflows */
+            width: 100%; /* Occupy full available width */
+            overflow: hidden; /* Hides content spilling outside rounded corners */
+            margin: 0 auto; /* Center the wrapper */
+        }
+
+        /* Styling for the actual table */
+        table {
+            width: 100%;
+            border-collapse: collapse; /* No double lines */
+            font-size: 1.05em; /* Slightly larger text */
+            line-height: 1.6; /* More space between lines */
+            text-align: left; /* Text aligned to the left */
+        }
+
+        /* Table header styling */
+        thead {
+            background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%); /* Vibrant gradient */
+            color: #ffffff; /* White text */
+            position: sticky; /* Makes header stick to the top */
+            top: 0;
+            z-index: 10; /* Ensures header stays above other content */
+        }
+
+        /* Header cell styling */
+        th {
+            padding: 20px 25px; /* Ample padding */
+            font-weight: 700; /* Extra bold */
+            text-transform: uppercase; /* All caps */
+            letter-spacing: 0.8px; /* Space between letters */
+            border-right: 1px solid rgba(255, 255, 255, 0.2); /* Subtle separators */
+        }
+
+        th:last-child {
+            border-right: none; /* No border on the last header cell */
+        }
+
+        /* Table body row styling */
+        tbody tr {
+            border-bottom: 1px solid #ebf2f5; /* Light separator */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+        }
+
+        tbody tr:last-child {
+            border-bottom: none; /* No border on the last row */
+        }
+
+        tbody tr:nth-of-type(even) {
+            background-color: #f8fcfd; /* Alternating row color */
+        }
+
+        tbody tr:hover {
+            background-color: #e0f7fa; /* Inviting blue on hover */
+            transform: translateY(-2px); /* Slightly lift the row */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtle shadow on hover */
+        }
+
+        /* Data cell styling */
+        td {
+            padding: 18px 25px;
+            border-right: 1px solid #ebf2f5; /* Subtle vertical separators */
+        }
+
+        td:last-child {
+            border-right: none; /* No border on the last data cell */
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+            .table-wrapper {
+                border-radius: 10px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                overflow-x: auto; /* Allow horizontal scrolling */
+            }
+            table {
+                font-size: 0.9em;
+                min-width: 500px; /* Ensure table doesn't shrink too much */
+            }
+            th, td {
+                padding: 15px 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            th, td {
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Key Combination</th>
+                    <th>Hex Value (Scan Code)</th>
+                    <th>Meaning / Use Case</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Alt+A</td><td>1Eh</td><td>Often used for "File" or "Actions" in older applications.</td></tr>
+                <tr><td>Alt+B</td><td>30h</td><td>Could open a "Build" menu or a custom shortcut.</td></tr>
+                <tr><td>Alt+C</td><td>2Eh</td><td>Commonly used for "Copy" in some contexts, or a custom command.</td></tr>
+                <tr><td>Alt+D</td><td>20h</td><td>Might open a "Debug" or "Data" menu.</td></tr>
+                <tr><td>Alt+E</td><td>12h</td><td>Frequently used for "Edit" menus.</td></tr>
+                <tr><td>Alt+F</td><td>21h</td><td>The classic shortcut for opening the "File" menu.</td></tr>
+                <tr><td>Alt+G</td><td>22h</td><td>Could be a custom shortcut, perhaps for "Go" or "Generate."</td></tr>
+                <tr><td>Alt+H</td><td>23h</td><td>Often used for "Help" menus.</td></tr>
+                <tr><td>Alt+I</td><td>17h</td><td>Might trigger an "Insert" action or an "Info" panel.</td></tr>
+                <tr><td>Alt+J</td><td>24h</td><td>A custom shortcut, maybe for "Jump" or "Join."</td></tr>
+                <tr><td>Alt+K</td><td>25h</td><td>Could be for "Key" settings or a custom command.</td></tr>
+                <tr><td>Alt+L</td><td>26h</td><td>Often used for "Load" or "Log" actions.</td></tr>
+                <tr><td>Alt+M</td><td>32h</td><td>Might open a "Menu" or "Move" command.</td></tr>
+                <tr><td>Alt+N</td><td>31h</td><td>Could be for "New" or "Next" in some applications.</td></tr>
+                <tr><td>Alt+O</td><td>18h</td><td>The classic shortcut for "Open" a file.</td></tr>
+                <tr><td>Alt+P</td><td>19h</td><td>Often used for "Print" or "Project" menus.</td></tr>
+                <tr><td>Alt+Q</td><td>10h</td><td>Could be for "Quit" or a custom "Query."</td></tr>
+                <tr><td>Alt+R</td><td>13h</td><td>Commonly used for "Run" or "Reload."</td></tr>
+                <tr><td>Alt+S</td><td>1Fh</td><td>Often used for "Save" or "Settings."</td></tr>
+                <tr><td>Alt+T</td><td>14h</td><td>Might open "Tools" or "Terminal" menus.</td></tr>
+                <tr><td>Alt+U</td><td>16h</td><td>Could be for "Undo" or "Update."</td></tr>
+                <tr><td>Alt+V</td><td>2Fh</td><td>Often used for "View" or "Paste."</td></tr>
+                <tr><td>Alt+W</td><td>11h</td><td>Might open "Window" menus.</td></tr>
+                <tr><td>Alt+X</td><td>2Dh</td><td>Commonly used for "Exit" or "Cut."</td></tr>
+                <tr><td>Alt+Y</td><td>15h</td><td>Could be for "Yes" or a custom "Yield" command.</td></tr>
+                <tr><td>Alt+Z</td><td>2Ch</td><td>Often used for "Undo" in some applications.</td></tr>
+                <tr><td>Alt+F4</td><td>A4h</td><td>The universal "Close Window" or "Exit Application" shortcut.</td></tr>
+                <tr><td>Alt+Tab</td><td>(Varies)</td><td>Switches between open applications.</td></tr>
+                <tr><td>Alt+Space</td><td>39h</td><td>Opens the window's system menu (e.g., Restore, Move, Size, Minimize).</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
