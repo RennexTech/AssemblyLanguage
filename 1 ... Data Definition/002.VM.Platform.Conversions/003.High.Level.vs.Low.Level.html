@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High-Level vs. Assembly Language</title>
+    <!--
+        Maintaining the consistent look and feel! We're loading the Poppins font again
+        to ensure this section looks just as sharp and readable as the others.
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+            Setting the overall stage for this comparison table.
+            A soft gradient background and centered content for a pleasant reading experience.
+        */
+        body {
+            background: linear-gradient(135deg, #e0f2f7 0%, #c8e6c9 100%); /* Gentle blue-green gradient */
+            font-family: 'Poppins', sans-serif; /* Our signature font */
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: flex-start; /* Align content to the top */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            margin: 0;
+            padding: 40px 20px; /* Generous padding around the content */
+            box-sizing: border-box; /* Include padding in element's total size */
+            color: #333; /* Dark gray text for readability */
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+        }
+
+        /*
+            The main container for the content.
+            It acts like a clean, modern card, making the information stand out.
+        */
+        .content-container {
+            background-color: #ffffff; /* Pure white background */
+            border-radius: 18px; /* Smooth, rounded corners */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Soft, prominent shadow */
+            max-width: 950px; /* Adjusted max-width to fit content well for screenshot */
+            width: 100%; /* Ensure responsiveness */
+            overflow: hidden; /* Hide overflowing content */
+            margin: 0 auto; /* Center the container */
+            padding: 30px; /* Internal padding */
+        }
+
+        /* Styling for the main heading of this section */
+        .content-container h2 {
+            text-align: center;
+            color: #2575fc; /* A vibrant blue */
+            font-size: 2.2em; /* Large and impactful */
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.05); /* Subtle text shadow */
+        }
+
+        /* Styling for the table wrapper, similar to previous tables */
+        .table-wrapper {
+            background-color: #ffffff; /* White background for the table itself */
+            border-radius: 12px; /* Slightly smaller rounded corners for nested table */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* Lighter shadow for nested table */
+            overflow: hidden;
+            margin-top: 20px; /* Space above the table */
+            margin-bottom: 20px; /* Space below the table */
+        }
+
+        /* Styling for the table itself */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1em;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        /* Table header styling */
+        thead {
+            background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%); /* Purple-to-blue gradient */
+            color: #ffffff;
+        }
+
+        th {
+            padding: 18px 25px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-right: 1px solid rgba(255, 255, 255, 0.15); /* Subtle separator */
+        }
+
+        th:last-child {
+            border-right: none;
+        }
+
+        /* Table body row styling */
+        tbody tr {
+            border-bottom: 1px solid #ebf2f5;
+            transition: background-color 0.3s ease;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:nth-of-type(even) {
+            background-color: #f8fcfd;
+        }
+
+        tbody tr:hover {
+            background-color: #e0f7fa;
+        }
+
+        /* Data cell styling */
+        td {
+            padding: 15px 25px;
+            border-right: 1px solid #ebf2f5;
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) { /* Adjusted breakpoint for wider tables */
+            .content-container {
+                max-width: 100%; /* Allow full width on tablets */
+            }
+            th, td {
+                padding: 15px 20px; /* Slightly less padding */
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+            .content-container {
+                border-radius: 10px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+            }
+            .content-container h2 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+            th, td {
+                padding: 12px 18px;
+            }
+            table {
+                font-size: 0.95em;
+                min-width: 600px; /* Ensure table doesn't shrink too much */
+            }
+            .table-wrapper {
+                overflow-x: auto; /* Enable horizontal scroll for table on small screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-container h2 {
+                font-size: 1.5em;
+            }
+            th, td {
+                padding: 10px 15px;
+            }
+            table {
+                min-width: 500px; /* Further reduced min-width for very small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-container">
+        <h2>⚔️ Comparison Table: High-Level vs. Assembly</h2>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>High-Level Language (C/C++/Java)</th>
+                        <th>Assembly Language</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Abstraction</strong></td>
+                        <td>High — You work with concepts like functions, objects, and variables, abstracting away hardware details. It's like driving a car without knowing how the engine works.</td>
+                        <td>Low — You directly manipulate CPU registers, memory addresses, and hardware interfaces. It's like being under the hood, tweaking every spark plug.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Portability</strong></td>
+                        <td>High — Code can often be compiled/run on many different operating systems and CPU architectures with minimal changes. Write once, run anywhere (mostly).</td>
+                        <td>Low — Code is tied directly to a specific CPU architecture (e.g., x86, ARM). Assembly written for one won't run on another without significant rewrite.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Speed</strong></td>
+                        <td>Fast (thanks to smart compilers that optimize code). Compilers are highly sophisticated and can often generate very efficient machine code.</td>
+                        <td>Potentially the fastest (but only if hand-optimized exceptionally well). A poorly written assembly program can be slower than a well-optimized high-level one.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ease of Use</strong></td>
+                        <td>Much easier to learn, write, and debug. Syntax is closer to human language, and compilers catch many errors. Faster development cycles.</td>
+                        <td>Complex, tedious, and highly error-prone. Every instruction must be precise, and debugging can be a deep dive into raw memory. Slower development.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Control</strong></td>
+                        <td>Medium — You guide the compiler, but it makes many low-level decisions for you. You tell it what to do, and it figures out how.</td>
+                        <td>Full control over hardware — You dictate every single CPU operation, memory access, and register manipulation. You tell it exactly how to do it.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Use Cases</strong></td>
+                        <td>General application development, web development, complex games, operating systems components, scientific computing. Focus on features and rapid development.</td>
+                        <td>Extreme performance tuning (e.g., critical game engines, graphics drivers), embedded systems (microcontrollers), hardware interaction, bootloaders, and malware/reverse engineering.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tooling</strong></td>
+                        <td>Rich Integrated Development Environments (IDEs), powerful compilers, vast standard libraries, frameworks, and package managers.</td>
+                        <td>Assemblers, linkers, and debuggers. Tools are more specialized and often require a deeper understanding of their internal workings.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>

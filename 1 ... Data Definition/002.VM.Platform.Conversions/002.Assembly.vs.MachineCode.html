@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assembly Language vs. Machine Language</title>
+    <!--
+        Keeping the visual consistency strong! We're loading the Poppins font again
+        to ensure this section looks just as sharp and readable as the others.
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+            Setting the overall stage for this comparison table.
+            A soft gradient background and centered content for a pleasant reading experience.
+        */
+        body {
+            background: linear-gradient(135deg, #e0f2f7 0%, #c8e6c9 100%); /* Gentle blue-green gradient */
+            font-family: 'Poppins', sans-serif; /* Our signature font */
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: flex-start; /* Align content to the top */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            margin: 0;
+            padding: 40px 20px; /* Generous padding around the content */
+            box-sizing: border-box; /* Include padding in element's total size */
+            color: #333; /* Dark gray text for readability */
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+        }
+
+        /*
+            The main container for the content.
+            It acts like a clean, modern card, making the information stand out.
+        */
+        .content-container {
+            background-color: #ffffff; /* Pure white background */
+            border-radius: 18px; /* Smooth, rounded corners */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Soft, prominent shadow */
+            max-width: 950px; /* Adjusted max-width to fit content well for screenshot */
+            width: 100%; /* Ensure responsiveness */
+            overflow: hidden; /* Hide overflowing content */
+            margin: 0 auto; /* Center the container */
+            padding: 30px; /* Internal padding */
+        }
+
+        /* Styling for the main heading of this section */
+        .content-container h2 {
+            text-align: center;
+            color: #2575fc; /* A vibrant blue */
+            font-size: 2.2em; /* Large and impactful */
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.05); /* Subtle text shadow */
+        }
+
+        /* Styling for the table wrapper, similar to previous tables */
+        .table-wrapper {
+            background-color: #ffffff; /* White background for the table itself */
+            border-radius: 12px; /* Slightly smaller rounded corners for nested table */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* Lighter shadow for nested table */
+            overflow: hidden;
+            margin-top: 20px; /* Space above the table */
+            margin-bottom: 20px; /* Space below the table */
+        }
+
+        /* Styling for the table itself */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1em;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        /* Table header styling */
+        thead {
+            background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%); /* Purple-to-blue gradient */
+            color: #ffffff;
+        }
+
+        th {
+            padding: 18px 25px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-right: 1px solid rgba(255, 255, 255, 0.15); /* Subtle separator */
+        }
+
+        th:last-child {
+            border-right: none;
+        }
+
+        /* Table body row styling */
+        tbody tr {
+            border-bottom: 1px solid #ebf2f5;
+            transition: background-color 0.3s ease;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:nth-of-type(even) {
+            background-color: #f8fcfd;
+        }
+
+        tbody tr:hover {
+            background-color: #e0f7fa;
+        }
+
+        /* Data cell styling */
+        td {
+            padding: 15px 25px;
+            border-right: 1px solid #ebf2f5;
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) { /* Adjusted breakpoint for wider tables */
+            .content-container {
+                max-width: 100%; /* Allow full width on tablets */
+            }
+            th, td {
+                padding: 15px 20px; /* Slightly less padding */
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+            .content-container {
+                border-radius: 10px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+            }
+            .content-container h2 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+            th, td {
+                padding: 12px 18px;
+            }
+            table {
+                font-size: 0.95em;
+                min-width: 600px; /* Ensure table doesn't shrink too much */
+            }
+            .table-wrapper {
+                overflow-x: auto; /* Enable horizontal scroll for table on small screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-container h2 {
+                font-size: 1.5em;
+            }
+            th, td {
+                padding: 10px 15px;
+            }
+            table {
+                min-width: 500px; /* Further reduced min-width for very small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-container">
+        <h2>✨ Assembly Language vs. Machine Language</h2>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Assembly Language</th>
+                        <th>Machine Language</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Readability</strong></td>
+                        <td>Human-readable mnemonics (like MOV, ADD, JMP) and symbols. It's like shorthand notes for humans.</td>
+                        <td>Pure binary (e.g., <code>10110000 00000001</code>). Completely unreadable and meaningless to humans without a lookup table.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Complexity</strong></td>
+                        <td>Uses symbols, labels, and opcodes, making it more manageable for humans to write and understand than raw binary.</td>
+                        <td>Just raw binary numbers. No labels, no symbols, just sequences of 1s and 0s that directly instruct the CPU.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Portability</strong></td>
+                        <td>Not directly portable across different CPU architectures (e.g., x86 assembly won't run on ARM). Each architecture has its own assembly language.</td>
+                        <td>Also not portable. It's the native language of a specific CPU architecture and cannot be executed on a different type of CPU.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Maintenance</strong></td>
+                        <td>Easier to debug and modify compared to machine code, as you're working with symbolic instructions.</td>
+                        <td>Extremely difficult to read, debug, or modify directly. Making changes requires converting binary back to assembly, modifying, and re-converting.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Efficiency</strong></td>
+                        <td>Very close to the hardware; allows for highly optimized and efficient code, as you have direct control over CPU operations.</td>
+                        <td>The fastest possible execution, as it's the native format directly understood and executed by the CPU without any translation overhead.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Error-prone</strong></td>
+                        <td>High chance of human error due to the manual, low-level nature of writing every instruction. It's like writing every step of a dance routine by hand.</td>
+                        <td>Machine-generated, so fewer human errors in its creation, but no flexibility. Errors in the source assembly lead to errors in the machine code.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hardware-dependence</strong></td>
+                        <td>Tied directly to the specific CPU architecture's instruction set.</td>
+                        <td>Same as assembly; it must match the hardware's instruction set exactly to be executable.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Size</strong></td>
+                        <td>Slightly larger in source form due to the use of mnemonics and comments.</td>
+                        <td>More compact in its final form, as it's just raw binary data without any symbolic overhead.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>
