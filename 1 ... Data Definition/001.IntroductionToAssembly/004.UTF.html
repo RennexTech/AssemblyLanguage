@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Encoding Table</title>
+    <!--
+        Keeping the visual consistency strong! We're loading the Poppins font again
+        to ensure this table looks just as sharp and readable as the others.
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+            Setting the stage for our encoding table. The background and centering
+            ensure it feels open and inviting, ready for learning.
+        */
+        body {
+            background: linear-gradient(135deg, #e0f2f7 0%, #c8e6c9 100%); /* A fresh, calming gradient */
+            font-family: 'Poppins', sans-serif; /* Our chosen sleek font */
+            display: flex;
+            justify-content: center; /* Center the table horizontally */
+            align-items: flex-start; /* Align to the top, allowing content to flow down */
+            min-height: 100vh; /* Ensure it takes at least the full screen height */
+            margin: 0;
+            padding: 40px 20px; /* Generous padding all around for breathing room */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+            color: #333; /* Dark gray for text */
+            overflow-x: hidden; /* Prevent horizontal scrollbar on the body itself */
+        }
+
+        /*
+            This wrapper is the stylish frame for our table. It gives it that modern,
+            card-like look with soft shadows and rounded corners.
+        */
+        .table-wrapper {
+            background-color: #ffffff; /* Crisp white background */
+            border-radius: 18px; /* Smooth, modern rounded corners */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* A clear, but not harsh, shadow */
+            max-width: 100%; /* Ensures it never overflows the body padding */
+            width: 100%; /* Occupy full available width */
+            overflow: hidden; /* Hides any content that might spill outside the rounded corners */
+            margin: 0 auto; /* Center the wrapper itself */
+        }
+
+        /*
+            Styling for the actual table. Making sure it fills its container,
+            and the borders are collapsed for a clean, unified look.
+        */
+        table {
+            width: 100%;
+            border-collapse: collapse; /* No double lines, just clean separation */
+            font-size: 1.05em; /* Slightly larger text for better readability */
+            line-height: 1.6; /* More space between lines, like giving words room to dance */
+            text-align: left; /* Keep text aligned to the left for easy scanning */
+        }
+
+        /*
+            The table's header. This is the headline! We're giving it a vibrant
+            gradient background that feels dynamic and modern.
+        */
+        thead {
+            background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%); /* A beautiful purple-to-blue gradient */
+            color: #ffffff; /* Pure white text for maximum contrast */
+            position: sticky; /* Makes the header stick to the top when scrolling (if table is long) */
+            top: 0;
+            z-index: 10; /* Ensures header stays above other content */
+        }
+
+        /*
+            Each individual header cell. We're giving them some breathing room and
+            making the text a bit bolder so they stand out.
+        */
+        th {
+            padding: 20px 25px; /* Ample padding for a spacious feel */
+            font-weight: 700; /* Extra bold for emphasis */
+            text-transform: uppercase; /* All caps for a modern, clean look */
+            letter-spacing: 0.8px; /* A little space between letters for style */
+            border-right: 1px solid rgba(255, 255, 255, 0.2); /* Subtle separator lines */
+        }
+
+        th:last-child {
+            border-right: none; /* No border on the last header cell */
+        }
+
+        /*
+            Every row in the body of our table. We're adding a subtle border at the bottom
+            to separate each row, and a smooth transition for our hover effect.
+        */
+        tbody tr {
+            border-bottom: 1px solid #ebf2f5; /* Very light, almost invisible separator */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+        }
+
+        tbody tr:last-child {
+            border-bottom: none; /* No border on the very last row */
+        }
+
+        tbody tr:nth-of-type(even) {
+            /* Alternating row colors for easy readability, like a subtle visual guide. */
+            background-color: #f8fcfd; /* A very light, cool gray */
+        }
+
+        tbody tr:hover {
+            /*
+                When your mouse hovers over a row, it gently lifts and changes color, making the table
+                feel interactive and responsive. It's like the row is saying, "Pick me!"
+            */
+            background-color: #e0f7fa; /* A soft, inviting blue on hover */
+            transform: translateY(-2px); /* Slightly lift the row */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Add a subtle shadow on hover */
+        }
+
+        /*
+            The data cells themselves. Again, adding padding for readability.
+        */
+        td {
+            padding: 18px 25px;
+            border-right: 1px solid #ebf2f5; /* Subtle vertical separators */
+        }
+
+        td:last-child {
+            border-right: none; /* No border on the last data cell */
+        }
+
+        /*
+            When the screen gets smaller (like on a phone), we need to make sure our table
+            doesn't break or become unreadable. This is called responsive design!
+            Instead of trying to squeeze all columns, we'll let the user scroll horizontally.
+        */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px; /* Less padding on very small screens */
+            }
+            .table-wrapper {
+                border-radius: 10px; /* Slightly less rounded corners */
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Less intense shadow */
+                overflow-x: auto; /* Allow horizontal scrolling for the table on small screens */
+            }
+            table {
+                font-size: 0.9em; /* Smaller font size to fit more content */
+                min-width: 700px; /* Ensure table doesn't shrink too much, forcing scroll */
+            }
+            th, td {
+                padding: 15px 18px; /* Adjusted padding for smaller screens */
+            }
+        }
+
+        /* Even smaller screens */
+        @media (max-width: 480px) {
+            th, td {
+                padding: 12px 15px; /* Further reduced padding */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Encoding</th>
+                    <th>Description</th>
+                    <th>Bytes per Char</th>
+                    <th>Common Use</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>UTF-8</td>
+                    <td>The most popular and flexible encoding. It's backward compatible with ASCII, meaning standard English text uses just 1 byte, but it can expand to 4 bytes for complex characters from other languages. It's like a smart backpack that gets bigger only when you need more space.</td>
+                    <td>1 to 4 bytes</td>
+                    <td>Web pages, Linux systems, APIs, and pretty much everywhere on the internet. It's the global standard for text.</td>
+                </tr>
+                <tr>
+                    <td>UTF-16</td>
+                    <td>Used by systems like Windows and Java. It's designed to handle multilingual text efficiently, typically using 2 bytes for most common characters, but can extend to 4 bytes for less common ones. Think of it as a medium-sized suitcase, good for most international trips.</td>
+                    <td>2 or 4 bytes</td>
+                    <td>Windows applications, Java programming environments, and some internal system processes.</td>
+                </tr>
+                <tr>
+                    <td>UTF-32</td>
+                    <td>A fixed-length encoding where every character, no matter how simple or complex, always uses 4 bytes. This makes it very simple for computers to process (no variable length to figure out!), but it's also very space-heavy. It's like bringing a massive, empty suitcase for every single item you pack.</td>
+                    <td>4 bytes per char</td>
+                    <td>Rarely used for storage or transmission due to its size. More commonly found in internal processing tools or specific scientific applications where speed of character access outweighs storage efficiency.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
