@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>16-Bit Real-Address Mode Features</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0f2f7 0%, #c8e6c9 100%);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .content-container {
+            background-color: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            max-width: 900px;
+            width: 100%;
+            overflow: hidden;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .content-container h2 {
+            text-align: center;
+            color: #2575fc;
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .table-wrapper {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1em;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        thead {
+            background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
+            color: #ffffff;
+        }
+
+        th {
+            padding: 18px 25px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        th:last-child {
+            border-right: none;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #ebf2f5;
+            transition: background-color 0.3s ease;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:nth-of-type(even) {
+            background-color: #f8fcfd;
+        }
+
+        tbody tr:hover {
+            background-color: #e0f7fa;
+        }
+
+        td {
+            padding: 15px 25px;
+            border-right: 1px solid #ebf2f5;
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+            .content-container {
+                border-radius: 10px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+            }
+            .content-container h2 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+            th, td {
+                padding: 12px 18px;
+            }
+            table {
+                font-size: 0.95em;
+                min-width: 600px;
+            }
+            .table-wrapper {
+                overflow-x: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-container h2 {
+                font-size: 1.5em;
+            }
+            th, td {
+                padding: 10px 15px;
+            }
+            table {
+                min-width: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-container">
+        <h2>💾 16-Bit Real-Address Mode: Key Features</h2>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Explanation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>16-bit registers</strong></td>
+                        <td>You mostly use registers like AX, BX, CX, DX, SI, DI, SP, BP. These registers can hold 16 bits (2 bytes) of data.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>1MB memory limit</strong></td>
+                        <td>The CPU can only directly address up to 1 megabyte (MB) of memory, from address 00000h to FFFFFh. This is also referred to as a 20-bit address space ($2^{20} = 1MB$).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>No memory protection</strong></td>
+                        <td>Any program running in this mode can write to any part of memory, including memory used by other programs or the operating system itself. There is no safety mechanism to prevent programs from interfering with each other.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>No multitasking</strong></td>
+                        <td>You typically run one program at a time. That program has complete control over the CPU and all system resources until it finishes or explicitly yields control.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Direct hardware access</strong></td>
+                        <td>Programs can read from and write to hardware devices like the keyboard, screen, or disk controller directly, without needing the operating system's permission or mediation.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>

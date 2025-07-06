@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASM File Types & Modes</title>
+    <!--
+        Keeping the visual consistency strong! We're loading the Poppins font again
+        to ensure this section looks just as sharp and readable as the others.
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+            Setting the overall stage for this section.
+            A soft gradient background and centered content for a pleasant reading experience.
+        */
+        body {
+            background: linear-gradient(135deg, #e0f2f7 0%, #c8e6c9 100%); /* Gentle blue-green gradient */
+            font-family: 'Poppins', sans-serif; /* Our signature font */
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: flex-start; /* Align content to the top */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            margin: 0;
+            padding: 40px 20px; /* Generous padding around the content */
+            box-sizing: border-box; /* Include padding in element's total size */
+            color: #333; /* Dark gray text for readability */
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+        }
+
+        /*
+            The main container for the content.
+            It acts like a clean, modern card, making the information stand out.
+        */
+        .content-container {
+            background-color: #ffffff; /* Pure white background */
+            border-radius: 18px; /* Smooth, rounded corners */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Soft, prominent shadow */
+            max-width: 800px; /* Limit width for better readability on large screens */
+            width: 100%; /* Ensure responsiveness */
+            overflow: hidden; /* Hide overflowing content */
+            margin: 0 auto; /* Center the container */
+            padding: 30px; /* Internal padding */
+        }
+
+        /* Styling for the main heading of this section */
+        .content-container h2 {
+            text-align: center;
+            color: #2575fc; /* A vibrant blue */
+            font-size: 2.2em; /* Large and impactful */
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.05); /* Subtle text shadow */
+        }
+
+        /* Styling for sub-headings for each mode */
+        .content-container h3 {
+            color: #6a11cb; /* A nice purple for sub-headings */
+            font-size: 1.6em;
+            font-weight: 600;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0; /* Subtle underline */
+            padding-bottom: 8px;
+        }
+
+        /* Styling for bulleted lists */
+        .content-container ul {
+            list-style-type: none; /* Remove default bullet points */
+            padding-left: 0; /* Remove default padding */
+            margin-bottom: 25px;
+        }
+
+        .content-container ul li {
+            position: relative; /* For custom bullet point */
+            padding-left: 30px; /* Space for custom bullet */
+            margin-bottom: 10px;
+            font-size: 1.05em;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .content-container ul li::before {
+            content: '🔹'; /* Custom bullet point (blue diamond emoji) */
+            position: absolute;
+            left: 0;
+            color: #4a90e2; /* Color of the bullet */
+            font-size: 1.2em;
+            line-height: 1;
+            top: 5px; /* Adjust vertical position */
+        }
+
+        /* Styling for the "We'll refer to this as..." note */
+        .note-box {
+            background-color: #f0f8ff; /* Very light blue background */
+            border-left: 5px solid #2196F3; /* Blue left border */
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            font-size: 1em;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .note-box strong {
+            color: #2196F3; /* Bold text in note box */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+            .content-container {
+                border-radius: 10px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+            }
+            .content-container h2 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+            .content-container h3 {
+                font-size: 1.4em;
+                margin-top: 25px;
+                margin-bottom: 10px;
+            }
+            .content-container ul li {
+                font-size: 1em;
+                padding-left: 25px;
+                margin-bottom: 8px;
+            }
+            .content-container ul li::before {
+                font-size: 1.1em;
+                top: 4px;
+            }
+            .note-box {
+                padding: 12px 15px;
+                font-size: 0.95em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-container h2 {
+                font-size: 1.5em;
+            }
+            .content-container h3 {
+                font-size: 1.2em;
+            }
+            .content-container ul li {
+                font-size: 0.95em;
+                padding-left: 20px;
+            }
+            .content-container ul li::before {
+                font-size: 1em;
+                top: 3px;
+            }
+            .note-box {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-container">
+        <h2>File Types Created by MASM (Microsoft Macro Assembler)</h2>
+
+        <p>MASM is a powerful assembler that supports different operating modes and generates various file types, depending on the architecture you're targeting. Understanding these modes is key to knowing what kind of assembly code you're writing and how it interacts with the operating system.</p>
+
+        <h3>32-Bit Protected Mode</h3>
+        <ul>
+            <li>Supported by all 32-bit and 64-bit Windows operating system versions. This is the standard for modern Windows applications.</li>
+            <li>Generally easier to write and debug compared to the older 16-bit real mode, as it offers memory protection and a larger address space.</li>
+            <li>This is the default mode that most MASM tutorials, including many parts of your book, will focus on.</li>
+        </ul>
+        <div class="note-box">
+            🧠 We’ll refer to this as just <strong>"32-bit mode"</strong> from now on.
+        </div>
+
+        <h3>64-Bit Long Mode</h3>
+        <ul>
+            <li>This is the native mode for all 64-bit versions of Windows and other modern 64-bit operating systems.</li>
+            <li>Requires the use of different registers (like <strong>RAX, RBX, RCX, RDX</strong> instead of EAX, EBX, etc.) and updated calling conventions for functions.</li>
+            <li>To work with 64-bit assembly, you'll need specific tools like MASM64 (part of the Windows SDK) or other x64 assembly tools.</li>
+        </ul>
+
+        <h3>16-Bit Real-Address Mode</h3>
+        <ul>
+            <li>This is a legacy mode primarily used in older operating systems like MS-DOS and for programming embedded systems or BIOS routines.</li>
+            <li>It's characterized by direct memory access without protection, and a smaller 1MB address space.</li>
+            <li>Not directly supported on modern 64-bit Windows operating systems without using emulators (like DOSBox) or virtual machines.</li>
+            <li>In your book, this mode will only be covered in later chapters (14–17) for historical context and specialized low-level programming scenarios.</li>
+        </ul>
+
+    </div>
+
+</body>
+</html>

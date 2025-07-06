@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASM vs. Other Assemblers</title>
+    <!--
+        Maintaining the consistent look and feel! We're loading the Poppins font
+        to ensure this table is sharp, modern, and super readable.
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+            Setting the overall stage for this table.
+            A soft gradient background and centered content for a pleasant reading experience.
+        */
+        body {
+            background: linear-gradient(135deg, #e0f2f7 0%, #c8e6c9 100%); /* Gentle blue-green gradient */
+            font-family: 'Poppins', sans-serif; /* Our signature font */
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: flex-start; /* Align content to the top */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            margin: 0;
+            padding: 40px 20px; /* Generous padding around the content */
+            box-sizing: border-box; /* Include padding in element's total size */
+            color: #333; /* Dark gray text for readability */
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+        }
+
+        /*
+            The main container for the content.
+            It acts like a clean, modern card, making the information stand out.
+        */
+        .content-container {
+            background-color: #ffffff; /* Pure white background */
+            border-radius: 18px; /* Smooth, rounded corners */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Soft, prominent shadow */
+            max-width: 900px; /* Limit width for better readability on large screens */
+            width: 100%; /* Ensure responsiveness */
+            overflow: hidden; /* Hide overflowing content */
+            margin: 0 auto; /* Center the container */
+            padding: 30px; /* Internal padding */
+        }
+
+        /* Styling for the main heading of this section */
+        .content-container h2 {
+            text-align: center;
+            color: #2575fc; /* A vibrant blue */
+            font-size: 2.2em; /* Large and impactful */
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.05); /* Subtle text shadow */
+        }
+
+        /* Styling for the table wrapper, similar to previous tables */
+        .table-wrapper {
+            background-color: #ffffff; /* White background for the table itself */
+            border-radius: 12px; /* Slightly smaller rounded corners for nested table */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* Lighter shadow for nested table */
+            overflow: hidden;
+            margin-top: 20px; /* Space above the table */
+            margin-bottom: 20px; /* Space below the table */
+        }
+
+        /* Styling for the table itself */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1em;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        /* Table header styling */
+        thead {
+            background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%); /* Purple-to-blue gradient */
+            color: #ffffff;
+        }
+
+        th {
+            padding: 18px 25px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-right: 1px solid rgba(255, 255, 255, 0.15); /* Subtle separator */
+        }
+
+        th:last-child {
+            border-right: none;
+        }
+
+        /* Table body row styling */
+        tbody tr {
+            border-bottom: 1px solid #ebf2f5;
+            transition: background-color 0.3s ease;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:nth-of-type(even) {
+            background-color: #f8fcfd;
+        }
+
+        tbody tr:hover {
+            background-color: #e0f7fa;
+        }
+
+        /* Data cell styling */
+        td {
+            padding: 15px 25px;
+            border-right: 1px solid #ebf2f5;
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+            .content-container {
+                border-radius: 10px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+            }
+            .content-container h2 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+            th, td {
+                padding: 12px 18px;
+            }
+            table {
+                font-size: 0.95em;
+                min-width: 600px; /* Ensure table doesn't shrink too much */
+            }
+            .table-wrapper {
+                overflow-x: auto; /* Enable horizontal scroll for table on small screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-container h2 {
+                font-size: 1.5em;
+            }
+            th, td {
+                padding: 10px 15px;
+            }
+            table {
+                min-width: 500px; /* Further reduced min-width for very small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-container">
+        <h2>🧪 MASM vs. Other Assemblers — They're All Translators</h2>
+
+        <p>While MASM is a popular choice, especially for Windows assembly, it's important to know that there are other assemblers out there. Think of them as different brands of tools that all do the same core job: translating your human-readable assembly code into machine code for the CPU.</p>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Assembler</th>
+                        <th>Who Made It</th>
+                        <th>Popular On</th>
+                        <th>Notable For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>MASM</strong></td>
+                        <td>Microsoft</td>
+                        <td>Windows</td>
+                        <td>Powerful macros, strong integration with Windows development tools (like Visual Studio), and often the default for Kip Irvine's book examples.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NASM</strong></td>
+                        <td>Open source (Netwide Assembler)</td>
+                        <td>Linux, Cross-platform</td>
+                        <td>Known for its clean and consistent syntax, making it very beginner-friendly. It's often preferred for writing portable assembly code across different Unix-like systems.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>FASM</strong></td>
+                        <td>Independent developers</td>
+                        <td>Windows, Linux</td>
+                        <td>Highly regarded for its speed and ability to produce extremely compact executables. It's a "flat" assembler, meaning it can generate raw binary files directly without needing a separate linker for simple programs.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GAS</strong></td>
+                        <td>GNU (open source)</td>
+                        <td>Linux, Unix systems</td>
+                        <td>This is the default assembler used by the GCC (GNU Compiler Collection) toolchain. It often uses an AT&T syntax (different from Intel syntax used by MASM/NASM) and is commonly encountered when working with compiled C/C++ code on Linux.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Each assembler has its own quirks, syntax variations, and strengths. While you'll likely focus on MASM for your current learning path, being aware of these alternatives is essential for a complete understanding of the assembly ecosystem, especially if you venture into different operating systems or specialized projects.</p>
+
+    </div>
+
+</body>
+</html>

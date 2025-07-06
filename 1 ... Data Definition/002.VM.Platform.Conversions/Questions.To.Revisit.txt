@@ -1,0 +1,18 @@
+👀 Next up?
+Want to dive into how these files are structured internally (like .text, .data, and headers)?
+Or shall we jump into number systems — binary, decimal, hex, signed vs unsigned — the stuff you’ll constantly juggle in ASM?
+
+Your move, captain.
+
+=================================
+
+➡️ Want to move into how MASM lets you choose a mode, or cover how to detect what mode you're in using Assembly itself? Or we go into Data Representation & Number Systems (binary, hex, signed, unsigned, etc.)?
+
+=================================
+
+👀 Next up?
+Let’s unlock the CPU modes — Real Mode, Protected Mode, Long Mode — what they are, how they affect your Assembly programming, and why MASM needs to know which one you're targeting.
+
+Wanna go there now?
+
+=================================
