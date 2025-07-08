@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Representation Demystified: The Digital Rosetta Stone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+         * Setting the vibe: We're making the whole page feel open and inviting,
+         * like a fresh notebook ready for some serious knowledge drops.
+         */
+        body {
+            font-family: 'Inter', sans-serif; /* Our trusty, clear font for maximum readability */
+            background-color: #f0f2f5; /* A soft, modern background, easy on the eyes for long reads */
+            color: #333; /* Standard text color, good contrast */
+            line-height: 1.6; /* Giving your lines some space, so they don't feel crammed */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centering everything for that balanced, professional look */
+            min-height: 100vh; /* Making sure our content stretches to fill the screen */
+            box-sizing: border-box;
+        }
+
+        /*
+         * The main content area: This is like your digital desk, clean and organized.
+         * We've added a subtle shadow to make it pop.
+         */
+        .container {
+            background-color: #fff; /* White as a fresh page */
+            padding: 30px;
+            border-radius: 12px; /* Smooth, rounded corners for a modern feel */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* A gentle shadow, like a hint of depth */
+            max-width: 900px; /* Keeping the width in check for optimal reading */
+            width: 100%; /* Responsive width */
+            margin-bottom: 30px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #2c3e50; /* A deep, serious blue for the main title, like a knowledge anchor */
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 700; /* Bold and clear, just like your learning goals */
+            font-size: 2.5em; /* Big and impactful */
+        }
+
+        p.intro {
+            text-align: center;
+            font-size: 1.15em; /* A bit larger for easy reading */
+            color: #555;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 300; /* Lighter weight for the intro, keeping it approachable */
+        }
+
+        /*
+         * Our data table: This is where the magic happens. We're styling it
+         * to be super readable, separating each concept clearly.
+         */
+        .data-table {
+            width: 100%;
+            border-collapse: separate; /* Allows for spacing between cells */
+            border-spacing: 0 10px; /* Vertical spacing between rows for breathability */
+            margin-top: 30px;
+            background-color: #fdfdfd; /* A subtle off-white for the table background */
+            border-radius: 10px; /* Rounded corners for the table itself */
+            overflow: hidden; /* Ensures the rounded corners apply to content */
+        }
+
+        .data-table th, .data-table td {
+            text-align: left;
+            padding: 18px 25px; /* Generous padding so text isn't cramped */
+            vertical-align: middle;
+            border-bottom: 1px solid #eee; /* Light separator between rows */
+        }
+
+        .data-table th {
+            background-color: #4a69bd; /* A cool blue for headers, standing out like section titles */
+            color: #fff; /* White text on blue, crisp and clear */
+            font-weight: 600; /* Bold headers, like signposts */
+            text-transform: uppercase; /* All caps for emphasis */
+            letter-spacing: 0.8px;
+            font-size: 0.95em;
+        }
+
+        /* Styling for the first and last header cells for rounded corners */
+        .data-table th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        .data-table th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none; /* No border on the last row for a clean finish */
+        }
+
+        /* Zebra striping to make rows easier to distinguish */
+        .data-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9; /* A very subtle background for even rows */
+        }
+
+        /* Hover effect for rows, adding a touch of interactivity */
+        .data-table tbody tr:hover {
+            background-color: #e6f2ff; /* A gentle blue highlight on hover, like a focused area */
+            cursor: pointer;
+            transform: translateY(-2px); /* A slight lift, making it feel dynamic */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* A soft shadow for the lift */
+            transition: all 0.2s ease-in-out; /* Smooth animation, because good design is fluid */
+        }
+
+        /* Styling for the 'Term' column, making it stand out */
+        .data-table td:first-child {
+            font-weight: 600; /* Emphasize the term itself */
+            color: #34495e; /* A slightly darker color for terms */
+        }
+
+        /* Code-like styling for examples in the 'Meaning' column */
+        .data-table td code {
+            background-color: #e8eaf6; /* Light purple-blue background for code snippets */
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace; /* Monospaced font for code, keeping alignment clean */
+            font-size: 0.95em;
+            color: #6a0dad; /* A distinct purple for code, making it pop */
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .data-table, .data-table thead, .data-table tbody, .data-table th, .data-table td, .data-table tr {
+                display: block; /* Stacking table elements vertically */
+            }
+
+            .data-table thead tr {
+                position: absolute;
+                top: -9999px; /* Hiding the original table headers */
+                left: -9999px;
+            }
+
+            .data-table tr {
+                border: 1px solid #ddd;
+                margin-bottom: 15px;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .data-table td {
+                border: none;
+                position: relative;
+                padding-left: 50%; /* Space for our new "label" */
+                text-align: right; /* Align content to the right */
+            }
+
+            .data-table td:before {
+                /* Creating custom labels for each cell on small screens */
+                content: attr(data-label); /* Pulling text from data-label attribute */
+                position: absolute;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+                color: #555;
+            }
+        }
+
+        /* Footer styling, a gentle closing statement */
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            text-align: center;
+            color: #777;
+            font-size: 0.9em;
+            border-top: 1px solid #eee;
+            width: 100%;
+            max-width: 900px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Data Representation Demystified: The Digital Rosetta Stone 💎</h1>
+        <p class="intro">
+            Ever wondered how computers store and interpret numbers and characters? It's like having different ways to write down the same idea! From the raw binary bytes they munch on to the human-friendly symbols we use, understanding these forms is key to speaking fluent computer. Let's break it down!
+        </p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Term</th>
+                    <th>Meaning</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="Term">Binary Integer</td>
+                    <td data-label="Meaning">A number stored in raw binary, the language of computers. It's used for actual calculations. For example, the decimal number 65 is stored as `01000001` in an 8-bit binary integer. Think of it as the CPU's favorite snack!</td>
+                </tr>
+                <tr>
+                    <td data-label="Term">Digit String</td>
+                    <td data-label="Meaning">A sequence of ASCII characters, where each character happens to be a digit. So, the number "123" isn't a single numerical value to the computer; it's three separate characters: '1' (`31h`), '2' (`32h`), and '3' (`33h`). This takes up more space than a binary integer but is super easy for humans to read and display.</td>
+                </tr>
+                <tr>
+                    <td data-label="Term">ASCII Character</td>
+                    <td data-label="Meaning">A fundamental building block of text! Each symbol you see—like `'A'`, `'0'`, `'$'`, or `' '` (space)—has a unique ASCII code, which is a numerical value (usually 0-127) stored in memory. When you type 'A', the computer stores `41h` (hexadecimal) or `65` (decimal). It's how text becomes digital.</td>
+                </tr>
+                <tr>
+                    <td data-label="Term">Hexadecimal</td>
+                    <td data-label="Meaning">A base-16 number system that's a super convenient shorthand for binary. It uses digits 0-9 and letters A-F. Each hexadecimal digit represents exactly 4 binary bits, making it much easier for humans to read and write large binary numbers. For example, `41h` is `65` in decimal, and that's ASCII for `'A'`. It's like a compressed zip file for binary data!</td>
+                </tr>
+                <tr>
+                    <td data-label="Term">Octal</td>
+                    <td data-label="Meaning">A base-8 number system, using digits 0-7. Each octal digit represents 3 binary bits. While less common than hexadecimal today, it's still super useful in specific contexts, especially in Unix-like systems for setting file permissions (e.g., `755o` for read/write/execute permissions). It's like an old-school, but still effective, tool in the hacker's toolkit.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer class="footer">
+        <p>Unlocking the secrets of digital bits, one byte at a time!</p>
+        <p>&copy; 2025 Data Formats Explorer. Stay curious.</p>
+    </footer>
+</body>
+</html>
