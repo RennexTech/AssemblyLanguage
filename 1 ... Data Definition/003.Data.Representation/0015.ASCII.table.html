@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII Character Explorer: The Digital Unpacked</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /*
+         * Imagine your browser is a chill cafe, and these CSS rules are
+         * setting up the perfect vibe. We're making sure everything
+         * looks clean, inviting, and easy to hang out in.
+         */
+        body {
+            font-family: 'Inter', sans-serif; /* Your go-to font for clarity, like a perfectly brewed coffee */
+            background-color: #f0f2f5; /* A soft, light background, no harsh fluorescent lights here */
+            color: #333; /* Easy on the eyes, like reading a good book in natural light */
+            line-height: 1.6; /* Giving your lines some breathing room, so they don't feel squished */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centering our whole show, making it feel balanced */
+            min-height: 100vh; /* Making sure our cafe takes up the whole screen, no awkward gaps */
+            box-sizing: border-box; /* Including padding and border in the element's total width and height */
+        }
+
+        /*
+         * This is our main stage, where all the character magic happens.
+         * We're giving it some space, a nice shadow, and a smooth border
+         * so it looks sleek and inviting.
+         */
+        .container {
+            background-color: #fff; /* White as a fresh canvas */
+            padding: 30px;
+            border-radius: 12px; /* Smooth, rounded corners, no sharp edges */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* A subtle shadow, like a gentle ripple effect */
+            max-width: 1200px; /* Giving it a max width, so it doesn't spread too wide on big screens */
+            width: 100%; /* And taking up all available space within that max */
+            margin-bottom: 30px; /* A little breathing room at the bottom */
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #2c3e50; /* A deep, professional blue, like a reliable coding buddy */
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600; /* Making our main title stand out, like the headline act */
+            font-size: 2.2em; /* A bit bigger, because this is important stuff! */
+        }
+
+        p.intro {
+            text-align: center;
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /*
+         * This is where we break down the character groups. Think of each
+         * section as a different album in a music collection.
+         */
+        .character-section {
+            margin-bottom: 50px; /* Space between each character group, like sections in a library */
+        }
+
+        .character-section h2 {
+            color: #34495e; /* A slightly lighter blue, for sub-headings */
+            border-bottom: 2px solid #e0e0e0; /* A subtle underline, neat and tidy */
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        /*
+         * Our main character data display! This is a table, but we're making
+         * it look less like a spreadsheet and more like a carefully crafted
+         * information panel.
+         */
+        table {
+            width: 100%;
+            border-collapse: separate; /* We're going for spaced-out cells, not a squished grid */
+            border-spacing: 0 10px; /* Vertical spacing between rows, for breathability */
+            margin-top: 20px;
+            background-color: #fdfdfd; /* A very light background for the table itself */
+            border-radius: 8px; /* Slightly rounded table corners */
+            overflow: hidden; /* Hiding any overflow */
+        }
+
+        th, td {
+            text-align: left;
+            padding: 15px 20px; /* Generous padding, so content doesn't feel cramped */
+            vertical-align: middle; /* Aligning content in the middle of the cell */
+            border-bottom: 1px solid #eee; /* A light separator between rows */
+        }
+
+        th {
+            background-color: #4a69bd; /* A deep, rich blue for our table headers, standing out like a title card */
+            color: #fff; /* White text on that blue, crisp and clear */
+            font-weight: 600; /* Bold headers, like section titles in a report */
+            text-transform: uppercase; /* All caps for impact */
+            letter-spacing: 0.8px;
+            position: sticky; /* Keep headers visible when scrolling, like a fixed menu */
+            top: 0;
+            z-index: 10;
+        }
+
+        /* Special styling for the first and last header cells for rounded corners */
+        th:first-child {
+            border-top-left-radius: 8px;
+        }
+
+        th:last-child {
+            border-top-right-radius: 8px;
+        }
+
+        tr:last-child td {
+            border-bottom: none; /* No border for the last row, keeps it clean */
+        }
+
+        /* Zebra striping for rows, making it easier to read across the table */
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9; /* A very subtle shade for even rows, like alternating stripes on a road */
+        }
+
+        /* Hover effect for rows, so you know which one you're looking at */
+        tbody tr:hover {
+            background-color: #e6f2ff; /* A gentle blue highlight on hover, like a spotlight */
+            cursor: pointer; /* Letting the user know they can interact, even if it's just visual */
+            transform: translateY(-2px); /* A tiny lift, like the row is saying "hey, look at me!" */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* A soft shadow for the lift */
+            transition: all 0.2s ease-in-out; /* Smooth transition for that sweet hover effect */
+        }
+
+        /* Styling for the symbol column, making it a bit more prominent */
+        td.symbol-col {
+            font-family: 'Consolas', 'Monaco', monospace; /* A monospaced font for symbols, keeps them aligned */
+            font-size: 1.2em; /* Slightly larger, so the symbols pop */
+            font-weight: bold; /* Bold symbols, like a strong signature */
+            color: #007bff; /* A vibrant blue for the symbols, making them stand out */
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .character-section h2 {
+                font-size: 1.5em;
+            }
+
+            table, thead, tbody, th, td, tr {
+                display: block; /* Stacking table elements for small screens */
+            }
+
+            thead tr {
+                position: absolute;
+                top: -9999px; /* Hiding table headers on small screens */
+                left: -9999px;
+            }
+
+            tr {
+                border: 1px solid #ddd;
+                margin-bottom: 10px;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            td {
+                border: none;
+                position: relative;
+                padding-left: 50%; /* Space for the "label" before the content */
+                text-align: right; /* Align content to the right */
+            }
+
+            td:before {
+                /* Creating custom labels for each cell on small screens */
+                content: attr(data-label); /* Using the data-label attribute for the label text */
+                position: absolute;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+                color: #555;
+            }
+
+            td.symbol-col {
+                font-size: 1em; /* Adjusting font size for smaller screens */
+            }
+        }
+
+        /* Footer styling, like a little closing note at the end of a good conversation */
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            text-align: center;
+            color: #777;
+            font-size: 0.9em;
+            border-top: 1px solid #eee;
+            width: 100%;
+            max-width: 1200px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ASCII Character Explorer: Unpacking the Digital Building Blocks</h1>
+        <p class="intro">Ever wondered what goes on behind the scenes when you type? This table breaks down the fundamental ASCII characters, from the control signals that make things happen, to the letters and symbols you see every day. It's like peeking into the DNA of digital communication!</p>
+
+        <div class="character-section">
+            <h2>Control Characters (0-31): The Silent Operators</h2>
+            <p>These characters are like the secret handshakes of computers. They don't show up on your screen as text, but they tell your devices what to do—things like moving the cursor, starting a new line, or making a sound. They're the unsung heroes of digital communication!</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Decimal</th>
+                        <th>Hex</th>
+                        <th>Octal</th>
+                        <th>Symbol</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Decimal">0</td>
+                        <td data-label="Hex">00</td>
+                        <td data-label="Octal">000</td>
+                        <td data-label="Symbol" class="symbol-col">NUL</td>
+                        <td data-label="Description">Null character: Like a blank slate, often used to indicate the end of a string.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">1</td>
+                        <td data-label="Hex">01</td>
+                        <td data-label="Octal">001</td>
+                        <td data-label="Symbol" class="symbol-col">SOH</td>
+                        <td data-label="Description">Start of Header: Marks the beginning of a message header.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">2</td>
+                        <td data-label="Hex">02</td>
+                        <td data-label="Octal">002</td>
+                        <td data-label="Symbol" class="symbol-col">STX</td>
+                        <td data-label="Description">Start of Text: Indicates the start of text in a message.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">3</td>
+                        <td data-label="Hex">03</td>
+                        <td data-label="Octal">003</td>
+                        <td data-label="Symbol" class="symbol-col">ETX</td>
+                        <td data-label="Description">End of Text: Signals the end of text.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">4</td>
+                        <td data-label="Hex">04</td>
+                        <td data-label="Octal">004</td>
+                        <td data-label="Symbol" class="symbol-col">EOT</td>
+                        <td data-label="Description">End of Transmission: Ends a transmission session.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">5</td>
+                        <td data-label="Hex">05</td>
+                        <td data-label="Octal">005</td>
+                        <td data-label="Symbol" class="symbol-col">ENQ</td>
+                        <td data-label="Description">Enquiry: Asks for a response from another device.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">6</td>
+                        <td data-label="Hex">06</td>
+                        <td data-label="Octal">006</td>
+                        <td data-label="Symbol" class="symbol-col">ACK</td>
+                        <td data-label="Description">Acknowledge: Confirms receipt of data.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">7</td>
+                        <td data-label="Hex">07</td>
+                        <td data-label="Octal">007</td>
+                        <td data-label="Symbol" class="symbol-col">BEL</td>
+                        <td data-label="Description">Bell: Makes a sound, like a digital "ding!".</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">8</td>
+                        <td data-label="Hex">08</td>
+                        <td data-label="Octal">010</td>
+                        <td data-label="Symbol" class="symbol-col">BS</td>
+                        <td data-label="Description">Backspace: Moves the cursor back one position.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">9</td>
+                        <td data-label="Hex">09</td>
+                        <td data-label="Octal">011</td>
+                        <td data-label="Symbol" class="symbol-col">HT</td>
+                        <td data-label="Description">Horizontal Tab: Moves the cursor to the next tab stop.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">10</td>
+                        <td data-label="Hex">0A</td>
+                        <td data-label="Octal">012</td>
+                        <td data-label="Symbol" class="symbol-col">LF</td>
+                        <td data-label="Description">Line Feed: Moves the cursor to the next line.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">11</td>
+                        <td data-label="Hex">0B</td>
+                        <td data-label="Octal">013</td>
+                        <td data-label="Symbol" class="symbol-col">VT</td>
+                        <td data-label="Description">Vertical Tab: Moves the cursor down one line (vertical tab stop).</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">12</td>
+                        <td data-label="Hex">0C</td>
+                        <td data-label="Octal">014</td>
+                        <td data-label="Symbol" class="symbol-col">FF</td>
+                        <td data-label="Description">Form Feed: Moves to the next page or form.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">13</td>
+                        <td data-label="Hex">0D</td>
+                        <td data-label="Octal">015</td>
+                        <td data-label="Symbol" class="symbol-col">CR</td>
+                        <td data-label="Description">Carriage Return: Moves the cursor to the beginning of the current line.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">14</td>
+                        <td data-label="Hex">0E</td>
+                        <td data-label="Octal">016</td>
+                        <td data-label="Symbol" class="symbol-col">SO</td>
+                        <td data-label="Description">Shift Out: Activates a special character set.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">15</td>
+                        <td data-label="Hex">0F</td>
+                        <td data-label="Octal">017</td>
+                        <td data-label="Symbol" class="symbol-col">SI</td>
+                        <td data-label="Description">Shift In: Deactivates a special character set.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">16</td>
+                        <td data-label="Hex">10</td>
+                        <td data-label="Octal">020</td>
+                        <td data-label="Symbol" class="symbol-col">DLE</td>
+                        <td data-label="Description">Data Link Escape: Changes the meaning of a limited number of following characters.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">17</td>
+                        <td data-label="Hex">11</td>
+                        <td data-label="Octal">021</td>
+                        <td data-label="Symbol" class="symbol-col">DC1</td>
+                        <td data-label="Description">Device Control 1 (XON): Turns on a device.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">18</td>
+                        <td data-label="Hex">12</td>
+                        <td data-label="Octal">022</td>
+                        <td data-label="Symbol" class="symbol-col">DC2</td>
+                        <td data-label="Description">Device Control 2: General purpose device control.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">19</td>
+                        <td data-label="Hex">13</td>
+                        <td data-label="Octal">023</td>
+                        <td data-label="Symbol" class="symbol-col">DC3</td>
+                        <td data-label="Description">Device Control 3 (XOFF): Turns off a device.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">20</td>
+                        <td data-label="Hex">14</td>
+                        <td data-label="Octal">024</td>
+                        <td data-label="Symbol" class="symbol-col">DC4</td>
+                        <td data-label="Description">Device Control 4: General purpose device control.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">21</td>
+                        <td data-label="Hex">15</td>
+                        <td data-label="Octal">025</td>
+                        <td data-label="Symbol" class="symbol-col">NAK</td>
+                        <td data-label="Description">Negative Acknowledge: Indicates data was not received correctly.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">22</td>
+                        <td data-label="Hex">16</td>
+                        <td data-label="Octal">026</td>
+                        <td data-label="Symbol" class="symbol-col">SYN</td>
+                        <td data-label="Description">Synchronous Idle: Used to establish or maintain synchronization.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">23</td>
+                        <td data-label="Hex">17</td>
+                        <td data-label="Octal">027</td>
+                        <td data-label="Symbol" class="symbol-col">ETB</td>
+                        <td data-label="Description">End of Transmission Block: Ends a block of data for transmission.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">24</td>
+                        <td data-label="Hex">18</td>
+                        <td data-label="Octal">030</td>
+                        <td data-label="Symbol" class="symbol-col">CAN</td>
+                        <td data-label="Description">Cancel: Indicates that the preceding data is in error and should be discarded.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">25</td>
+                        <td data-label="Hex">19</td>
+                        <td data-label="Octal">031</td>
+                        <td data-label="Symbol" class="symbol-col">EM</td>
+                        <td data-label="Description">End of Medium: Signals the end of a data medium (e.g., tape).</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">26</td>
+                        <td data-label="Hex">1A</td>
+                        <td data-label="Octal">032</td>
+                        <td data-label="Symbol" class="symbol-col">SUB</td>
+                        <td data-label="Description">Substitute: Used in place of a character that is recognized to be in error.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">27</td>
+                        <td data-label="Hex">1B</td>
+                        <td data-label="Octal">033</td>
+                        <td data-label="Symbol" class="symbol-col">ESC</td>
+                        <td data-label="Description">Escape: Alters the meaning of the characters following it.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">28</td>
+                        <td data-label="Hex">1C</td>
+                        <td data-label="Octal">034</td>
+                        <td data-label="Symbol" class="symbol-col">FS</td>
+                        <td data-label="Description">File Separator: Separates files.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">29</td>
+                        <td data-label="Hex">1D</td>
+                        <td data-label="Octal">035</td>
+                        <td data-label="Symbol" class="symbol-col">GS</td>
+                        <td data-label="Description">Group Separator: Separates groups of information.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">30</td>
+                        <td data-label="Hex">1E</td>
+                        <td data-label="Octal">036</td>
+                        <td data-label="Symbol" class="symbol-col">RS</td>
+                        <td data-label="Description">Record Separator: Separates records.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">31</td>
+                        <td data-label="Hex">1F</td>
+                        <td data-label="Octal">037</td>
+                        <td data-label="Symbol" class="symbol-col">US</td>
+                        <td data-label="Description">Unit Separator: Separates units of information within a record.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="character-section">
+            <h2>Printable Characters (32-63): The Common Communicators</h2>
+            <p>These are the characters you usually see and interact with: spaces, numbers, and common punctuation. They're the workhorses of everyday text!</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Decimal</th>
+                        <th>Hex</th>
+                        <th>Octal</th>
+                        <th>Symbol</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Decimal">32</td>
+                        <td data-label="Hex">20</td>
+                        <td data-label="Octal">040</td>
+                        <td data-label="Symbol" class="symbol-col">SP</td>
+                        <td data-label="Description">Space: The character that gives words room to breathe.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">33</td>
+                        <td data-label="Hex">21</td>
+                        <td data-label="Octal">041</td>
+                        <td data-label="Symbol" class="symbol-col">!</td>
+                        <td data-label="Description">Exclamation mark: For emphasis, like "Wow!"</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">34</td>
+                        <td data-label="Hex">22</td>
+                        <td data-label="Octal">042</td>
+                        <td data-label="Symbol" class="symbol-col">"</td>
+                        <td data-label="Description">Double quote: For quoting text, like "He said, 'Hello!'"</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">35</td>
+                        <td data-label="Hex">23</td>
+                        <td data-label="Octal">043</td>
+                        <td data-label="Symbol" class="symbol-col">#</td>
+                        <td data-label="Description">Number sign (Hash, Pound): Used for numbers, hashtags, etc.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">36</td>
+                        <td data-label="Hex">24</td>
+                        <td data-label="Octal">044</td>
+                        <td data-label="Symbol" class="symbol-col">$</td>
+                        <td data-label="Description">Dollar sign: For currency, like "$100".</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">37</td>
+                        <td data-label="Hex">25</td>
+                        <td data-label="Octal">045</td>
+                        <td data-label="Symbol" class="symbol-col">%</td>
+                        <td data-label="Description">Percent sign: For percentages, like "50%".</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">38</td>
+                        <td data-label="Hex">26</td>
+                        <td data-label="Octal">046</td>
+                        <td data-label="Symbol" class="symbol-col">&amp;</td>
+                        <td data-label="Description">Ampersand: Represents "and", like "B&amp;W".</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">39</td>
+                        <td data-label="Hex">27</td>
+                        <td data-label="Octal">047</td>
+                        <td data-label="Symbol" class="symbol-col">'</td>
+                        <td data-label="Description">Single quote (Apostrophe): For contractions or single quotes.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">40</td>
+                        <td data-label="Hex">28</td>
+                        <td data-label="Octal">050</td>
+                        <td data-label="Symbol" class="symbol-col">(</td>
+                        <td data-label="Description">Left parenthesis: Used in expressions or lists.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">41</td>
+                        <td data-label="Hex">29</td>
+                        <td data-label="Octal">051</td>
+                        <td data-label="Symbol" class="symbol-col">)</td>
+                        <td data-label="Description">Right parenthesis: Closes expressions or lists.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">42</td>
+                        <td data-label="Hex">2A</td>
+                        <td data-label="Octal">052</td>
+                        <td data-label="Symbol" class="symbol-col">*</td>
+                        <td data-label="Description">Asterisk: Used for multiplication, wildcards, or footnotes.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">43</td>
+                        <td data-label="Hex">2B</td>
+                        <td data-label="Octal">053</td>
+                        <td data-label="Symbol" class="symbol-col">+</td>
+                        <td data-label="Description">Plus sign: For addition or positive values.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">44</td>
+                        <td data-label="Hex">2C</td>
+                        <td data-label="Octal">054</td>
+                        <td data-label="Symbol" class="symbol-col">,</td>
+                        <td data-label="Description">Comma: For separating items in a list or clauses.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">45</td>
+                        <td data-label="Hex">2D</td>
+                        <td data-label="Octal">055</td>
+                        <td data-label="Symbol" class="symbol-col">-</td>
+                        <td data-label="Description">Hyphen/Minus sign: For subtraction or joining words.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">46</td>
+                        <td data-label="Hex">2E</td>
+                        <td data-label="Octal">056</td>
+                        <td data-label="Symbol" class="symbol-col">.</td>
+                        <td data-label="Description">Period (Full stop): Ends a sentence or indicates a decimal point.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">47</td>
+                        <td data-label="Hex">2F</td>
+                        <td data-label="Octal">057</td>
+                        <td data-label="Symbol" class="symbol-col">/</td>
+                        <td data-label="Description">Slash (Forward slash): For division, paths, or alternatives.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">48</td>
+                        <td data-label="Hex">30</td>
+                        <td data-label="Octal">060</td>
+                        <td data-label="Symbol" class="symbol-col">0</td>
+                        <td data-label="Description">Digit zero.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">49</td>
+                        <td data-label="Hex">31</td>
+                        <td data-label="Octal">061</td>
+                        <td data-label="Symbol" class="symbol-col">1</td>
+                        <td data-label="Description">Digit one.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">50</td>
+                        <td data-label="Hex">32</td>
+                        <td data-label="Octal">062</td>
+                        <td data-label="Symbol" class="symbol-col">2</td>
+                        <td data-label="Description">Digit two.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">51</td>
+                        <td data-label="Hex">33</td>
+                        <td data-label="Octal">063</td>
+                        <td data-label="Symbol" class="symbol-col">3</td>
+                        <td data-label="Description">Digit three.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">52</td>
+                        <td data-label="Hex">34</td>
+                        <td data-label="Octal">064</td>
+                        <td data-label="Symbol" class="symbol-col">4</td>
+                        <td data-label="Description">Digit four.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">53</td>
+                        <td data-label="Hex">35</td>
+                        <td data-label="Octal">065</td>
+                        <td data-label="Symbol" class="symbol-col">5</td>
+                        <td data-label="Description">Digit five.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">54</td>
+                        <td data-label="Hex">36</td>
+                        <td data-label="Octal">066</td>
+                        <td data-label="Symbol" class="symbol-col">6</td>
+                        <td data-label="Description">Digit six.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">55</td>
+                        <td data-label="Hex">37</td>
+                        <td data-label="Octal">067</td>
+                        <td data-label="Symbol" class="symbol-col">7</td>
+                        <td data-label="Description">Digit seven.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">56</td>
+                        <td data-label="Hex">38</td>
+                        <td data-label="Octal">070</td>
+                        <td data-label="Symbol" class="symbol-col">8</td>
+                        <td data-label="Description">Digit eight.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">57</td>
+                        <td data-label="Hex">39</td>
+                        <td data-label="Octal">071</td>
+                        <td data-label="Symbol" class="symbol-col">9</td>
+                        <td data-label="Description">Digit nine.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">58</td>
+                        <td data-label="Hex">3A</td>
+                        <td data-label="Octal">072</td>
+                        <td data-label="Symbol" class="symbol-col">:</td>
+                        <td data-label="Description">Colon: Used for time, ratios, or introducing a list.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">59</td>
+                        <td data-label="Hex">3B</td>
+                        <td data-label="Octal">073</td>
+                        <td data-label="Symbol" class="symbol-col">;</td>
+                        <td data-label="Description">Semicolon: Connects related independent clauses.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">60</td>
+                        <td data-label="Hex">3C</td>
+                        <td data-label="Octal">074</td>
+                        <td data-label="Symbol" class="symbol-col">&lt;</td>
+                        <td data-label="Description">Less than sign: For comparisons, like "x &lt; y".</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">61</td>
+                        <td data-label="Hex">3D</td>
+                        <td data-label="Octal">075</td>
+                        <td data-label="Symbol" class="symbol-col">=</td>
+                        <td data-label="Description">Equals sign: For assignment or equality.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">62</td>
+                        <td data-label="Hex">3E</td>
+                        <td data-label="Octal">076</td>
+                        <td data-label="Symbol" class="symbol-col">&gt;</td>
+                        <td data-label="Description">Greater than sign: For comparisons, like "x &gt; y".</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">63</td>
+                        <td data-label="Hex">3F</td>
+                        <td data-label="Octal">077</td>
+                        <td data-label="Symbol" class="symbol-col">?</td>
+                        <td data-label="Description">Question mark: Ends an interrogative sentence.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="character-section">
+            <h2>Printable Characters (64-95): The Alphas and More Symbols</h2>
+            <p>This range brings in the uppercase letters, a few more key symbols, and some specific programming characters. Essential for writing code and more complex text!</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Decimal</th>
+                        <th>Hex</th>
+                        <th>Octal</th>
+                        <th>Symbol</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Decimal">64</td>
+                        <td data-label="Hex">40</td>
+                        <td data-label="Octal">100</td>
+                        <td data-label="Symbol" class="symbol-col">@</td>
+                        <td data-label="Description">At sign: Used in email addresses, social media mentions, etc.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">65</td>
+                        <td data-label="Hex">41</td>
+                        <td data-label="Octal">101</td>
+                        <td data-label="Symbol" class="symbol-col">A</td>
+                        <td data-label="Description">Uppercase A.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">66</td>
+                        <td data-label="Hex">42</td>
+                        <td data-label="Octal">102</td>
+                        <td data-label="Symbol" class="symbol-col">B</td>
+                        <td data-label="Description">Uppercase B.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">67</td>
+                        <td data-label="Hex">43</td>
+                        <td data-label="Octal">103</td>
+                        <td data-label="Symbol" class="symbol-col">C</td>
+                        <td data-label="Description">Uppercase C.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">68</td>
+                        <td data-label="Hex">44</td>
+                        <td data-label="Octal">104</td>
+                        <td data-label="Symbol" class="symbol-col">D</td>
+                        <td data-label="Description">Uppercase D.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">69</td>
+                        <td data-label="Hex">45</td>
+                        <td data-label="Octal">105</td>
+                        <td data-label="Symbol" class="symbol-col">E</td>
+                        <td data-label="Description">Uppercase E.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">70</td>
+                        <td data-label="Hex">46</td>
+                        <td data-label="Octal">106</td>
+                        <td data-label="Symbol" class="symbol-col">F</td>
+                        <td data-label="Description">Uppercase F.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">71</td>
+                        <td data-label="Hex">47</td>
+                        <td data-label="Octal">107</td>
+                        <td data-label="Symbol" class="symbol-col">G</td>
+                        <td data-label="Description">Uppercase G.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">72</td>
+                        <td data-label="Hex">48</td>
+                        <td data-label="Octal">110</td>
+                        <td data-label="Symbol" class="symbol-col">H</td>
+                        <td data-label="Description">Uppercase H.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">73</td>
+                        <td data-label="Hex">49</td>
+                        <td data-label="Octal">111</td>
+                        <td data-label="Symbol" class="symbol-col">I</td>
+                        <td data-label="Description">Uppercase I.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">74</td>
+                        <td data-label="Hex">4A</td>
+                        <td data-label="Octal">112</td>
+                        <td data-label="Symbol" class="symbol-col">J</td>
+                        <td data-label="Description">Uppercase J.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">75</td>
+                        <td data-label="Hex">4B</td>
+                        <td data-label="Octal">113</td>
+                        <td data-label="Symbol" class="symbol-col">K</td>
+                        <td data-label="Description">Uppercase K.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">76</td>
+                        <td data-label="Hex">4C</td>
+                        <td data-label="Octal">114</td>
+                        <td data-label="Symbol" class="symbol-col">L</td>
+                        <td data-label="Description">Uppercase L.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">77</td>
+                        <td data-label="Hex">4D</td>
+                        <td data-label="Octal">115</td>
+                        <td data-label="Symbol" class="symbol-col">M</td>
+                        <td data-label="Description">Uppercase M.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">78</td>
+                        <td data-label="Hex">4E</td>
+                        <td data-label="Octal">116</td>
+                        <td data-label="Symbol" class="symbol-col">N</td>
+                        <td data-label="Description">Uppercase N.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">79</td>
+                        <td data-label="Hex">4F</td>
+                        <td data-label="Octal">117</td>
+                        <td data-label="Symbol" class="symbol-col">O</td>
+                        <td data-label="Description">Uppercase O.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">80</td>
+                        <td data-label="Hex">50</td>
+                        <td data-label="Octal">120</td>
+                        <td data-label="Symbol" class="symbol-col">P</td>
+                        <td data-label="Description">Uppercase P.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">81</td>
+                        <td data-label="Hex">51</td>
+                        <td data-label="Octal">121</td>
+                        <td data-label="Symbol" class="symbol-col">Q</td>
+                        <td data-label="Description">Uppercase Q.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">82</td>
+                        <td data-label="Hex">52</td>
+                        <td data-label="Octal">122</td>
+                        <td data-label="Symbol" class="symbol-col">R</td>
+                        <td data-label="Description">Uppercase R.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">83</td>
+                        <td data-label="Hex">53</td>
+                        <td data-label="Octal">123</td>
+                        <td data-label="Symbol" class="symbol-col">S</td>
+                        <td data-label="Description">Uppercase S.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">84</td>
+                        <td data-label="Hex">54</td>
+                        <td data-label="Octal">124</td>
+                        <td data-label="Symbol" class="symbol-col">T</td>
+                        <td data-label="Description">Uppercase T.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">85</td>
+                        <td data-label="Hex">55</td>
+                        <td data-label="Octal">125</td>
+                        <td data-label="Symbol" class="symbol-col">U</td>
+                        <td data-label="Description">Uppercase U.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">86</td>
+                        <td data-label="Hex">56</td>
+                        <td data-label="Octal">126</td>
+                        <td data-label="Symbol" class="symbol-col">V</td>
+                        <td data-label="Description">Uppercase V.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">87</td>
+                        <td data-label="Hex">57</td>
+                        <td data-label="Octal">127</td>
+                        <td data-label="Symbol" class="symbol-col">W</td>
+                        <td data-label="Description">Uppercase W.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">88</td>
+                        <td data-label="Hex">58</td>
+                        <td data-label="Octal">130</td>
+                        <td data-label="Symbol" class="symbol-col">X</td>
+                        <td data-label="Description">Uppercase X.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">89</td>
+                        <td data-label="Hex">59</td>
+                        <td data-label="Octal">131</td>
+                        <td data-label="Symbol" class="symbol-col">Y</td>
+                        <td data-label="Description">Uppercase Y.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">90</td>
+                        <td data-label="Hex">5A</td>
+                        <td data-label="Octal">132</td>
+                        <td data-label="Symbol" class="symbol-col">Z</td>
+                        <td data-label="Description">Uppercase Z.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">91</td>
+                        <td data-label="Hex">5B</td>
+                        <td data-label="Octal">133</td>
+                        <td data-label="Symbol" class="symbol-col">[</td>
+                        <td data-label="Description">Left square bracket: Used in arrays or lists in programming.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">92</td>
+                        <td data-label="Hex">5C</td>
+                        <td data-label="Octal">134</td>
+                        <td data-label="Symbol" class="symbol-col">\</td>
+                        <td data-label="Description">Backslash: Used for escape sequences or file paths.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">93</td>
+                        <td data-label="Hex">5D</td>
+                        <td data-label="Octal">135</td>
+                        <td data-label="Symbol" class="symbol-col">]</td>
+                        <td data-label="Description">Right square bracket: Closes arrays or lists.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">94</td>
+                        <td data-label="Hex">5E</td>
+                        <td data-label="Octal">136</td>
+                        <td data-label="Symbol" class="symbol-col">^</td>
+                        <td data-label="Description">Caret (Circumflex): For exponentiation or bitwise XOR.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">95</td>
+                        <td data-label="Hex">5F</td>
+                        <td data-label="Octal">137</td>
+                        <td data-label="Symbol" class="symbol-col">_</td>
+                        <td data-label="Description">Underscore: Used as a separator in names or identifiers.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="character-section">
+            <h2>Printable Characters (96-127): The Lowers and Last Symbols</h2>
+            <p>Wrapping it up with the lowercase letters and a final set of symbols, including curly braces and the tilde. These are your everyday tools for writing and coding!</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Decimal</th>
+                        <th>Hex</th>
+                        <th>Octal</th>
+                        <th>Symbol</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Decimal">96</td>
+                        <td data-label="Hex">60</td>
+                        <td data-label="Octal">140</td>
+                        <td data-label="Symbol" class="symbol-col">`</td>
+                        <td data-label="Description">Grave accent (Backtick): Used in JavaScript template literals or Markdown code blocks.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">97</td>
+                        <td data-label="Hex">61</td>
+                        <td data-label="Octal">141</td>
+                        <td data-label="Symbol" class="symbol-col">a</td>
+                        <td data-label="Description">Lowercase a.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">98</td>
+                        <td data-label="Hex">62</td>
+                        <td data-label="Octal">142</td>
+                        <td data-label="Symbol" class="symbol-col">b</td>
+                        <td data-label="Description">Lowercase b.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">99</td>
+                        <td data-label="Hex">63</td>
+                        <td data-label="Octal">143</td>
+                        <td data-label="Symbol" class="symbol-col">c</td>
+                        <td data-label="Description">Lowercase c.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">100</td>
+                        <td data-label="Hex">64</td>
+                        <td data-label="Octal">144</td>
+                        <td data-label="Symbol" class="symbol-col">d</td>
+                        <td data-label="Description">Lowercase d.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">101</td>
+                        <td data-label="Hex">65</td>
+                        <td data-label="Octal">145</td>
+                        <td data-label="Symbol" class="symbol-col">e</td>
+                        <td data-label="Description">Lowercase e.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">102</td>
+                        <td data-label="Hex">66</td>
+                        <td data-label="Octal">146</td>
+                        <td data-label="Symbol" class="symbol-col">f</td>
+                        <td data-label="Description">Lowercase f.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">103</td>
+                        <td data-label="Hex">67</td>
+                        <td data-label="Octal">147</td>
+                        <td data-label="Symbol" class="symbol-col">g</td>
+                        <td data-label="Description">Lowercase g.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">104</td>
+                        <td data-label="Hex">68</td>
+                        <td data-label="Octal">150</td>
+                        <td data-label="Symbol" class="symbol-col">h</td>
+                        <td data-label="Description">Lowercase h.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">105</td>
+                        <td data-label="Hex">69</td>
+                        <td data-label="Octal">151</td>
+                        <td data-label="Symbol" class="symbol-col">i</td>
+                        <td data-label="Description">Lowercase i.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">106</td>
+                        <td data-label="Hex">6A</td>
+                        <td data-label="Octal">152</td>
+                        <td data-label="Symbol" class="symbol-col">j</td>
+                        <td data-label="Description">Lowercase j.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">107</td>
+                        <td data-label="Hex">6B</td>
+                        <td data-label="Octal">153</td>
+                        <td data-label="Symbol" class="symbol-col">k</td>
+                        <td data-label="Description">Lowercase k.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">108</td>
+                        <td data-label="Hex">6C</td>
+                        <td data-label="Octal">154</td>
+                        <td data-label="Symbol" class="symbol-col">l</td>
+                        <td data-label="Description">Lowercase l.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">109</td>
+                        <td data-label="Hex">6D</td>
+                        <td data-label="Octal">155</td>
+                        <td data-label="Symbol" class="symbol-col">m</td>
+                        <td data-label="Description">Lowercase m.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">110</td>
+                        <td data-label="Hex">6E</td>
+                        <td data-label="Octal">156</td>
+                        <td data-label="Symbol" class="symbol-col">n</td>
+                        <td data-label="Description">Lowercase n.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">111</td>
+                        <td data-label="Hex">6F</td>
+                        <td data-label="Octal">157</td>
+                        <td data-label="Symbol" class="symbol-col">o</td>
+                        <td data-label="Description">Lowercase o.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">112</td>
+                        <td data-label="Hex">70</td>
+                        <td data-label="Octal">160</td>
+                        <td data-label="Symbol" class="symbol-col">p</td>
+                        <td data-label="Description">Lowercase p.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">113</td>
+                        <td data-label="Hex">71</td>
+                        <td data-label="Octal">161</td>
+                        <td data-label="Symbol" class="symbol-col">q</td>
+                        <td data-label="Description">Lowercase q.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">114</td>
+                        <td data-label="Hex">72</td>
+                        <td data-label="Octal">162</td>
+                        <td data-label="Symbol" class="symbol-col">r</td>
+                        <td data-label="Description">Lowercase r.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">115</td>
+                        <td data-label="Hex">73</td>
+                        <td data-label="Octal">163</td>
+                        <td data-label="Symbol" class="symbol-col">s</td>
+                        <td data-label="Description">Lowercase s.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">116</td>
+                        <td data-label="Hex">74</td>
+                        <td data-label="Octal">164</td>
+                        <td data-label="Symbol" class="symbol-col">t</td>
+                        <td data-label="Description">Lowercase t.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">117</td>
+                        <td data-label="Hex">75</td>
+                        <td data-label="Octal">165</td>
+                        <td data-label="Symbol" class="symbol-col">u</td>
+                        <td data-label="Description">Lowercase u.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">118</td>
+                        <td data-label="Hex">76</td>
+                        <td data-label="Octal">166</td>
+                        <td data-label="Symbol" class="symbol-col">v</td>
+                        <td data-label="Description">Lowercase v.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">119</td>
+                        <td data-label="Hex">77</td>
+                        <td data-label="Octal">167</td>
+                        <td data-label="Symbol" class="symbol-col">w</td>
+                        <td data-label="Description">Lowercase w.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">120</td>
+                        <td data-label="Hex">78</td>
+                        <td data-label="Octal">170</td>
+                        <td data-label="Symbol" class="symbol-col">x</td>
+                        <td data-label="Description">Lowercase x.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">121</td>
+                        <td data-label="Hex">79</td>
+                        <td data-label="Octal">171</td>
+                        <td data-label="Symbol" class="symbol-col">y</td>
+                        <td data-label="Description">Lowercase y.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">122</td>
+                        <td data-label="Hex">7A</td>
+                        <td data-label="Octal">172</td>
+                        <td data-label="Symbol" class="symbol-col">z</td>
+                        <td data-label="Description">Lowercase z.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">123</td>
+                        <td data-label="Hex">7B</td>
+                        <td data-label="Octal">173</td>
+                        <td data-label="Symbol" class="symbol-col">{</td>
+                        <td data-label="Description">Left curly bracket (Brace): Used for code blocks or sets.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">124</td>
+                        <td data-label="Hex">7C</td>
+                        <td data-label="Octal">174</td>
+                        <td data-label="Symbol" class="symbol-col">|</td>
+                        <td data-label="Description">Vertical bar (Pipe): Used for logical OR or piping commands.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">125</td>
+                        <td data-label="Hex">7D</td>
+                        <td data-label="Octal">175</td>
+                        <td data-label="Symbol" class="symbol-col">}</td>
+                        <td data-label="Description">Right curly bracket (Brace): Closes code blocks or sets.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">126</td>
+                        <td data-label="Hex">7E</td>
+                        <td data-label="Octal">176</td>
+                        <td data-label="Symbol" class="symbol-col">~</td>
+                        <td data-label="Description">Tilde: Used for negation, home directory paths, or approximation.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Decimal">127</td>
+                        <td data-label="Hex">7F</td>
+                        <td data-label="Octal">177</td>
+                        <td data-label="Symbol" class="symbol-col">DEL</td>
+                        <td data-label="Description">Delete: Originally used to erase characters.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>Crafted with curiosity and code. Dive deep into the digital world!</p>
+        <p>&copy; 2025 ASCII Explorer. All rights reserved.</p>
+    </footer>
+</body>
+</html>

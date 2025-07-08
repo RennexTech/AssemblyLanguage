@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTF Encoding Showdown: Pick Your Fighter!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+         * Setting the stage: Our body is the canvas, and we want it to feel
+         * light, spacious, and easy on the eyes. Think of it as a clean
+         * whiteboard for important info.
+         */
+        body {
+            font-family: 'Inter', sans-serif; /* The reliable, clear font that just makes sense */
+            background-color: #f0f2f5; /* A soft, tech-friendly background, like a clean IDE theme */
+            color: #333; /* Good contrast, no squinting needed */
+            line-height: 1.6; /* Giving text room to breathe, like proper spacing in your code */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centering our content for that polished look */
+            min-height: 100vh; /* Making sure it fills the screen, no awkward blank spaces */
+            box-sizing: border-box;
+        }
+
+        /*
+         * This is our main container, like a cool presentation slide.
+         * It holds everything neatly, with some gentle shadows to give it
+         * a bit of a lift off the page.
+         */
+        .container {
+            background-color: #fff; /* White as fresh paper for your notes */
+            padding: 30px;
+            border-radius: 12px; /* Smooth, modern rounded corners */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* A subtle, professional shadow */
+            max-width: 900px; /* Keeping it from stretching too wide on huge screens */
+            width: 100%; /* Flexible width for responsiveness */
+            margin-bottom: 30px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #2c3e50; /* A strong, confident blue for the main title */
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 700; /* Extra bold for impact, like a clear mission statement */
+            font-size: 2.5em; /* Big and bold, commanding attention */
+        }
+
+        p.intro {
+            text-align: center;
+            font-size: 1.15em; /* Slightly larger, easier to read */
+            color: #555;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 300; /* Lighter weight for the intro, keeping it approachable */
+        }
+
+        /*
+         * The star of the show: our comparison table. We're styling it
+         * to be super clear, with distinct rows and columns, making
+         * complex info digestible.
+         */
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate; /* Allows for border-spacing for a cleaner look */
+            border-spacing: 0 10px; /* Space between rows, like clean lines of code */
+            margin-top: 30px;
+            background-color: #fdfdfd; /* A very light background for the table itself */
+            border-radius: 10px; /* Softly rounded table corners */
+            overflow: hidden; /* Ensures rounded corners are visible with content */
+        }
+
+        .comparison-table th, .comparison-table td {
+            text-align: left;
+            padding: 18px 25px; /* Generous padding for readability */
+            vertical-align: middle;
+            border-bottom: 1px solid #eee; /* Subtle horizontal line between cells */
+        }
+
+        .comparison-table th {
+            background-color: #4a69bd; /* A deep, trust-worthy blue for headers */
+            color: #fff; /* White text, stands out like a neon sign */
+            font-weight: 600; /* Bold headers, like clear labels on a dashboard */
+            text-transform: uppercase; /* All caps, no messing around */
+            letter-spacing: 0.8px;
+            font-size: 0.95em;
+        }
+
+        /* Special styling for the first and last header cells for rounded corners */
+        .comparison-table th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        .comparison-table th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        .comparison-table tbody tr:last-child td {
+            border-bottom: none; /* No border for the very last row, keeping it clean */
+        }
+
+        /* Zebra striping for easy row distinction */
+        .comparison-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9; /* A faint stripe, like alternating colors in a terminal */
+        }
+
+        /* Hover effect for rows, giving a subtle feedback */
+        .comparison-table tbody tr:hover {
+            background-color: #e6f2ff; /* A gentle blue glow, letting you know it's selected */
+            cursor: pointer;
+            transform: translateY(-2px); /* A small lift, like the row is saying "I'm important!" */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* A soft shadow for the lift */
+            transition: all 0.2s ease-in-out; /* Smooth animation for that pro feel */
+        }
+
+        /* Styling for the first column (Feature), making it a bit bolder */
+        .comparison-table td:first-child {
+            font-weight: 600; /* Emphasizing the feature name */
+            color: #34495e; /* A slightly darker text for features */
+        }
+
+        /* Icons for checkmarks and crosses */
+        .icon-check {
+            color: #28a745; /* A vibrant green, like a "go" signal */
+            font-weight: 700;
+            font-size: 1.3em;
+        }
+
+        .icon-cross {
+            color: #dc3545; /* A strong red, like a "stop" sign */
+            font-weight: 700;
+            font-size: 1.3em;
+        }
+
+        /* Specific styling for the 'Popularity' column, making the stars pop */
+        .popularity-stars {
+            color: #ffc107; /* Gold stars, making it shiny and obvious */
+            font-size: 1.2em;
+            letter-spacing: 1px; /* A little space between stars */
+        }
+
+        /* Responsive magic for smaller screens */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .comparison-table, .comparison-table thead, .comparison-table tbody, .comparison-table th, .comparison-table td, .comparison-table tr {
+                display: block; /* Stacking table elements for a vertical flow */
+            }
+
+            .comparison-table thead tr {
+                position: absolute;
+                top: -9999px; /* Hiding the actual table headers */
+                left: -9999px;
+            }
+
+            .comparison-table tr {
+                border: 1px solid #ddd;
+                margin-bottom: 15px;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .comparison-table td {
+                border: none;
+                position: relative;
+                padding-left: 50%; /* Make space for our new "label" */
+                text-align: right; /* Align content to the right */
+            }
+
+            .comparison-table td:before {
+                /* Creating custom labels for each cell on small screens */
+                content: attr(data-label); /* Pulling the label from the data-label attribute */
+                position: absolute;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+                color: #555;
+            }
+
+            .icon-check, .icon-cross {
+                font-size: 1em; /* Adjust icon size for smaller screens */
+            }
+        }
+
+        /* Footer styling, a subtle sign-off */
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            text-align: center;
+            color: #777;
+            font-size: 0.9em;
+            border-top: 1px solid #eee;
+            width: 100%;
+            max-width: 900px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>UTF Encoding Showdown: Pick Your Fighter! 🥊</h1>
+        <p class="intro">
+            Navigating text encodings can feel like choosing the right tool for a big project. UTF-8, UTF-16, and UTF-32 are like different versions of a universal language, each with its own superpowers and quirks. Let's break down when to use which and why!
+        </p>
+
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>UTF-8</th>
+                    <th>UTF-16</th>
+                    <th>UTF-32</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="Feature">🧠 Efficiency</td>
+                    <td data-label="UTF-8"><span class="icon-check">✅</span> Best for most text (especially English-centric)</td>
+                    <td data-label="UTF-16">Good for Asian scripts (fixed-size for common characters)</td>
+                    <td data-label="UTF-32"><span class="icon-cross">❌</span> Worst (wastes space for common characters)</td>
+                </tr>
+                <tr>
+                    <td data-label="Feature">📦 Size</td>
+                    <td data-label="UTF-8">1–4 bytes per character (variable)</td>
+                    <td data-label="UTF-16">2–4 bytes per character (variable)</td>
+                    <td data-label="UTF-32">4 bytes always per character (fixed)</td>
+                </tr>
+                <tr>
+                    <td data-label="Feature">🌍 Popularity</td>
+                    <td data-label="UTF-8"><span class="popularity-stars">⭐⭐⭐⭐</span> Most popular, internet standard</td>
+                    <td data-label="UTF-16">Windows, Java, JavaScript internal representation</td>
+                    <td data-label="UTF-32">Rare (used in some low-level systems for consistency)</td>
+                </tr>
+                <tr>
+                    <td data-label="Feature">🔙 ASCII Support</td>
+                    <td data-label="UTF-8"><span class="icon-check">✅</span> Perfect (ASCII characters are 1 byte UTF-8)</td>
+                    <td data-label="UTF-16"><span class="icon-check">✅</span> Yes (first 128 characters are 2 bytes, leading zeros)</td>
+                    <td data-label="UTF-32"><span class="icon-check">✅</span> Yes (first 128 characters are 4 bytes, leading zeros)</td>
+                </tr>
+                <tr>
+                    <td data-label="Feature">💪 Use Case</td>
+                    <td data-label="UTF-8">Web pages, APIs, email, files, Linux/Unix systems</td>
+                    <td data-label="UTF-16">Internal string representation in Windows, Java, JavaScript; some text editors</td>
+                    <td data-label="UTF-32">Niche applications requiring fixed-width character access, some internal string processing</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer class="footer">
+        <p>Keeping it real about text encodings, so you can build awesome stuff!</p>
+        <p>&copy; 2025 Encoding Deep Dive. All rights reserved.</p>
+    </footer>
+</body>
+</html>

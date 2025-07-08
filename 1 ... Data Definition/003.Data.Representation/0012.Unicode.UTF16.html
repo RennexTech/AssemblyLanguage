@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unicode Characters & UTF-16 Encoding</title>
+    <!--
+        Maintaining the consistent look and feel! We're loading the Inter font
+        to ensure this table is sharp, modern, and super readable.
+        We also include a monospace font (Roboto Mono) for code points and encodings.
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+            Setting the overall stage for this table.
+            A soft gradient background and centered content for a pleasant reading experience.
+        */
+        body {
+            background: linear-gradient(135deg, #e0f2f7 0%, #c8e6c9 100%); /* Gentle blue-green gradient */
+            font-family: 'Inter', sans-serif; /* Our signature font */
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: flex-start; /* Align content to the top */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            margin: 0;
+            padding: 20px; /* Generous padding around the content */
+            box-sizing: border-box; /* Include padding in element's total size */
+            color: #333; /* Dark gray text for readability */
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+        }
+
+        /*
+            The main container for the content.
+            It acts like a clean, modern card, making the information stand out.
+            It allows vertical scrolling within itself if the content is too long.
+        */
+        .content-container {
+            background-color: #ffffff; /* Pure white background */
+            border-radius: 18px; /* Smooth, rounded corners */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Soft, prominent shadow */
+            max-width: 800px; /* Optimized max-width to fit content well */
+            width: 100%; /* Ensure responsiveness */
+            margin: 0 auto; /* Center the container */
+            padding: 30px; /* Internal padding */
+            overflow-y: auto; /* Allow vertical scrolling within this container */
+            max-height: calc(100vh - 40px); /* Limit container height to prevent body scroll */
+            box-sizing: border-box;
+        }
+
+        /* Styling for the main heading of this section */
+        .content-container h2 {
+            text-align: center;
+            color: #2575fc; /* A vibrant blue */
+            font-size: 2.2em; /* Large and impactful */
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.05); /* Subtle text shadow */
+        }
+
+        /* Styling for introductory paragraph */
+        .content-container p {
+            font-size: 1.05em;
+            line-height: 1.7;
+            color: #444;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Styling for the table wrapper */
+        .table-wrapper {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            overflow-x: auto; /* Allow horizontal scrolling for the table itself if it overflows */
+            overflow-y: hidden; /* Prevent vertical scrollbar here, let content-container handle it */
+        }
+
+        /* Styling for the table itself */
+        table {
+            width: 100%;
+            min-width: 500px; /* Ensure table doesn't get too squished on smaller screens */
+            border-collapse: collapse;
+            font-size: 1em;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        /* Table header styling */
+        thead {
+            background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
+            color: #ffffff;
+        }
+
+        th {
+            padding: 12px 15px; /* Reduced padding for headers to save space */
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        th:last-child {
+            border-right: none;
+        }
+
+        /* Table body row styling */
+        tbody tr {
+            border-bottom: 1px solid #ebf2f5;
+            transition: background-color 0.3s ease;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:nth-of-type(even) {
+            background-color: #f8fcfd;
+        }
+
+        tbody tr:hover {
+            background-color: #e0f7fa;
+        }
+
+        /* Data cell styling */
+        td {
+            padding: 10px 15px; /* Reduced padding for data cells */
+            border-right: 1px solid #ebf2f5;
+            vertical-align: middle; /* Vertically center content */
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        /* Styling for the character column */
+        td:nth-child(1) {
+            font-size: 2em; /* Larger font for characters */
+            font-weight: bold;
+            text-align: center; /* Center the character */
+            color: #008080; /* Teal color for symbols */
+        }
+
+        /* Monospace font for Code Point and UTF-16 Encoding columns */
+        td:nth-child(2),
+        td:nth-child(3) {
+            font-family: 'Roboto Mono', monospace;
+            white-space: nowrap; /* Prevent wrapping of code points/encodings */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .content-container {
+                border-radius: 10px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                padding: 15px;
+                max-height: calc(100vh - 20px);
+            }
+            .content-container h2 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+            th, td {
+                padding: 8px 10px;
+            }
+            table {
+                font-size: 0.9em;
+                min-width: 450px; /* Adjust min-width for narrower screens */
+            }
+            td:nth-child(1) {
+                font-size: 1.5em; /* Smaller character font on small screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-container h2 {
+                font-size: 1.5em;
+            }
+            th, td {
+                padding: 6px 8px;
+            }
+            table {
+                font-size: 0.85em;
+                min-width: 380px; /* Smallest min-width for very small screens */
+            }
+            td:nth-child(1) {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-container">
+        <h2>🌐 Unicode Characters & UTF-16 Encoding Examples</h2>
+
+        <p>This table illustrates how different Unicode characters are represented by their unique Code Points and then encoded into UTF-16 byte sequences. Notice how UTF-16 uses 2 or 4 bytes, with 4-byte representations for characters outside the Basic Multilingual Plane (BMP) using <strong>"surrogate pairs"</strong>.</p>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Character</th>
+                        <th>Code Point</th>
+                        <th>UTF-16 Encoding</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>A</td>
+                        <td>U+0041</td>
+                        <td>0x0041</td>
+                    </tr>
+                    <tr>
+                        <td>€</td>
+                        <td>U+20AC</td>
+                        <td>0x20AC</td>
+                    </tr>
+                    <tr>
+                        <td>𐍈</td>
+                        <td>U+10348</td>
+                        <td>0xD800 0xDF48 (surrogate pair)</td>
+                    </tr>
+                    <tr>
+                        <td>👋</td>
+                        <td>U+1F44B</td>
+                        <td>0xD83D 0xDC4B (surrogate pair)</td>
+                    </tr>
+                    <tr>
+                        <td>你好</td>
+                        <td>U+4F60 U+597D</td>
+                        <td>0x4F60 0x597D</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>
