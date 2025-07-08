@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Representation Cheat Sheet for RE/Malware Analysis</title>
+    <!--
+    This is our essential toolkit for beautiful typography. 'Inter' gives us
+    a modern, clean look for all our main text, making it easy on the eyes.
+    'Roboto Mono' is like our specialized ruler for numbers and code – it
+    ensures every digit and character lines up perfectly, which is crucial
+    when you're dealing with precise byte values in reverse engineering.
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+        The 'body' is the foundation of our entire page. We're painting it
+        with a very light, calming blue, like a clear sky, to create a focused
+        environment for learning. We center our main content block to give it
+        a balanced, professional feel, and ensure the background fills the
+        entire screen, providing a consistent visual experience.
+        */
+        body {
+            background-color: #e6f7ff; /* Very light blue background */
+            font-family: 'Inter', sans-serif; /* Our main clean font */
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: flex-start; /* Align content to the top */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            margin: 0;
+            padding: 25px; /* Generous padding around the content */
+            box-sizing: border-box; /* Include padding in element's total size */
+            color: #333; /* Standard dark gray text for readability */
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+            /* Removed overflow-y: hidden; to allow browser's native scrollbar */
+        }
+
+        /*
+        This 'container' is the main stage where all our cheat sheet content
+        lives. It's a crisp white card, designed to stand out. Its smoothly
+        rounded corners and subtle shadow give it a modern, almost floating
+        appearance, making the information feel important and easy to focus on.
+        */
+        .container {
+            background-color: #ffffff; /* Pure white background for the content area */
+            border-radius: 20px; /* Smoothly rounded corners */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); /* A prominent, soft shadow */
+            max-width: 950px; /* Optimal width for long-form text readability */
+            width: 100%; /* Ensures it's responsive on smaller screens */
+            padding: 35px 45px; /* Ample inner padding for comfortable reading */
+            box-sizing: border-box; /* Includes padding in the total width/height */
+            text-align: left; /* Align text to the left for standard reading flow */
+            line-height: 1.7; /* Comfortable line spacing for paragraphs */
+        }
+
+        /*
+        The main title of our cheat sheet. It's a bold, vibrant blue,
+        acting like a clear and welcoming signpost for the entire document.
+        */
+        h1 {
+            color: #007BFF; /* A vibrant blue for the main title */
+            font-size: 2.8em; /* Large and impactful */
+            font-weight: 700; /* Extra bold for emphasis */
+            margin-bottom: 25px; /* Space below the title */
+            letter-spacing: 0.5px; /* A little space between letters for style */
+            text-align: center; /* Center the main title */
+        }
+
+        /*
+        Sub-headings for different sections of the cheat sheet. They are
+        a slightly darker blue, providing clear visual breaks and guiding
+        the reader through the various topics.
+        */
+        h2 {
+            color: #0056b3; /* Darker blue for section headings */
+            font-size: 1.8em; /* Good size for main sections */
+            font-weight: 600; /* Semi-bold */
+            margin-top: 40px; /* More space above new sections */
+            margin-bottom: 20px; /* Space below the heading */
+            border-bottom: 2px solid #a8d9ff; /* A clear blue line to separate sections */
+            padding-bottom: 8px; /* Padding above the border */
+        }
+
+        /*
+        Smaller headings for sub-topics within sections. They are a slightly
+        lighter blue, providing further organization without being as dominant
+        as the main section headings.
+        */
+        h3 {
+            color: #007BFF; /* Lighter blue for sub-headings */
+            font-size: 1.4em; /* Good size for sub-topics */
+            font-weight: 600;
+            margin-top: 30px; /* Space above new sub-topics */
+            margin-bottom: 15px;
+        }
+
+        /*
+        General paragraph styling. We use a slightly softer dark gray for
+        the text, making it easy to read over long stretches.
+        */
+        p {
+            font-size: 1.05em;
+            margin-bottom: 15px;
+        }
+
+        /*
+        Unordered lists (bullet points). We give them a bit more margin
+        and line height for comfortable reading.
+        */
+        ul {
+            list-style-type: disc; /* Standard disc bullets */
+            margin-left: 25px; /* Indent lists */
+            margin-bottom: 15px;
+        }
+
+        ul li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        /*
+        Ordered lists (numbered lists). Similar styling to unordered lists.
+        */
+        ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        ol li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        /*
+        Code blocks. This is where we display our examples of numbers and code.
+        The light gray background, rounded corners, and monospace font make it
+        look like a snippet from a terminal or a debugger, which is perfect
+        for your use case.
+        */
+        pre {
+            background-color: #f0f8ff; /* Very light blue/gray for code blocks */
+            border: 1px solid #cce5ff; /* Light blue border */
+            border-left: 5px solid #007BFF; /* Prominent blue left border for emphasis */
+            border-radius: 8px; /* Rounded corners */
+            padding: 15px 20px; /* Ample padding inside */
+            margin: 20px 0; /* Space above and below code blocks */
+            font-family: 'Roboto Mono', monospace; /* Monospace font for code */
+            font-size: 0.95em; /* Slightly smaller font for code readability */
+            line-height: 1.5;
+            overflow-x: auto; /* Allow horizontal scrolling for long lines of code */
+            color: #36454F; /* Charcoal color for code text */
+        }
+
+        /*
+        Inline code snippets. These are small pieces of code or specific terms
+        that appear within a sentence. They get a distinct background and font
+        to make them stand out without breaking the flow of text.
+        */
+        code {
+            background-color: #eaf8ff; /* Lighter blue for inline code */
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.95em;
+            color: #0056b3; /* Darker blue for inline code */
+        }
+
+        /*
+        Highlighting key terms. This class is like a spotlight, drawing attention
+        to important concepts with a bold font and a vibrant green color.
+        */
+        .highlight {
+            font-weight: 700;
+            color: #28a745; /* Vibrant green for highlights */
+        }
+
+        /*
+        Emphasizing crucial notes or warnings. This is like a little sticky note
+        that says "Pay Attention!" with a distinct orange color.
+        */
+        .note {
+            background-color: #fff3cd; /* Light yellow background */
+            border-left: 4px solid #ffc107; /* Orange left border */
+            padding: 10px 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            color: #856404; /* Dark yellow text */
+            font-size: 0.95em;
+        }
+
+        /*
+        Responsive adjustments: These media queries are like instructions
+        that tell the page how to adapt when the screen size changes.
+        They ensure it looks good on phones, tablets, and desktops.
+        */
+        @media (max-width: 992px) {
+            .container {
+                padding: 30px;
+            }
+            h1 {
+                font-size: 2.5em;
+            }
+            h2 {
+                font-size: 1.6em;
+            }
+            h3 {
+                font-size: 1.3em;
+            }
+            p, ul li, ol li {
+                font-size: 1em;
+            }
+            pre, code {
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .container {
+                padding: 25px;
+                border-radius: 15px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+            }
+            h1 {
+                font-size: 2em;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 1.5em;
+                margin-top: 30px;
+                margin-bottom: 15px;
+            }
+            h3 {
+                font-size: 1.2em;
+                margin-top: 25px;
+            }
+            p, ul li, ol li {
+                font-size: 0.95em;
+            }
+            pre {
+                padding: 12px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            }
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 15px;
+            }
+            h2 {
+                font-size: 1.3em;
+                margin-top: 25px;
+                margin-bottom: 10px;
+            }
+            h3 {
+                font-size: 1.1em;
+                margin-top: 20px;
+            }
+            p, ul li, ol li {
+                font-size: 0.9em;
+            }
+            pre {
+                padding: 10px 12px;
+                font-size: 0.85em;
+            }
+            code {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Understanding Data Representation: A Cheat Sheet for RE/Malware Analysis</h1>
+
+        <p>
+            In the world of reverse engineering and malware analysis, understanding how data is represented
+            in memory and on disk is paramount. This cheat sheet provides a quick recap of essential
+            concepts, from number systems and conversions to signed values, bitwise operations, and
+            the critical concept of endianness. Keep this open as your go-to reference when
+            diving deep into binaries with tools like Ghidra!
+        </p>
+
+        <div class="note">
+            <strong>Remember:</strong> Data is just data! Its meaning (number, instruction, text)
+            and value (signed, unsigned) are determined by how the program *interprets* it.
+            Your job in RE is to figure out that interpretation.
+        </div>
+
+        <h2>1. Core Number Systems</h2>
+        <p>Computers fundamentally operate on binary, but humans use decimal. Hexadecimal is a convenient bridge.</p>
+
+        <h3>1.1. Decimal (Base 10)</h3>
+        <ul>
+            <li><strong>Digits:</strong> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9</li>
+            <li><strong>Concept:</strong> Each digit's position represents a power of 10.</li>
+            <li><strong>Example:</strong>
+                <pre><code>123 = (1 * 10<sup>2</sup>) + (2 * 10<sup>1</sup>) + (3 * 10<sup>0</sup>)</code></pre>
+            </li>
+        </ul>
+
+        <h3>1.2. Binary (Base 2)</h3>
+        <ul>
+            <li><strong>Digits:</strong> 0, 1 (bits)</li>
+            <li><strong>Concept:</strong> Each bit's position represents a power of 2. The smallest unit of data.</li>
+            <li><strong>Example:</strong>
+                <pre><code>1011<sub>2</sub> = (1 * 2<sup>3</sup>) + (0 * 2<sup>2</sup>) + (1 * 2<sup>1</sup>) + (1 * 2<sup>0</sup>) = 8 + 0 + 2 + 1 = 11<sub>10</sub></code></pre>
+            </li>
+        </ul>
+
+        <h3>1.3. Hexadecimal (Base 16)</h3>
+        <ul>
+            <li><strong>Digits:</strong> 0-9, A, B, C, D, E, F (A=10, F=15)</li>
+            <li><strong>Concept:</strong> Each hex digit represents 4 binary bits (a "nibble"). Used for compact representation of binary data.</li>
+            <li><strong>Notation:</strong> Often prefixed with <code>0x</code> (e.g., <code>0xA6</code>) or suffixed with <code>h</code> (e.g., <code>A6h</code>).</li>
+            <li><strong>Example:</strong>
+                <pre><code>A6<sub>16</sub> = (10 * 16<sup>1</sup>) + (6 * 16<sup>0</sup>) = 160 + 6 = 166<sub>10</sub></code></pre>
+            </li>
+        </ul>
+
+        <h2>2. Data Conversions (The Translator's Guide)</h2>
+
+        <h3>2.1. Decimal to Binary</h3>
+        <p>Repeatedly divide by 2, collect remainders in reverse order.</p>
+        <pre><code>Example: Convert 13<sub>10</sub> to Binary
+13 / 2 = 6  R 1
+ 6 / 2 = 3  R 0
+ 3 / 2 = 1  R 1
+ 1 / 2 = 0  R 1
+Read remainders bottom-up: 1101<sub>2</sub></code></pre>
+
+        <h3>2.2. Binary to Decimal</h3>
+        <p>Sum of (bit * power of 2) for each position.</p>
+        <pre><code>Example: Convert 1101<sub>2</sub> to Decimal
+(1 * 2<sup>3</sup>) + (1 * 2<sup>2</sup>) + (0 * 2<sup>1</sup>) + (1 * 2<sup>0</sup>)
+= (1 * 8) + (1 * 4) + (0 * 2) + (1 * 1)
+= 8 + 4 + 0 + 1 = 13<sub>10</sub></code></pre>
+
+        <h3>2.3. Decimal to Hexadecimal</h3>
+        <p>Repeatedly divide by 16, collect remainders (0-9, A-F) in reverse order.</p>
+        <pre><code>Example: Convert 166<sub>10</sub> to Hexadecimal
+166 / 16 = 10  R 6  (10 is 'A')
+ 10 / 16 = 0   R 10 (10 is 'A')
+Read remainders bottom-up: A6<sub>16</sub></code></pre>
+
+        <h3>2.4. Hexadecimal to Decimal</h3>
+        <p>Sum of (hex_digit_value * power of 16) for each position.</p>
+        <pre><code>Example: Convert A6<sub>16</sub> to Decimal
+(A * 16<sup>1</sup>) + (6 * 16<sup>0</sup>)
+= (10 * 16) + (6 * 1)
+= 160 + 6 = 166<sub>10</sub></code></pre>
+
+        <h3>2.5. Binary to Hexadecimal (Quick & Easy)</h3>
+        <p>Group binary bits into sets of 4, starting from the right. Convert each 4-bit group to its hex digit.</p>
+        <pre><code>Example: Convert 11110101<sub>2</sub> to Hexadecimal
+1111 0101  (Group by 4 bits)
+  F    5   (Convert each group)
+Result: F5<sub>16</sub></code></pre>
+
+        <h3>2.6. Hexadecimal to Binary (Quick & Easy)</h3>
+        <p>Convert each hex digit to its 4-bit binary equivalent.</p>
+        <pre><code>Example: Convert B3<sub>16</sub> to Binary
+B    3
+1011 0011 (Convert each hex digit to 4 bits)
+Result: 10110011<sub>2</sub></code></pre>
+
+        <h2>3. Signed vs. Unsigned Numbers (The Signpost)</h2>
+        <p>How a number is interpreted depends on whether it's signed (can be negative) or unsigned (always positive).</p>
+
+        <h3>3.1. Unsigned Integers</h3>
+        <ul>
+            <li>All bits represent magnitude.</li>
+            <li>Range for <code>n</code> bits: 0 to 2<sup>n</sup> - 1.</li>
+            <li><strong>Example (8-bit):</strong> <code>00000000<sub>2</sub></code> (0) to <code>11111111<sub>2</sub></code> (255)</li>
+        </ul>
+
+        <h3>3.2. Signed Integers (Two's Complement - The Standard)</h3>
+        <p>This is the most common way computers represent negative numbers.</p>
+        <ul>
+            <li><strong>Most Significant Bit (MSB):</strong> The leftmost bit acts as the sign bit.
+                <ul>
+                    <li><code>0</code> = Positive number</li>
+                    <li><code>1</code> = Negative number</li>
+                </ul>
+            </li>
+            <li><strong>Positive Numbers:</strong> Represented as usual, with the MSB being 0.</li>
+            <li><strong>Negative Numbers (The Magic):</strong>
+                <ol>
+                    <li>Start with the positive binary representation.</li>
+                    <li><span class="highlight">Invert all bits</span> (0s become 1s, 1s become 0s). This is called the "one's complement."</li>
+                    <li><span class="highlight">Add 1</span> to the result.</li>
+                </ol>
+            </li>
+            <li><strong>Shortcut for Negative Numbers:</strong> For a number <code>X</code> in an <code>n</code>-bit system, its two's complement is 2<sup>n</sup> - X. This is super fast for mental math!</li>
+        </ul>
+
+        <h4>Example: Find -5 in 8-bit two's complement</h4>
+        <pre><code>Positive 5<sub>10</sub> in 8-bit binary: 00000101<sub>2</sub>
+
+Method 1: Invert & Add 1
+1. Invert bits: 11111010<sub>2</sub>
+2. Add 1:      +       1
+               ---------
+               11111011<sub>2</sub>
+
+Method 2: Shortcut (2<sup>n</sup> - X)
+2<sup>8</sup> = 256
+256 - 5 = 251<sub>10</sub>
+251<sub>10</sub> in binary: 11111011<sub>2</sub>
+
+Result: -5<sub>10</sub> = 11111011<sub>2</sub> (or 0xFB)</code></pre>
+
+        <h4>Signed Integer Ranges (Crucial for Overflow/Underflow)</h4>
+        <ul>
+            <li><strong>8-bit:</strong> -128 to +127</li>
+            <li><strong>16-bit:</strong> -32,768 to +32,767</li>
+            <li><strong>32-bit:</strong> -2,147,483,648 to +2,147,483,647</li>
+            <li><strong>64-bit:</strong> -9,223,372,036,854,775,808 to +9,223,372,036,854,775,807</li>
+        </ul>
+
+        <h2>4. Bitwise Operations (The Bit Flipper's Toolkit)</h2>
+        <p>These operations work directly on individual bits, fundamental for flags, masks, and low-level manipulation.</p>
+
+        <h3>4.1. AND (<code>&</code>)</h3>
+        <ul>
+            <li>Result bit is 1 if <span class="highlight">BOTH</span> corresponding bits are 1.</li>
+            <li>Used for <span class="highlight">masking</span> (isolating specific bits) or checking if a bit is set.</li>
+            <li>Example: <code>0101 & 0011 = 0001</code></li>
+        </ul>
+
+        <h3>4.2. OR (<code>|</code>)</h3>
+        <ul>
+            <li>Result bit is 1 if <span class="highlight">AT LEAST ONE</span> corresponding bit is 1.</li>
+            <li>Used for <span class="highlight">setting</span> specific bits.</li>
+            <li>Example: <code>0101 | 0011 = 0111</code></li>
+        </ul>
+
+        <h3>4.3. XOR (<code>^</code>)</h3>
+        <ul>
+            <li>Result bit is 1 if <span class="highlight">ONLY ONE</span> corresponding bit is 1 (bits are different).</li>
+            <li>Used for <span class="highlight">toggling</span> bits, encryption, or checking for differences.</li>
+            <li>Example: <code>0101 ^ 0011 = 0110</code></li>
+        </ul>
+
+        <h3>4.4. NOT (<code>~</code>) / Bitwise Complement</h3>
+        <ul>
+            <li>Inverts all bits (0s become 1s, 1s become 0s).</li>
+            <li>Example: <code>~0101 = 1010</code> (for a 4-bit system)</li>
+        </ul>
+
+        <h3>4.5. Left Shift (<code><<</code>)</h3>
+        <ul>
+            <li>Shifts bits to the left, filling with 0s on the right.</li>
+            <li>Equivalent to multiplying by powers of 2.</li>
+            <li>Example: <code>00000101 << 2 = 00010100</code> (5 * 2<sup>2</sup> = 20)</li>
+        </ul>
+
+        <h3>4.6. Right Shift (<code>>></code>)</h3>
+        <ul>
+            <li>Shifts bits to the right. For unsigned, fills with 0s on the left. For signed, fills with the sign bit (arithmetic shift) or 0s (logical shift).</li>
+            <li>Equivalent to dividing by powers of 2 (for unsigned/positive signed).</li>
+            <li>Example (unsigned): <code>00010100 >> 2 = 00000101</code> (20 / 2<sup>2</sup> = 5)</li>
+        </ul>
+
+        <h2>5. Common Data Sizes (The Building Blocks)</h2>
+        <p>These terms define how many bits are grouped together to store data in memory and registers.</p>
+        <ul>
+            <li><strong>Bit:</strong> Smallest unit, 0 or 1.</li>
+            <li><strong>Nibble:</strong> 4 bits (half a byte, one hex digit).</li>
+            <li><strong>Byte:</strong> <span class="highlight">8 bits</span>. The most fundamental addressable unit in memory.</li>
+            <li><strong>Word:</strong> <span class="highlight">16 bits</span> (2 bytes). Common in older architectures (e.g., 16-bit DOS programs).</li>
+            <li><strong>Dword (Double Word):</strong> <span class="highlight">32 bits</span> (4 bytes). Standard size for registers and pointers in 32-bit systems.</li>
+            <li><strong>Qword (Quad Word):</strong> <span class="highlight">64 bits</span> (8 bytes). Standard size in 64-bit systems.</li>
+        </ul>
+        <div class="note">
+            <strong>RE Tip:</strong> When analyzing memory or registers, always note the size! A <code>mov eax, 0x12345678</code> is a Dword move, but <code>mov al, 0x78</code> is a byte move.
+        </div>
+
+        <h2>6. Endianness (The Byte Order Mystery)</h2>
+        <p>This is crucial for interpreting multi-byte data (Word, Dword, Qword) correctly, especially when dealing with network protocols or file formats across different systems.</p>
+
+        <h3>6.1. Concept</h3>
+        <p>Endianness refers to the order in which bytes of a multi-byte data type are stored in computer memory.</p>
+        <p>Consider the 4-byte value <code>0x12345678</code> (where <code>0x12</code> is the most significant byte, <code>0x78</code> is the least significant byte).</p>
+
+        <h3>6.2. Big-Endian (Network Byte Order)</h3>
+        <ul>
+            <li><strong>"Big end first":</strong> The most significant byte (MSB) is stored at the lowest memory address.</li>
+            <li><strong>Analogy:</strong> Like writing numbers from left to right, as we normally do.</li>
+            <li><strong>Memory Layout for <code>0x12345678</code>:</strong>
+                <pre><code>Address 0x1000: 12
+Address 0x1001: 34
+Address 0x1002: 56
+Address 0x1003: 78</code></pre>
+            </li>
+            <li><strong>Common Use:</strong> Network protocols (TCP/IP), some older processors (Motorola 68k), PowerPC, Java bytecode.</li>
+        </ul>
+
+        <h3>6.3. Little-Endian (Intel Byte Order)</h3>
+        <ul>
+            <li><strong>"Little end first":</strong> The least significant byte (LSB) is stored at the lowest memory address.</li>
+            <li><strong>Analogy:</strong> Like writing numbers from right to left (if that were normal).</li>
+            <li><strong>Memory Layout for <code>0x12345678</code>:</strong>
+                <pre><code>Address 0x1000: 78
+Address 0x1001: 56
+Address 0x1002: 34
+Address 0x1003: 12</code></pre>
+            </li>
+            <li><strong>Common Use:</strong> Intel x86/x64 processors (Windows, Linux on x86), most modern ARM processors (can be configurable).</li>
+        </ul>
+        <div class="note">
+            <strong>RE Tip:</strong> When you see <code>0x78563412</code> in a debugger memory dump on an x86 system, and you expect <code>0x12345678</code>, that's <span class="highlight">little-endianness</span> at play! Ghidra and IDA Pro usually handle this for you, but understanding it is key.
+        </div>
+
+        <h2>7. Floating-Point Numbers (IEEE 754)</h2>
+        <p>Representing real numbers (with fractional parts) in binary is complex. IEEE 754 is the standard.</p>
+
+        <h3>7.1. Concept</h3>
+        <p>Floating-point numbers are stored using a sign, an exponent, and a mantissa (or significand), similar to scientific notation.</p>
+        <p><code>Number = Sign * Mantissa * 2<sup>Exponent</sup></code></p>
+        <p>This allows for a wide range of values (very small to very large) but can introduce precision issues.</p>
+
+        <h3>7.2. Single-Precision (<code>float</code> - 32-bit)</h3>
+        <ul>
+            <li><strong>Total Bits:</strong> 32 bits</li>
+            <li><strong>Breakdown:</strong>
+                <ul>
+                    <li>1 bit for Sign (S)</li>
+                    <li>8 bits for Exponent (E)</li>
+                    <li>23 bits for Mantissa (M) (with an implied leading '1')</li>
+                </ul>
+            </li>
+            <li><strong>Range:</strong> Approximately $\pm 1.18 \times 10^{-38}$ to $\pm 3.4 \times 10^{38}$</li>
+            <li><strong>Precision:</strong> About 7 decimal digits</li>
+        </ul>
+        <pre><code>Bit Layout (32-bit float):
+S EEEEEEEE MMMMMMMMMMMMMMMMMMMMMMM
+0 1      8 9                    31</code></pre>
+
+        <h3>7.3. Double-Precision (<code>double</code> - 64-bit)</h3>
+        <ul>
+            <li><strong>Total Bits:</strong> 64 bits</li>
+            <li><strong>Breakdown:</strong>
+                <ul>
+                    <li>1 bit for Sign (S)</li>
+                    <li>11 bits for Exponent (E)</li>
+                    <li>52 bits for Mantissa (M) (with an implied leading '1')</li>
+                </ul>
+            </li>
+            <li><strong>Range:</strong> Approximately $\pm 2.23 \times 10^{-308}$ to $\pm 1.80 \times 10^{308}$</li>
+            <li><strong>Precision:</strong> About 15-17 decimal digits</li>
+        </ul>
+        <pre><code>Bit Layout (64-bit double):
+S EEEEEEEEEEE MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+0 1         11 12                                                63</code></pre>
+        <div class="note">
+            <strong>RE Tip:</strong> Floating-point values can be tricky to spot in raw memory. Look for common constants (e.g., PI, 0.0, 1.0) or specific instruction sets (e.g., x87 FPU instructions like <code>FLD</code>, <code>FSTP</code> or SSE/AVX instructions). Ghidra will often identify these for you.
+        </div>
+
+        <h2>8. Common C Data Types & Sizes (The Type Decoder)</h2>
+        <p>In C/C++ (and by extension, many compiled binaries), data types have standard (though sometimes platform-dependent) sizes. Understanding these is crucial for interpreting memory structures.</p>
+
+        <h3>8.1. Integer Types</h3>
+        <ul>
+            <li><code>char</code>: Typically 1 byte (8 bits). Can be signed (-128 to 127) or unsigned (0 to 255). Used for single characters or small integer values.</li>
+            <li><code>short</code>: Typically 2 bytes (16 bits). Signed range: -32,768 to 32,767.</li>
+            <li><code>int</code>: Typically 4 bytes (32 bits) on 32-bit and 64-bit systems. Signed range: -2,147,483,648 to 2,147,483,647.</li>
+            <li><code>long</code>: Size varies by platform. Often 4 bytes on Windows, 8 bytes on Linux (64-bit).</li>
+            <li><code>long long</code>: Typically 8 bytes (64 bits). Signed range: -9.22e18 to 9.22e18.</li>
+            <li>Prefixes <code>signed</code> and <code>unsigned</code> explicitly define interpretation. Default is usually signed.</li>
+        </ul>
+
+        <h3>8.2. Floating-Point Types</h3>
+        <ul>
+            <li><code>float</code>: 4 bytes (32 bits), single-precision IEEE 754.</li>
+            <li><code>double</code>: 8 bytes (64 bits), double-precision IEEE 754.</li>
+            <li><code>long double</code>: Size varies (e.g., 10 bytes on x86, 16 bytes on some systems).</li>
+        </ul>
+
+        <h3>8.3. Pointers</h3>
+        <ul>
+            <li>A pointer stores a memory address. Its size depends on the architecture.</li>
+            <li>On 32-bit systems: 4 bytes.</li>
+            <li>On 64-bit systems: 8 bytes.</li>
+            <li><strong>RE Tip:</strong> Pointers are fundamental! Identifying them helps you understand data structures, function calls, and code flow. Look for values that resemble valid memory addresses within the process's address space.</li>
+        </ul>
+
+        <h3>8.4. Character Encodings (Strings)</h3>
+        <p>While `char` is 1 byte, how sequences of `char`s are interpreted as text depends on the encoding:</p>
+        <ul>
+            <li><strong>ASCII:</strong> 7-bit encoding (0-127). Basic English characters. A `char` array interpreted as ASCII is a common "C-style string" (null-terminated).</li>
+            <li><strong>Extended ASCII (e.g., ISO-8859-1, Windows-1252):</strong> 8-bit encodings (0-255). Adds accented characters, some symbols. Still uses 1 byte per character.</li>
+            <li><strong>UTF-8:</strong> Variable-width Unicode encoding (1-4 bytes per character). Backward-compatible with ASCII (ASCII chars are 1 byte). Dominant on the web and in modern systems.</li>
+            <li><strong>UTF-16:</strong> Variable-width Unicode encoding (2 or 4 bytes per character). Common in Windows APIs and Java.</li>
+            <li><strong>Null-Terminated Strings:</strong> A sequence of bytes (characters) followed by a `0x00` byte to mark the end. Very common in C/C++ programs.</li>
+        </ul>
+        <div class="note">
+            <strong>Malware Tip:</strong> Malware often uses string obfuscation (e.g., XORing strings, dynamically building them) to avoid detection. Understanding encodings helps in deobfuscation.
+        </div>
+
+        <h2>9. Practical Tips for RE/Malware Analysis</h2>
+        <ul>
+            <li><strong>Context is King:</strong> The meaning of bytes depends entirely on the context. Is it an instruction? Data? A pointer? A string? Ghidra's auto-analysis is good, but manual verification is crucial.</li>
+            <li><strong>Signed vs. Unsigned:</strong> Always consider if a number is signed or unsigned. A value like <code>0xFF</code> can be 255 (unsigned) or -1 (signed 8-bit). This impacts comparisons and arithmetic.</li>
+            <li><strong>Data Sizes:</strong> Pay close attention to instruction suffixes (e.g., <code>mov al</code> vs. <code>mov eax</code> vs. <code>mov rax</code>) or data structure definitions that indicate byte, word, dword, or qword operations.</li>
+            <li><strong>Endianness Check:</strong> Especially when parsing file headers, network packets, or structures copied from one system to another, be mindful of endianness. Ghidra and IDA Pro usually handle this for you, but understanding it is key.</li>
+            <li><strong>Common Hex Patterns:</strong>
+                <ul>
+                    <li><code>0xCC</code>: <code>INT3</code> (Breakpoint instruction, common in debuggers/malware for anti-analysis).</li>
+                    <li><code>0x90</code>: <code>NOP</code> (No Operation, often used for padding or code caves).</li>
+                    <li><code>0xEB FE</code>: Short jump to self (infinite loop), a common anti-debug/anti-analysis trick.</li>
+                    <li><code>0x00</code>: Null terminator for C-style strings.</li>
+                    <li><code>0xCD 21</code>: DOS interrupt call (older malware).</li>
+                </ul>
+            </li>
+            <li><strong>Practice:</strong> The best way to master these concepts is by constantly observing them in action. Use your debugger, Ghidra, or IDA Pro to inspect memory, registers, and disassembled code. Try converting values manually and then verifying with the tool. Don't be afraid to change data types in Ghidra to see how it reinterprets values.</li>
+        </ul>
+
+        <p style="text-align: center; margin-top: 50px; color: #007BFF;">
+            Happy reversing! Keep exploring the bytes.
+        </p>
+    </div>
+
+</body>
+</html>

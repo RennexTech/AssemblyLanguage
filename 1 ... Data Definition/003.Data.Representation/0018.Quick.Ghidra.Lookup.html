@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ultimate Data Representation Cheat Sheet: Binary, Decimal, Hex for Reversing (Expanded)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+         * Imagine this CSS is setting up your ultimate study space.
+         * We're making sure the lighting is perfect, the layout is clear,
+         * and everything feels inviting for some serious knowledge absorption.
+         */
+        body {
+            font-family: 'Inter', sans-serif; /* Your go-to for clarity and modern feel */
+            background-color: #f0f2f5; /* A soft, calming background, like a fresh page */
+            color: #333; /* Easy on the eyes, good contrast */
+            line-height: 1.6; /* Giving text room to breathe, like a good conversation */
+            margin: 0;
+            padding: 30px; /* Generous padding all around */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centering our main content block */
+            min-height: 100vh; /* Making sure it fills the screen */
+            box-sizing: border-box;
+        }
+
+        /*
+         * This is your main cheat sheet document. We're giving it a clean,
+         * professional look with a subtle shadow, like a high-quality printout.
+         */
+        .container {
+            background-color: #fff; /* White as a fresh canvas */
+            padding: 40px;
+            border-radius: 15px; /* Nicely rounded corners for a modern touch */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* A deeper, more prominent shadow */
+            max-width: 1000px; /* Optimal width for reading long-form content */
+            width: 100%;
+            margin-bottom: 30px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #2c3e50; /* A strong, deep blue for the main title */
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700; /* Extra bold for maximum impact */
+            font-size: 2.8em; /* Big and unmissable */
+            line-height: 1.2;
+        }
+
+        h2 {
+            color: #34495e; /* Slightly lighter blue for section headers */
+            border-bottom: 2px solid #e0e0e0; /* A clean, subtle separator */
+            padding-bottom: 12px;
+            margin-top: 40px; /* Space before new sections */
+            margin-bottom: 25px;
+            font-size: 2em; /* Good size for main sections */
+            font-weight: 600;
+        }
+
+        h3 {
+            color: #4a69bd; /* A vibrant blue for sub-sections */
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.6em; /* Clear sub-section headings */
+            font-weight: 500;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1em; /* Comfortable reading size */
+            line-height: 1.7;
+        }
+
+        ul {
+            list-style-type: disc; /* Standard bullet points */
+            margin-left: 25px;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Styling for code snippets and examples */
+        code {
+            background-color: #e8eaf6; /* Light purple-blue for code blocks */
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace; /* Monospaced font for code, keeps it aligned */
+            font-size: 0.95em;
+            color: #6a0dad; /* A distinct purple for code, making it pop */
+            white-space: nowrap; /* Prevent code from wrapping unnecessarily */
+        }
+
+        pre {
+            background-color: #2b2b2b; /* Dark background for multi-line code/examples */
+            color: #f8f8f2; /* Light text on dark background */
+            padding: 18px;
+            border-radius: 8px;
+            overflow-x: auto; /* Enable horizontal scrolling for long lines */
+            margin-bottom: 20px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            line-height: 1.4;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); /* Inner shadow for depth */
+        }
+
+        /* Table styling for quick reference data */
+        table {
+            width: 100%;
+            border-collapse: collapse; /* No spacing between cells for a compact look */
+            margin-top: 20px;
+            margin-bottom: 30px;
+            background-color: #fdfdfd; /* Very light background for tables */
+            border-radius: 8px;
+            overflow: hidden; /* Ensures rounded corners apply */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle table shadow */
+        }
+
+        table th, table td {
+            text-align: left;
+            padding: 12px 18px;
+            border: 1px solid #e0e0e0; /* Light borders for structure */
+        }
+
+        table th {
+            background-color: #4a69bd; /* Blue header for tables */
+            color: #fff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f9f9f9; /* Zebra striping for readability */
+        }
+
+        table tbody tr:hover {
+            background-color: #e6f2ff; /* Gentle hover effect */
+            transition: background-color 0.2s ease;
+        }
+
+        /* Highlight box for important notes or tips */
+        .tip-box {
+            background-color: #d4edda; /* A soft green background, like a "good to know" sticky note */
+            color: #155724; /* Dark green text */
+            border-left: 5px solid #28a745; /* A bold green border on the left */
+            padding: 15px 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 1.05em;
+            line-height: 1.5;
+        }
+
+        .tip-box strong {
+            color: #155724; /* Ensure bold text inside is also dark green */
+        }
+
+        /* Footer styling */
+        .footer {
+            margin-top: 50px;
+            padding: 25px;
+            text-align: center;
+            color: #777;
+            font-size: 0.9em;
+            border-top: 1px solid #eee;
+            width: 100%;
+            max-width: 1000px;
+            box-sizing: border-box;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .container {
+                padding: 25px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            h2 {
+                font-size: 1.6em;
+            }
+            h3 {
+                font-size: 1.3em;
+            }
+            p, ul, li {
+                font-size: 1em;
+            }
+            table, table th, table td {
+                display: block; /* Stack table cells on small screens */
+                width: 100%;
+                box-sizing: border-box;
+            }
+            table thead {
+                display: none; /* Hide table headers on small screens */
+            }
+            table tr {
+                margin-bottom: 15px;
+                border: 1px solid #e0e0e0;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            table td {
+                text-align: right;
+                padding-left: 50%; /* Space for data-label */
+                position: relative;
+            }
+            table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                text-align: left;
+                font-weight: 600;
+                color: #555;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>The Ultimate Data Representation Cheat Sheet: Binary, Decimal, Hex for Reversing 🚀</h1>
+
+        <p class="intro">
+            Alright, future reversing guru! When you're staring at raw bytes in Ghidra, or tracing execution in a debugger, it's like trying to understand a secret code. This cheat sheet is your key to unlocking that code. We're talking about the fundamental languages computers speak: Binary, Decimal, and Hexadecimal. Master these, and you'll be reading memory dumps like they're your favorite novel!
+        </p>
+
+        <div class="tip-box">
+            <strong>Why is this crucial for reversing?</strong>
+            Think of it like this: when you're analyzing a piece of malware, you're looking at its DNA. That DNA is written in numbers. Opcodes (the actual instructions the CPU executes), memory addresses, register values, and even the data itself are all just numbers. Being fluent in these number systems lets you see the *meaning* behind the raw bytes, not just a jumble of characters. It's the difference between seeing a bunch of random letters and reading a coherent sentence!
+        </div>
+
+        <h2>1. The Basics: Number Systems Explained (Bases)</h2>
+        <p>
+            Every number system has a "base" or "radix," which tells you how many unique digits it uses before it rolls over to the next place value.
+        </p>
+        <ul>
+            <li><strong>Decimal (Base-10):</strong> Our everyday system. Uses 10 digits (0-9). Each position is a power of 10 ($10^0, 10^1, 10^2$, etc.).</li>
+            <li><strong>Binary (Base-2):</strong> The computer's native language. Uses 2 digits (0 and 1). Each position is a power of 2 ($2^0, 2^1, 2^2$, etc.). This is the real "on/off" switch.</li>
+            <li><strong>Hexadecimal (Base-16):</strong> A human-friendly shorthand for binary. Uses 16 "digits" (0-9 and A-F). Each position is a power of 16 ($16^0, 16^1, 16^2$, etc.).</li>
+        </ul>
+
+        <h3>Place Values: The Power of Position</h3>
+        <p>
+            The position of a digit matters! Just like in decimal, where the '1' in 100 is different from the '1' in 10.
+        </p>
+        <pre>
+// Decimal Example: 123
+1 * 10<sup>2</sup>  +  2 * 10<sup>1</sup>  +  3 * 10<sup>0</sup>
+1 * 100   +  2 * 10    +  3 * 1
+100       +  20        +  3       = 123
+
+// Binary Example: 1011<sub>2</sub> (Decimal 11)
+1 * 2<sup>3</sup>   +  0 * 2<sup>2</sup>   +  1 * 2<sup>1</sup>   +  1 * 2<sup>0</sup>
+1 * 8     +  0 * 4     +  1 * 2     +  1 * 1
+8         +  0         +  2         +  1         = 11<sub>10</sub>
+
+// Hexadecimal Example: A5<sub>16</sub> (Decimal 165)
+A (10) * 16<sup>1</sup>  +  5 * 16<sup>0</sup>
+10 * 16        +  5 * 1
+160            +  5                   = 165<sub>10</sub>
+        </pre>
+
+        <h2>2. Binary (Base-2): The Computer's Heartbeat</h2>
+        <p>
+            Binary is the fundamental language of all digital systems. Everything eventually boils down to sequences of 0s and 1s (bits).
+        </p>
+        <ul>
+            <li><strong>Bit:</strong> A single binary digit (0 or 1).</li>
+            <li><strong>Nibble:</strong> 4 bits. Half a byte. (Think of it as a small snack for the CPU!)</li>
+            <li><strong>Byte:</strong> 8 bits. This is the smallest addressable unit of memory.</li>
+            <li><strong>Word:</strong> Typically 2 bytes (16 bits) on older systems (like 16-bit processors), but often 4 bytes (32 bits) on modern 32-bit systems. Context is key here!</li>
+            <li><strong>Dword (Double Word):</strong> Usually 4 bytes (32 bits). Common for integers and memory addresses on 32-bit systems.</li>
+            <li><strong>Qword (Quad Word):</strong> Usually 8 bytes (64 bits). Essential for 64-bit systems, representing large integers and memory addresses.</li>
+        </ul>
+
+        <h3>Binary to Decimal Conversion: Reading the Bits</h3>
+        <p>
+            To convert binary to decimal, sum the place values where a '1' appears.
+        </p>
+        <pre>
+// Example: Convert 1101<sub>2</sub> to Decimal
+  1   1   0   1  (Binary)
+  |   |   |   |
+  8   4   2   1  (Place values: 2<sup>3</sup>, 2<sup>2</sup>, 2<sup>1</sup>, 2<sup>0</sup>)
+
+(1 * 8) + (1 * 4) + (0 * 2) + (1 * 1) = 8 + 4 + 0 + 1 = 13<sub>10</sub>
+        </pre>
+
+        <h3>Decimal to Binary Conversion: Breaking it Down</h3>
+        <p>
+            Repeatedly divide the decimal number by 2 and record the remainders. Read the remainders from bottom to top.
+        </p>
+        <pre>
+// Example: Convert 25<sub>10</sub> to Binary
+25 / 2 = 12 remainder 1 (LSB)
+12 / 2 = 6  remainder 0
+6  / 2 = 3  remainder 0
+3  / 2 = 1  remainder 1
+1  / 2 = 0  remainder 1 (MSB)
+
+Reading remainders bottom-up: 11001<sub>2</sub>
+        </pre>
+
+        <h2>3. Hexadecimal (Base-16): The Reverser's Best Friend</h2>
+        <p>
+            Hexadecimal is a compact way to represent binary data. Since $16 = 2^4$, each hex digit perfectly represents 4 binary bits (a "nibble"). This makes it super easy to convert between hex and binary, which is why it's everywhere in reversing!
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Hex</th>
+                    <th>Decimal</th>
+                    <th>Binary (4-bit)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td data-label="Hex">0</td><td data-label="Decimal">0</td><td data-label="Binary (4-bit)">0000</td></tr>
+                <tr><td data-label="Hex">1</td><td data-label="Decimal">1</td><td data-label="Binary (4-bit)">0001</td></tr>
+                <tr><td data-label="Hex">2</td><td data-label="Decimal">2</td><td data-label="Binary (4-bit)">0010</td></tr>
+                <tr><td data-label="Hex">3</td><td data-label="Decimal">3</td><td data-label="Binary (4-bit)">0011</td></tr>
+                <tr><td data-label="Hex">4</td><td data-label="Decimal">4</td><td data-label="Binary (4-bit)">0100</td></tr>
+                <tr><td data-label="Hex">5</td><td data-label="Decimal">5</td><td data-label="Binary (4-bit)">0101</td></tr>
+                <tr><td data-label="Hex">6</td><td data-label="Decimal">6</td><td data-label="Binary (4-bit)">0110</td></tr>
+                <tr><td data-label="Hex">7</td><td data-label="Decimal">7</td><td data-label="Binary (4-bit)">0111</td></tr>
+                <tr><td data-label="Hex">8</td><td data-label="Decimal">8</td><td data-label="Binary (4-bit)">1000</td></tr>
+                <tr><td data-label="Hex">9</td><td data-label="Decimal">9</td><td data-label="Binary (4-bit)">1001</td></tr>
+                <tr><td data-label="Hex">A</td><td data-label="Decimal">10</td><td data-label="Binary (4-bit)">1010</td></tr>
+                <tr><td data-label="Hex">B</td><td data-label="Decimal">11</td><td data-label="Binary (4-bit)">1011</td></tr>
+                <tr><td data-label="Hex">C</td><td data-label="Decimal">12</td><td data-label="Binary (4-bit)">1100</td></tr>
+                <tr><td data-label="Hex">D</td><td data-label="Decimal">13</td><td data-label="Binary (4-bit)">1101</td></tr>
+                <tr><td data-label="Hex">E</td><td data-label="Decimal">14</td><td data-label="Binary (4-bit)">1110</td></tr>
+                <tr><td data-label="Hex">F</td><td data-label="Decimal">15</td><td data-label="Binary (4-bit)">1111</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Hex to Decimal Conversion: Expand and Add</h3>
+        <p>
+            Multiply each hex digit by its corresponding power of 16 and sum the results. Remember A-F are 10-15.
+        </p>
+        <pre>
+// Example: Convert 3F<sub>16</sub> to Decimal
+  3   F (15) (Hex)
+  |   |
+ 16<sup>1</sup> 16<sup>0</sup> (Place values)
+
+(3 * 16<sup>1</sup>) + (15 * 16<sup>0</sup>) = (3 * 16) + (15 * 1) = 48 + 15 = 63<sub>10</sub>
+        </pre>
+
+        <h3>Decimal to Hex Conversion: Divide by 16</h3>
+        <p>
+            Repeatedly divide the decimal number by 16 and record the remainders. Convert remainders 10-15 to A-F. Read remainders bottom to top.
+        </p>
+        <pre>
+// Example: Convert 255<sub>10</sub> to Hex
+255 / 16 = 15 remainder 15 (F) (LSB)
+15  / 16 = 0  remainder 15 (F) (MSB)
+
+Reading remainders bottom-up: FF<sub>16</sub>
+        </pre>
+
+        <h3>Hex to Binary Conversion: The Easiest One!</h3>
+        <p>
+            This is where hex shines! Each hex digit directly translates to 4 binary bits. Just look up each digit in the table above.
+        </p>
+        <pre>
+// Example: Convert A5<sub>16</sub> to Binary
+A   -> 1010
+5   -> 0101
+
+Combine them: 10100101<sub>2</sub>
+        </pre>
+
+        <h3>Binary to Hex Conversion: Group and Translate</h3>
+        <p>
+            Group binary bits into sets of 4, starting from the right. If the last group has fewer than 4 bits, pad with leading zeros. Then, convert each 4-bit group to its hex equivalent.
+        </p>
+        <pre>
+// Example: Convert 11010110<sub>2</sub> to Hex
+Group into 4s: 1101  0110
+Translate:     D     6
+
+Combine them: D6<sub>16</sub>
+
+// Example: Convert 101101<sub>2</sub> to Hex (needs padding)
+Pad with leading zeros: 0010  1101
+Translate:              2     D
+
+Combine them: 2D<sub>16</sub>
+        </pre>
+
+        <h2>4. Key Concepts for Reversing & Malware Analysis</h2>
+
+        <h3>Endianness: The Byte Order Mystery 🕵️‍♂️</h3>
+        <p>
+            This is about how multi-byte values (like a 4-byte integer) are stored in memory.
+        </p>
+        <ul>
+            <li><strong>Little-Endian:</strong> Stores the least significant byte (LSB) first (at the lowest memory address). This is common for Intel x86/x64 processors. Think of it as writing numbers from right-to-left.
+                <pre>
+// Value: 0x12345678 (Decimal 305419896)
+// Memory Address: 0x1000
+// Little-Endian storage:
+0x1000: 78<sub>h</sub>
+0x1001: 56<sub>h</sub>
+0x1002: 34<sub>h</sub>
+0x1003: 12<sub>h</sub>
+                </pre>
+            </li>
+            <li><strong>Big-Endian:</strong> Stores the most significant byte (MSB) first. Common in networking protocols and some older processors (e.g., PowerPC, ARM before configurable endianness). Think of it as writing numbers from left-to-right, like we usually do.
+                <pre>
+// Value: 0x12345678
+// Memory Address: 0x1000
+// Big-Endian storage:
+0x1000: 12<sub>h</sub>
+0x1001: 34<sub>h</sub>
+0x1002: 56<sub>h</sub>
+0x1003: 78<sub>h</sub>
+                </pre>
+            </li>
+        </ul>
+        <div class="tip-box">
+            <strong>Why care about Endianness?</strong>
+            When you're looking at a memory dump or a file in a hex editor, the bytes are just listed sequentially. If you're looking at a 4-byte integer `12 34 56 78` in memory, you need to know if it's `0x12345678` (Big-Endian) or `0x78563412` (Little-Endian) to correctly interpret its value. Ghidra usually handles this for you based on the architecture, but it's vital to understand what's happening under the hood!
+        </div>
+
+        <h3>Signed vs. Unsigned Numbers: Positive or Negative? 🤔</h3>
+        <p>
+            The same sequence of bits can mean different things depending on whether it's interpreted as a signed or unsigned number.
+        </p>
+        <ul>
+            <li><strong>Unsigned:</strong> All bits represent magnitude. An 8-bit unsigned integer can represent values from 0 to 255.</li>
+            <li><strong>Signed:</strong> One bit (usually the Most Significant Bit, MSB) is used to indicate the sign (0 for positive, 1 for negative). The remaining bits represent the magnitude (often in Two's Complement for negative numbers). An 8-bit signed integer can represent values from -128 to 127.</li>
+        </ul>
+        <pre>
+// Example: 8-bit binary 11111111
+// As Unsigned: 255<sub>10</sub>
+// As Signed (Two's Complement): -1<sub>10</sub>
+        </pre>
+        <div class="tip-box">
+            <strong>Reversing Tip:</strong>
+            When you see a large number in a register or memory, check if it's being used in a context that implies it's signed or unsigned. A value like `0xFFFFFFFF` (4 bytes) could be `4,294,967,295` (unsigned) or `-1` (signed). The compiler and CPU treat them differently in calculations!
+        </div>
+
+        <h3>Two's Complement: Representing Negative Numbers 🤯</h3>
+        <p>
+            This is the standard way computers represent negative signed integers. It's super efficient because addition and subtraction work the same way for both positive and negative numbers.
+        </p>
+        <h4>How to find the Two's Complement of a positive number (to get its negative equivalent):</h4>
+        <ol>
+            <li><strong>Step 1: Invert all bits (One's Complement):</strong> Flip every 0 to a 1, and every 1 to a 0.</li>
+            <li><strong>Step 2: Add 1 to the result:</strong> Add 1 to the binary number obtained in Step 1.</li>
+        </ol>
+        <pre>
+// Example: Find -5 in 8-bit Two's Complement
+// 1. Start with positive 5:
+   00000101<sub>2</sub> (5<sub>10</sub>)
+
+// 2. Invert all bits (One's Complement):
+   11111010<sub>2</sub>
+
+// 3. Add 1:
+   11111010<sub>2</sub>
++  00000001<sub>2</sub>
+------------
+   11111011<sub>2</sub> (-5<sub>10</sub> in 8-bit Two's Complement)
+        </pre>
+        <h4>How to convert a Two's Complement negative number back to decimal:</h4>
+        <ol>
+            <li><strong>Step 1: Invert all bits.</strong></li>
+            <li><strong>Step 2: Add 1 to the result.</strong></li>
+            <li><strong>Step 3: Convert to decimal and add a negative sign.</strong></li>
+        </ol>
+        <pre>
+// Example: Convert 11111011<sub>2</sub> (8-bit Two's Complement) to Decimal
+// 1. Invert all bits:
+   00000100<sub>2</sub>
+
+// 2. Add 1:
+   00000100<sub>2</sub>
++  00000001<sub>2</sub>
+------------
+   00000101<sub>2</sub>
+
+// 3. Convert to decimal: 5. Add negative sign: -5<sub>10</sub>
+        </pre>
+        <div class="tip-box">
+            <strong>Two's Complement in Action:</strong>
+            You'll see this all the time in assembly instructions involving signed arithmetic. When a function returns `-1` (an error code), it often looks like `0xFFFFFFFF` in a 32-bit register. Understanding Two's Complement helps you interpret these values correctly.
+        </div>
+
+        <h3>Bitwise Operations: Manipulating the Bits Directly 🛠️</h3>
+        <p>
+            These operations work on individual bits of numbers. They are fundamental in low-level programming, cryptography, and, you guessed it, reverse engineering!
+        </p>
+        <ul>
+            <li><strong>AND (`&`):</strong> Sets a bit to 1 only if *both* corresponding bits are 1. Used for masking (isolating specific bits) or clearing bits.
+                <pre>
+0101<sub>2</sub> (5<sub>10</sub>)
+& 0011<sub>2</sub> (3<sub>10</sub>)  // Mask to check bits 0 and 1
+----
+0001<sub>2</sub> (1<sub>10</sub>)  // (5 & 3 = 1)
+                </pre>
+            </li>
+            <li><strong>OR (`|`):</strong> Sets a bit to 1 if *at least one* corresponding bit is 1. Used for setting specific bits.
+                <pre>
+0101<sub>2</sub> (5<sub>10</sub>)
+| 0011<sub>2</sub> (3<sub>10</sub>)  // Set bits 0 and 1
+----
+0111<sub>2</sub> (7<sub>10</sub>)  // (5 | 3 = 7)
+                </pre>
+            </li>
+            <li><strong>XOR (`^`):</strong> Sets a bit to 1 if the corresponding bits are *different*. Used for toggling bits, simple encryption, and checking for equality (XORing a value with itself results in 0).
+                <pre>
+0101<sub>2</sub> (5<sub>10</sub>)
+^ 0011<sub>2</sub> (3<sub>10</sub>)
+----
+0110<sub>2</sub> (6<sub>10</sub>)  // (5 ^ 3 = 6)
+                </pre>
+            </li>
+            <li><strong>NOT (`~`):</strong> Flips all bits (0 becomes 1, 1 becomes 0). This is equivalent to finding the One's Complement.
+                <pre>
+~ 0101<sub>2</sub> (5<sub>10</sub>)
+----
+1010<sub>2</sub> (If 8-bit, this is 250 unsigned, or -6 signed in 2's complement)
+                </pre>
+            </li>
+            <li><strong>Left Shift (`<<`):</strong> Shifts bits to the left, filling with zeros on the right. Equivalent to multiplying by powers of 2.
+                <pre>
+00001010<sub>2</sub> (10<sub>10</sub>) << 2  // Shift left by 2 positions
+----
+00101000<sub>2</sub> (40<sub>10</sub>)  // (10 * 2<sup>2</sup> = 40)
+                </pre>
+            </li>
+            <li><strong>Right Shift (`>>`):</strong> Shifts bits to the right. Can be logical (fills with zeros, for unsigned numbers) or arithmetic (fills with the sign bit, for signed numbers). Equivalent to dividing by powers of 2.
+                <pre>
+// Logical Right Shift (for unsigned numbers, fills with 0s)
+10001000<sub>2</sub> (136<sub>10</sub>) >> 2
+----
+00100010<sub>2</sub> (34<sub>10</sub>)  // (136 / 2<sup>2</sup> = 34)
+
+// Arithmetic Right Shift (for signed numbers, fills with sign bit)
+// Example: -8 (11111000<sub>2</sub> in 8-bit 2's complement)
+11111000<sub>2</sub> (-8<sub>10</sub>) >> 1
+----
+11111100<sub>2</sub> (-4<sub>10</sub>) // The sign bit (1) is propagated
+                </pre>
+            </li>
+        </ul>
+        <div class="tip-box">
+            <strong>Bitwise Ops in Reversing:</strong>
+            You'll see these everywhere! From checking specific flags in a status register, to decrypting obfuscated strings, to understanding how network packets are parsed. For example, `AND` operations are often used to check if a specific permission bit is set, or to align memory addresses. XOR is a common trick for simple encryption/decryption or obfuscation in malware.
+        </div>
+
+        <h2>5. Character Encodings: Beyond Simple ASCII</h2>
+        <p>
+            While ASCII is fundamental, the world uses many more characters!
+        </p>
+        <ul>
+            <li><strong>ASCII (American Standard Code for Information Interchange):</strong> Uses 7 bits to represent 128 characters (0-127). Includes English letters, numbers, and basic symbols/control characters. It's the bedrock.</li>
+            <li><strong>Extended ASCII:</strong> Uses 8 bits (0-255) to add more characters, but these vary by "code page" (e.g., Latin-1, DOS code pages). This caused a lot of headaches!</li>
+            <li><strong>Unicode:</strong> A universal character set that aims to include every character from every language. It's massive!
+                <ul>
+                    <li><strong>UTF-8:</strong> The most common encoding for Unicode. It's variable-width, using 1 to 4 bytes per character. ASCII characters are just 1 byte in UTF-8, making it backward compatible and efficient for English text. It's the king of the internet!</li>
+                    <li><strong>UTF-16:</strong> Uses 2 or 4 bytes per character. Common in Windows (internal string representation) and Java. Good for languages with many characters that fit in 2 bytes (like many Asian scripts).</li>
+                    <li><strong>UTF-32:</strong> Uses a fixed 4 bytes per character. Simple but very inefficient for most text, as it uses 4 bytes even for a simple 'A'. Rarely used for storage or transmission.</li>
+                </ul>
+            </li>
+        </ul>
+        <pre>
+// If you see 0x41 in memory:
+// As a raw binary integer: it's the number 65<sub>10</sub>.
+// As an ASCII character (and UTF-8): it's the character 'A'.
+
+// If you see 0xE2 0x82 0xAC in memory (UTF-8 bytes):
+// As raw binary: three separate bytes.
+// As a UTF-8 character: it's the Euro symbol (€).
+        </pre>
+
+        <h2>6. Practical Scenarios: Where You'll Use This</h2>
+        <ul>
+            <li><strong>Reading Memory Dumps:</strong> When you dump a process's memory, it's a huge block of hex bytes. You'll need to identify patterns, convert addresses, and interpret values (integers, floats, strings).</li>
+            <li><strong>Analyzing Opcodes:</strong> CPU instructions are represented by hex opcodes. Knowing hex helps you quickly identify common instructions (e.g., `0x90` is `NOP` - No Operation, `0xC3` is `RET` - Return).</li>
+            <li><strong>Understanding Register Values:</strong> Registers hold numerical values (addresses, data, flags). You'll constantly be converting between hex and decimal to understand what's going on.</li>
+            <li><strong>Network Packet Analysis:</strong> Network protocols are defined by byte sequences. Understanding hex, binary, and bitwise operations is essential for parsing headers and data. Endianness is critical here!</li>
+            <li><strong>File Format Reverse Engineering:</strong> Many file formats have specific "magic bytes" (e.g., `4D 5A` for a Windows PE executable - "MZ") or header fields that are numerical values. You'll need to parse these to understand the file structure.</li>
+            <li><strong>Malware Obfuscation/Deobfuscation:</strong> Malware often uses XOR, shifts, and other bitwise operations to hide strings or code. Your knowledge of these operations is key to decrypting them.</li>
+            <li><strong>Exploit Development:</strong> Crafting exploits often involves precise byte manipulation, understanding memory layout, and converting between different data representations.</li>
+        </ul>
+
+        <div class="tip-box">
+            <strong>Your Mantra: Practice, Practice, Practice!</strong>
+            The more you work with these number systems, the more intuitive they become. Use a calculator, do conversions by hand, and constantly challenge yourself to interpret bytes in Ghidra. Soon, it'll be second nature, like breathing! Don't be afraid to break out a pen and paper to trace bitwise operations or Two's Complement conversions.
+        </div>
+
+    </div>
+    <footer class="footer">
+        <p>Stay curious, keep reversing, and never stop learning!</p>
+        <p>&copy; 2025 The Reversing Companion. All rights reserved.</p>
+    </footer>
+</body>
+</html>
