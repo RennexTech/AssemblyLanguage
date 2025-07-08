@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two's Complement Circular Visualization</title>
+    <!--
+        Maintaining the consistent look and feel! We're loading the Inter font
+        to ensure this section looks sharp, modern, and super readable.
+        We also include a monospace font (Roboto Mono) for hex/binary values.
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+            Setting the overall stage for this visualization.
+            A soft gradient background and centered content for a pleasant reading experience.
+            The body will now handle any necessary scrolling if the content exceeds viewport.
+        */
+        body {
+            background: linear-gradient(135deg, #e0f2f7 0%, #c8e6c9 100%); /* Gentle blue-green gradient */
+            font-family: 'Inter', sans-serif; /* Our signature font */
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: flex-start; /* Align content to the top */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            margin: 0;
+            padding: 20px; /* Generous padding around the content */
+            box-sizing: border-box; /* Include padding in element's total size */
+            color: #333; /* Dark gray text for readability */
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+        }
+
+        /*
+            The main container for the content.
+            It acts like a clean, modern card, making the information stand out.
+        */
+        .content-container {
+            background-color: #ffffff; /* Pure white background */
+            border-radius: 18px; /* Smooth, rounded corners */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Soft, prominent shadow */
+            max-width: 900px; /* Limit width for better readability on large screens */
+            width: 100%; /* Ensure responsiveness */
+            margin: 0 auto; /* Center the container */
+            padding: 30px; /* Internal padding */
+        }
+
+        /* Styling for the main heading of this section */
+        .content-container h2 {
+            text-align: center;
+            color: #2575fc; /* A vibrant blue */
+            font-size: 2.2em; /* Large and impactful */
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.05); /* Subtle text shadow */
+        }
+
+        /* Styling for introductory paragraph */
+        .content-container p {
+            font-size: 1.05em;
+            line-height: 1.7;
+            color: #444;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Container for the circular visualization */
+        .circle-visual-container {
+            position: relative; /* For absolute positioning of elements inside */
+            width: 100%;
+            max-width: 500px; /* Limit size for better visual balance */
+            padding-top: 100%; /* Maintain aspect ratio (1:1 for a square) */
+            margin: 40px auto; /* Center and add vertical space */
+            border: 2px dashed #a0a0a0; /* Dashed circle border to imply wrap */
+            border-radius: 50%; /* Make it a perfect circle */
+            box-sizing: border-box;
+        }
+
+        /* Styling for the numbered points on the circle */
+        .circle-point {
+            position: absolute;
+            background-color: #6a11cb; /* Purple background for points */
+            color: #ffffff;
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 700;
+            padding: 8px 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transform: translate(-50%, -50%); /* Center the point exactly on its coordinates */
+            white-space: nowrap; /* Prevent text from wrapping */
+            font-size: 0.9em;
+        }
+
+        /* Positioning for each point (adjust top/left percentages for desired layout) */
+        .point-0x00 { top: 5%; left: 50%; }
+        .point-0x5A { top: 30%; left: 85%; }
+        .point-0xA6 { top: 70%; left: 85%; }
+        .point-0xFF { top: 95%; left: 50%; }
+
+        /* Styling for the arrows */
+        .arrow {
+            position: absolute;
+            font-size: 1.5em;
+            color: #2196F3; /* Blue for arrows */
+            font-weight: bold;
+            transform: translate(-50%, -50%); /* Center the arrow on its coordinates */
+        }
+
+        /* Positioning for arrows */
+        .arrow-inc-top { top: 15%; left: 70%; transform: translate(-50%, -50%) rotate(45deg); }
+        .arrow-inc-mid { top: 50%; left: 90%; transform: translate(-50%, -50%) rotate(90deg); }
+        .arrow-inc-bottom { top: 85%; left: 70%; transform: translate(-50%, -50%) rotate(135deg); }
+
+        .arrow-dec-top { top: 15%; left: 30%; transform: translate(-50%, -50%) rotate(-45deg); }
+        .arrow-dec-mid { top: 50%; left: 10%; transform: translate(-50%, -50%) rotate(-90deg); }
+        .arrow-dec-bottom { top: 85%; left: 30%; transform: translate(-50%, -50%) rotate(-135deg); }
+
+        /* Text labels for arrows */
+        .arrow-label {
+            position: absolute;
+            font-size: 0.9em;
+            color: #4a90e2; /* Lighter blue for labels */
+            font-weight: 600;
+            white-space: nowrap;
+            transform: translate(-50%, -50%);
+        }
+        .label-inc { top: 20%; left: 70%; }
+        .label-dec { top: 20%; left: 30%; }
+
+
+        /* Styling for the "wraps to 0" explanation */
+        .wrap-explanation {
+            text-align: center;
+            background-color: #f0f8ff; /* Very light blue background */
+            border-left: 5px solid #2196F3; /* Blue left border */
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 40px; /* Space below the circle */
+            font-size: 1em;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .wrap-explanation strong {
+            color: #2196F3; /* Bold text in note box */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .content-container {
+                padding: 20px;
+            }
+            .content-container h2 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+            .content-container p {
+                font-size: 1em;
+            }
+            .circle-visual-container {
+                margin: 20px auto;
+                max-width: 400px; /* Smaller on smaller screens */
+            }
+            .circle-point {
+                padding: 6px 10px;
+                font-size: 0.8em;
+            }
+            .arrow {
+                font-size: 1.2em;
+            }
+            .arrow-label {
+                font-size: 0.8em;
+            }
+            .wrap-explanation {
+                padding: 10px 15px;
+                font-size: 0.9em;
+                margin-top: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .content-container {
+                padding: 15px;
+            }
+            .content-container h2 {
+                font-size: 1.5em;
+                margin-bottom: 15px;
+            }
+            .circle-visual-container {
+                max-width: 300px; /* Even smaller */
+            }
+            .circle-point {
+                padding: 5px 8px;
+                font-size: 0.7em;
+            }
+            .arrow {
+                font-size: 1em;
+            }
+            .arrow-label {
+                font-size: 0.7em;
+            }
+            .wrap-explanation {
+                padding: 8px 10px;
+                font-size: 0.85em;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-container">
+        <h2>🤯 Two’s Complement: The Circular Number Line (Mod 256)</h2>
+
+        <p>This visualization helps you understand how numbers "wrap around" in a fixed-bit system, which is the core idea behind Two's Complement and why the subtraction shortcut works. We're looking at an 8-bit system, where numbers range from 0 to 255 (or 0x00 to 0xFF).</p>
+
+        <div class="circle-visual-container">
+            <!-- Points on the circle -->
+            <div class="circle-point point-0x00">[0x00] (0)</div>
+            <div class="circle-point point-0x5A">[0x5A] (90)</div>
+            <div class="circle-point point-0xA6">[0xA6] (166)</div>
+            <div class="circle-point point-0xFF">[0xFF] (255)</div>
+
+            <!-- Arrows indicating increasing values -->
+            <span class="arrow arrow-inc-top">→</span>
+            <span class="arrow arrow-inc-mid">→</span>
+            <span class="arrow arrow-inc-bottom">→</span>
+            <span class="arrow-label label-inc">increasing values</span>
+
+            <!-- Arrows indicating decreasing values -->
+            <span class="arrow arrow-dec-top">←</span>
+            <span class="arrow arrow-dec-mid">←</span>
+            <span class="arrow arrow-dec-bottom">←</span>
+            <span class="arrow-label label-dec">decreasing values</span>
+        </div>
+
+        <div class="wrap-explanation">
+            <p><strong>[0x5A + 0xA6 = 0x100 = wraps to 0]</strong></p>
+            <p>This is why subtraction works: You're finding the number that would complete the circle to 256 (0x100), effectively "wrapping" back to zero. In Two's Complement, this "completing the circle" is how negative numbers are defined.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
