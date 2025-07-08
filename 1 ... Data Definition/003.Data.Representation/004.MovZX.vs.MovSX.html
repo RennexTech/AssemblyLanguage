@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Extension vs. Sign Extension</title>
+    <!--
+        Maintaining the consistent look and feel! We're loading the Inter font
+        to ensure this table is sharp, modern, and super readable.
+        Also including a monospace font for code-like examples.
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+            Setting the overall stage for this table.
+            A soft gradient background and centered content for a pleasant reading experience.
+            Crucially, 'overflow: hidden' on the body to prevent any scrolling on most screens.
+        */
+        body {
+            background: linear-gradient(135deg, #e0f2f7 0%, #c8e6c9 100%); /* Gentle blue-green gradient */
+            font-family: 'Inter', sans-serif; /* Our signature font */
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: flex-start; /* Align content to the top */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            margin: 0;
+            padding: 20px; /* Generous padding around the content */
+            box-sizing: border-box; /* Include padding in element's total size */
+            color: #333; /* Dark gray text for readability */
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+        }
+
+        /*
+            The main container for the content.
+            It acts like a clean, modern card, making the information stand out.
+        */
+        .content-container {
+            background-color: #ffffff; /* Pure white background */
+            border-radius: 18px; /* Smooth, rounded corners */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Soft, prominent shadow */
+            max-width: 900px; /* Optimized max-width to fit content well */
+            width: 100%; /* Ensure responsiveness */
+            overflow: hidden; /* Hide overflowing content */
+            margin: 0 auto; /* Center the container */
+            padding: 30px; /* Internal padding */
+        }
+
+        /* Styling for the main heading of this section */
+        .content-container h2 {
+            text-align: center;
+            color: #2575fc; /* A vibrant blue */
+            font-size: 2.2em; /* Large and impactful */
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.05); /* Subtle text shadow */
+        }
+
+        /* Styling for the table wrapper, similar to previous tables */
+        .table-wrapper {
+            background-color: #ffffff; /* White background for the table itself */
+            border-radius: 12px; /* Slightly smaller rounded corners for nested table */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* Lighter shadow for nested table */
+            overflow: hidden;
+            margin-top: 20px; /* Space above the table */
+            margin-bottom: 20px; /* Space below the table */
+        }
+
+        /* Styling for the table itself */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1em;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        /* Table header styling */
+        thead {
+            background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%); /* Purple-to-blue gradient */
+            color: #ffffff;
+        }
+
+        th {
+            padding: 18px 25px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-right: 1px solid rgba(255, 255, 255, 0.15); /* Subtle separator */
+        }
+
+        th:last-child {
+            border-right: none;
+        }
+
+        /* Table body row styling */
+        tbody tr {
+            border-bottom: 1px solid #ebf2f5;
+            transition: background-color 0.3s ease;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:nth-of-type(even) {
+            background-color: #f8fcfd;
+        }
+
+        tbody tr:hover {
+            background-color: #e0f7fa;
+        }
+
+        /* Data cell styling */
+        td {
+            padding: 15px 25px;
+            border-right: 1px solid #ebf2f5;
+            vertical-align: top; /* Align content to top for longer notes */
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        /* Monospace font for code snippets within cells */
+        td code {
+            font-family: 'Roboto Mono', monospace;
+            background-color: #eef; /* Light blue background for code */
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) { /* Adjusted breakpoint for wider tables */
+            .content-container {
+                max-width: 100%; /* Allow full width on tablets */
+            }
+            th, td {
+                padding: 15px 20px; /* Slightly less padding */
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+            .content-container {
+                border-radius: 10px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+            }
+            .content-container h2 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+            th, td {
+                padding: 12px 18px;
+            }
+            table {
+                font-size: 0.95em;
+                min-width: 500px; /* Ensure table doesn't shrink too much */
+            }
+            .table-wrapper {
+                overflow-x: auto; /* Enable horizontal scroll for table on small screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-container h2 {
+                font-size: 1.5em;
+            }
+            th, td {
+                padding: 10px 15px;
+            }
+            table {
+                min-width: 400px; /* Further reduced min-width for very small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-container">
+        <h2>📍 Key Differences: Zero Extension vs. Sign Extension</h2>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Zero Extension</th>
+                        <th>Sign Extension</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Used for</strong></td>
+                        <td>Unsigned values (numbers that are always positive or zero).</td>
+                        <td>Signed values (numbers that can be positive, negative, or zero), specifically using Two's Complement representation.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>What’s added</strong></td>
+                        <td>When a smaller value is moved to a larger register, the new, higher-order bits are filled with <strong>zeros (0s)</strong>. This preserves the original non-negative value.</td>
+                        <td>When a smaller signed value is moved to a larger register, the new, higher-order bits are filled with <strong>copies of the MSB (Most Significant Bit)</strong> of the original value. This preserves the original signed value (positive or negative).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>x86 Instruction</strong></td>
+                        <td><code>MOVZX</code> (Move with Zero-Extend)</td>
+                        <td><code>MOVSX</code> (Move with Sign-Extend)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>
