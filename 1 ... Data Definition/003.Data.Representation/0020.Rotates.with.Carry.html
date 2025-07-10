@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rotates Through Carry (RCL & RCR)</title>
+    <title>Rotates Through Carry (RCL & RCR) & Rotate Left (ROL)</title>
     <!--
         We're bringing in the 'Inter' font for a clean, modern look across the entire page.
         For the numerical and code-like values, 'Roboto Mono' is included. This monospace font
@@ -80,7 +80,7 @@
         }
 
         /*
-            Section headings for RCL and RCR.
+            Section headings for RCL, RCR, and ROL.
         */
         h2 {
             color: #6f42c1; /* Purple for section headings */
@@ -144,7 +144,6 @@
             align-items: center;
             margin-top: 10px;
             margin-bottom: 10px;
-            position: relative; /* For relative positioning of arrows if needed */
             width: 100%; /* Take full width to center content */
         }
 
@@ -206,90 +205,96 @@
             white-space: nowrap;
         }
 
-        /* Container for arrows and labels, positioned absolutely within bit-visual-step */
-        .flow-diagram {
-            position: absolute;
-            top: 50%; /* Center vertically relative to bit-visual-step */
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between; /* Distribute arrows horizontally */
-            align-items: center;
-            pointer-events: none; /* Allow clicks through arrows */
-            z-index: 10; /* Ensure arrows are on top */
-            transform: translateY(-50%); /* Adjust for vertical centering */
-            padding: 0 10px; /* Add some padding to prevent arrows from touching edges */
-            box-sizing: border-box;
-        }
-
-        /* Arrow styling */
+        /* Arrow styling (common) */
         .arrow {
+            position: absolute;
             font-size: 2.5em; /* Larger arrow size for visibility */
             color: #28a745; /* Green for movement */
             font-weight: bold;
             line-height: 1; /* Prevent extra space around arrow character */
+            z-index: 10; /* Ensure arrows are on top */
+            pointer-events: none; /* Allow clicks through arrows */
         }
 
-        /* Label for arrow movement */
+        /* Label for arrow movement (common) */
         .arrow-label {
+            position: absolute;
             font-size: 0.9em;
             font-weight: 600;
             color: #28a745;
             white-space: nowrap;
-            margin: 0 5px; /* Space between arrow and label */
+            z-index: 11;
+            pointer-events: none;
         }
 
-        /* Specific positioning for RCL arrows */
-        .flow-diagram.rcl .arrow.msb-to-cf {
-            position: absolute;
-            left: calc(50% - 150px); /* Adjust based on register width */
-            top: -30px; /* Position above the register */
+        /* Specific arrow positioning for RCL */
+        .arrow.rcl-msb-to-cf {
+            left: calc(50% - 150px); /* Position near MSB */
+            top: 20px; /* Above the register/CF line */
             transform: translateX(-50%);
         }
-        .flow-diagram.rcl .label.msb-to-cf {
-            position: absolute;
+        .label.rcl-msb-to-cf {
             left: calc(50% - 150px);
-            top: -55px;
+            top: 0px;
             transform: translateX(-50%);
         }
-        .flow-diagram.rcl .arrow.cf-to-lsb {
-            position: absolute;
-            right: calc(50% - 150px); /* Adjust based on register width */
-            top: -30px; /* Position above the CF */
+        .arrow.rcl-cf-to-lsb {
+            right: calc(50% - 150px); /* Position near CF */
+            top: 20px;
             transform: translateX(50%);
         }
-        .flow-diagram.rcl .label.cf-to-lsb {
-            position: absolute;
+        .label.rcl-cf-to-lsb {
             right: calc(50% - 150px);
-            top: -55px;
+            top: 0px;
             transform: translateX(50%);
         }
 
-        /* Specific positioning for RCR arrows */
-        .flow-diagram.rcr .arrow.lsb-to-cf {
-            position: absolute;
-            right: calc(50% - 150px); /* Adjust based on register width */
-            top: -30px; /* Position above the register */
+        /* Specific arrow positioning for RCR */
+        .arrow.rcr-lsb-to-cf {
+            right: calc(50% - 150px); /* Position near LSB */
+            top: 20px;
             transform: translateX(50%);
         }
-        .flow-diagram.rcr .label.lsb-to-cf {
-            position: absolute;
+        .label.rcr-lsb-to-cf {
             right: calc(50% - 150px);
-            top: -55px;
+            top: 0px;
             transform: translateX(50%);
         }
-        .flow-diagram.rcr .arrow.cf-to-msb {
-            position: absolute;
-            left: calc(50% - 150px); /* Adjust based on register width */
-            top: -30px; /* Position above the CF */
+        .arrow.rcr-cf-to-msb {
+            left: calc(50% - 150px); /* Position near CF */
+            top: 20px;
             transform: translateX(-50%);
         }
-        .flow-diagram.rcr .label.cf-to-msb {
-            position: absolute;
+        .label.rcr-cf-to-msb {
             left: calc(50% - 150px);
-            top: -55px;
+            top: 0px;
             transform: translateX(-50%);
         }
+
+        /* Specific arrow positioning for ROL */
+        .arrow.rol-msb-to-cf {
+            left: calc(50% - 150px); /* Position near MSB */
+            top: 20px; /* Above the register/CF line */
+            transform: translateX(-50%);
+        }
+        .label.rol-msb-to-cf {
+            left: calc(50% - 150px);
+            top: 0px;
+            transform: translateX(-50%);
+        }
+        .arrow.rol-msb-to-lsb {
+            /* This arrow indicates the wrap-around from MSB to LSB */
+            left: 50%; /* Center horizontally */
+            top: calc(100% - 30px); /* Position below the register-and-cf-container */
+            transform: translateX(-50%);
+            font-size: 2.5em; /* Larger to stand out */
+        }
+        .label.rol-msb-to-lsb {
+            left: 50%;
+            top: calc(100% - 5px); /* Label below the arrow */
+            transform: translateX(-50%);
+        }
+
 
         /* Assembly code box */
         pre.assembly-code {
@@ -350,21 +355,24 @@
                 font-size: 0.85em;
                 padding: 12px;
             }
-            .flow-diagram.rcl .arrow.msb-to-cf,
-            .flow-diagram.rcl .label.msb-to-cf,
-            .flow-diagram.rcl .arrow.cf-to-lsb,
-            .flow-diagram.rcl .label.cf-to-lsb,
-            .flow-diagram.rcr .arrow.lsb-to-cf,
-            .flow-diagram.rcr .label.lsb-to-cf,
-            .flow-diagram.rcr .arrow.cf-to-msb,
-            .flow-diagram.rcr .label.cf-to-msb {
-                top: -25px; /* Adjust top for smaller screens */
+            /* Adjust arrow/label top positions for smaller screens */
+            .arrow.rcl-msb-to-cf, .label.rcl-msb-to-cf,
+            .arrow.rcl-cf-to-lsb, .label.rcl-cf-to-lsb,
+            .arrow.rcr-lsb-to-cf, .label.rcr-lsb-to-cf,
+            .arrow.rcr-cf-to-msb, .label.rcr-cf-to-msb,
+            .arrow.rol-msb-to-cf, .label.rol-msb-to-cf {
+                top: 15px; /* Adjust top for arrows */
             }
-            .flow-diagram.rcl .label.msb-to-cf,
-            .flow-diagram.rcl .label.cf-to-lsb,
-            .flow-diagram.rcr .label.lsb-to-cf,
-            .flow-diagram.rcr .label.cf-to-msb {
-                top: -45px; /* Adjust top for labels */
+            .label.rcl-msb-to-cf, .label.rcl-cf-to-lsb,
+            .label.rcr-lsb-to-cf, .label.rcr-cf-to-msb,
+            .label.rol-msb-to-cf {
+                top: -5px; /* Adjust top for labels */
+            }
+            .arrow.rol-msb-to-lsb {
+                top: calc(100% - 25px);
+            }
+            .label.rol-msb-to-lsb {
+                top: calc(100% - 0px);
             }
         }
 
@@ -419,21 +427,24 @@
                 font-size: 0.8em;
                 padding: 10px;
             }
-            .flow-diagram.rcl .arrow.msb-to-cf,
-            .flow-diagram.rcl .label.msb-to-cf,
-            .flow-diagram.rcl .arrow.cf-to-lsb,
-            .flow-diagram.rcl .label.cf-to-lsb,
-            .flow-diagram.rcr .arrow.lsb-to-cf,
-            .flow-diagram.rcr .label.lsb-to-cf,
-            .flow-diagram.rcr .arrow.cf-to-msb,
-            .flow-diagram.rcr .label.cf-to-msb {
-                top: -20px; /* Adjust top for smaller screens */
+            /* Adjust arrow/label top positions for smaller screens */
+            .arrow.rcl-msb-to-cf, .label.rcl-msb-to-cf,
+            .arrow.rcl-cf-to-lsb, .label.rcl-cf-to-lsb,
+            .arrow.rcr-lsb-to-cf, .label.rcr-lsb-to-cf,
+            .arrow.rcr-cf-to-msb, .label.rcr-cf-to-msb,
+            .arrow.rol-msb-to-cf, .label.rol-msb-to-cf {
+                top: 10px; /* Adjust top for arrows */
             }
-            .flow-diagram.rcl .label.msb-to-cf,
-            .flow-diagram.rcl .label.cf-to-lsb,
-            .flow-diagram.rcr .label.lsb-to-cf,
-            .flow-diagram.rcr .label.cf-to-msb {
-                top: -38px; /* Adjust top for labels */
+            .label.rcl-msb-to-cf, .label.rcl-cf-to-lsb,
+            .label.rcr-lsb-to-cf, .label.rcr-cf-to-msb,
+            .label.rol-msb-to-cf {
+                top: -10px; /* Adjust top for labels */
+            }
+            .arrow.rol-msb-to-lsb {
+                top: calc(100% - 20px);
+            }
+            .label.rol-msb-to-lsb {
+                top: calc(100% - 0px);
             }
         }
 
@@ -490,21 +501,24 @@
                 font-size: 0.75em;
                 padding: 8px;
             }
-            .flow-diagram.rcl .arrow.msb-to-cf,
-            .flow-diagram.rcl .label.msb-to-cf,
-            .flow-diagram.rcl .arrow.cf-to-lsb,
-            .flow-diagram.rcl .label.cf-to-lsb,
-            .flow-diagram.rcr .arrow.lsb-to-cf,
-            .flow-diagram.rcr .label.lsb-to-cf,
-            .flow-diagram.rcr .arrow.cf-to-msb,
-            .flow-diagram.rcr .label.cf-to-msb {
-                top: -15px; /* Adjust top for smaller screens */
+            /* Adjust arrow/label top positions for smaller screens */
+            .arrow.rcl-msb-to-cf, .label.rcl-msb-to-cf,
+            .arrow.rcl-cf-to-lsb, .label.rcl-cf-to-lsb,
+            .arrow.rcr-lsb-to-cf, .label.rcr-lsb-to-cf,
+            .arrow.rcr-cf-to-msb, .label.rcr-cf-to-msb,
+            .arrow.rol-msb-to-cf, .label.rol-msb-to-cf {
+                top: 5px; /* Adjust top for arrows */
             }
-            .flow-diagram.rcl .label.msb-to-cf,
-            .flow-diagram.rcl .label.cf-to-lsb,
-            .flow-diagram.rcr .label.lsb-to-cf,
-            .flow-diagram.rcr .label.cf-to-msb {
-                top: -30px; /* Adjust top for labels */
+            .label.rcl-msb-to-cf, .label.rcl-cf-to-lsb,
+            .label.rcr-lsb-to-cf, .label.rcr-cf-to-msb,
+            .label.rol-msb-to-cf {
+                top: -15px; /* Adjust top for labels */
+            }
+            .arrow.rol-msb-to-lsb {
+                top: calc(100% - 15px);
+            }
+            .label.rol-msb-to-lsb {
+                top: calc(100% - 0px);
             }
         }
     </style>
@@ -512,9 +526,10 @@
 <body>
 
     <div class="container">
-        <h1>🔄 Rotates Through Carry (RCL & RCR): The Visual Breakdown</h1>
+        <h1>🔄 Rotates Through Carry (RCL & RCR) & Rotate Left (ROL): The Visual Breakdown</h1>
 
         <p>In assembly language, rotate instructions are like circular shifts, but "Rotates Through Carry" (RCL and RCR) add an extra twist: they involve the CPU's **Carry Flag (CF)**. This makes the rotation operate on N+1 bits (where N is the size of your operand, e.g., 8, 16, 32, or 64 bits), creating a continuous loop between the register and the Carry Flag.</p>
+        <p>The `ROL` (Rotate Left) instruction is similar but simpler: the bit shifted out of the Most Significant Bit (MSB) moves directly into the Least Significant Bit (LSB) *and* also copies into the Carry Flag (CF). The original CF value is not involved in the rotation.</p>
 
         <p>Let's dive into how these work with clear visuals.</p>
 
@@ -538,18 +553,16 @@
 
         <div class="bit-visual-step">
             <div class="state-label">Step 1: MSB to CF, CF to LSB</div>
-            <div class="flow-diagram rcl">
-                <span class="arrow msb-to-cf">&#8594;</span> <!-- Right arrow -->
-                <span class="arrow-label label msb-to-cf">MSB (0) moves to CF</span>
-                <span class="arrow cf-to-lsb">&#8594;</span> <!-- Right arrow -->
-                <span class="arrow-label label cf-to-lsb">Old CF (0) moves to LSB</span>
-            </div>
             <div class="register-and-cf-container">
                 <div class="register-bits">
                     <span class="bit highlight">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span>
                 </div>
                 <span class="carry-flag highlight">0</span>
             </div>
+            <span class="arrow rcl-msb-to-cf">&#8594;</span> <!-- Right arrow -->
+            <span class="arrow-label label rcl-msb-to-cf">MSB (0) moves to CF</span>
+            <span class="arrow rcl-cf-to-lsb">&#8594;</span> <!-- Right arrow -->
+            <span class="arrow-label label rcl-cf-to-lsb">Old CF (0) moves to LSB</span>
         </div>
 
         <div class="bit-visual-step">
@@ -579,18 +592,16 @@
 
         <div class="bit-visual-step">
             <div class="state-label">Step 1: MSB to CF, CF to LSB</div>
-            <div class="flow-diagram rcl">
-                <span class="arrow msb-to-cf">&#8594;</span>
-                <span class="arrow-label label msb-to-cf">MSB (1) moves to CF</span>
-                <span class="arrow cf-to-lsb">&#8594;</span>
-                <span class="arrow-label label cf-to-lsb">Old CF (1) moves to LSB</span>
-            </div>
             <div class="register-and-cf-container">
                 <div class="register-bits">
                     <span class="bit highlight">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span>
                 </div>
                 <span class="carry-flag highlight">1</span>
             </div>
+            <span class="arrow rcl-msb-to-cf">&#8594;</span>
+            <span class="arrow-label label rcl-msb-to-cf">MSB (1) moves to CF</span>
+            <span class="arrow rcl-cf-to-lsb">&#8594;</span>
+            <span class="arrow-label label rcl-cf-to-lsb">Old CF (1) moves to LSB</span>
         </div>
 
         <div class="bit-visual-step">
@@ -620,18 +631,16 @@
 
         <div class="bit-visual-step">
             <div class="state-label">Step 1: MSB to CF, CF to LSB</div>
-            <div class="flow-diagram rcl">
-                <span class="arrow msb-to-cf">&#8594;</span>
-                <span class="arrow-label label msb-to-cf">MSB (0) moves to CF</span>
-                <span class="arrow cf-to-lsb">&#8594;</span>
-                <span class="arrow-label label cf-to-lsb">Old CF (0) moves to LSB</span>
-            </div>
             <div class="register-and-cf-container">
                 <div class="register-bits">
                     <span class="bit highlight">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span>
                 </div>
                 <span class="carry-flag highlight">0</span>
             </div>
+            <span class="arrow rcl-msb-to-cf">&#8594;</span>
+            <span class="arrow-label label rcl-msb-to-cf">MSB (0) moves to CF</span>
+            <span class="arrow rcl-cf-to-lsb">&#8594;</span>
+            <span class="arrow-label label rcl-cf-to-lsb">Old CF (0) moves to LSB</span>
         </div>
 
         <div class="bit-visual-step">
@@ -666,18 +675,16 @@
 
         <div class="bit-visual-step">
             <div class="state-label">Step 1: LSB to CF, CF to MSB</div>
-            <div class="flow-diagram rcr">
-                <span class="arrow lsb-to-cf">&#8592;</span> <!-- Left arrow -->
-                <span class="arrow-label label lsb-to-cf">LSB (0) moves to CF</span>
-                <span class="arrow cf-to-msb">&#8592;</span> <!-- Left arrow -->
-                <span class="arrow-label label cf-to-msb">Old CF (0) moves to MSB</span>
-            </div>
             <div class="register-and-cf-container">
                 <div class="register-bits">
                     <span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit highlight">0</span>
                 </div>
                 <span class="carry-flag highlight">0</span>
             </div>
+            <span class="arrow rcr-lsb-to-cf">&#8592;</span> <!-- Left arrow -->
+            <span class="arrow-label label rcr-lsb-to-cf">LSB (0) moves to CF</span>
+            <span class="arrow rcr-cf-to-msb">&#8592;</span> <!-- Left arrow -->
+            <span class="arrow-label label rcr-cf-to-msb">Old CF (0) moves to MSB</span>
         </div>
 
         <div class="bit-visual-step">
@@ -707,18 +714,16 @@
 
         <div class="bit-visual-step">
             <div class="state-label">Step 1: LSB to CF, CF to MSB</div>
-            <div class="flow-diagram rcr">
-                <span class="arrow lsb-to-cf">&#8592;</span>
-                <span class="arrow-label label lsb-to-cf">LSB (1) moves to CF</span>
-                <span class="arrow cf-to-msb">&#8592;</span>
-                <span class="arrow-label label cf-to-msb">Old CF (1) moves to MSB</span>
-            </div>
             <div class="register-and-cf-container">
                 <div class="register-bits">
                     <span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit highlight">1</span>
                 </div>
                 <span class="carry-flag highlight">1</span>
             </div>
+            <span class="arrow rcr-lsb-to-cf">&#8592;</span>
+            <span class="arrow-label label rcr-lsb-to-cf">LSB (1) moves to CF</span>
+            <span class="arrow rcr-cf-to-msb">&#8592;</span>
+            <span class="arrow-label label rcr-cf-to-msb">Old CF (1) moves to MSB</span>
         </div>
 
         <div class="bit-visual-step">
@@ -748,18 +753,16 @@
 
         <div class="bit-visual-step">
             <div class="state-label">Step 1: LSB to CF, CF to MSB</div>
-            <div class="flow-diagram rcr">
-                <span class="arrow lsb-to-cf">&#8592;</span>
-                <span class="arrow-label label lsb-to-cf">LSB (0) moves to CF</span>
-                <span class="arrow cf-to-msb">&#8592;</span>
-                <span class="arrow-label label cf-to-msb">Old CF (0) moves to MSB</span>
-            </div>
             <div class="register-and-cf-container">
                 <div class="register-bits">
                     <span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit highlight">0</span>
                 </div>
                 <span class="carry-flag highlight">0</span>
             </div>
+            <span class="arrow rcr-lsb-to-cf">&#8592;</span>
+            <span class="arrow-label label rcr-lsb-to-cf">LSB (0) moves to CF</span>
+            <span class="arrow rcr-cf-to-msb">&#8592;</span>
+            <span class="arrow-label label rcr-cf-to-msb">Old CF (0) moves to MSB</span>
         </div>
 
         <div class="bit-visual-step">
@@ -773,6 +776,89 @@
             <p class="concept-description">Result: <code>0000000010000000₂</code> (128 decimal), CF = <code>0</code></p>
         </div>
         <pre class="assembly-code"><code>RCR AX, 1  ; Rotate 16-bit AX register right through carry by 1 bit</code></pre>
+
+        <h2>Rotate Left (ROL)</h2>
+        <p class="concept-description">
+            <strong>Concept:</strong> The bits in the operand shift to the left. The bit that "falls off" the Most Significant Bit (MSB) end wraps around and moves into the Least Significant Bit (LSB) position. Additionally, a copy of the bit that "falls off" the MSB end is placed into the Carry Flag (CF). Unlike RCL, the original CF value does NOT participate in the rotation.
+        </p>
+
+        <h3>Example 1: 8-bit, ROL 1</h3>
+        <p class="concept-description">Initial State: Register = <code>01010101₂</code> (85 decimal)</p>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Initial State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span>
+                </div>
+                <span class="carry-flag">?</span> <!-- CF state before ROL is not used, but will be set by MSB -->
+            </div>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Step 1: MSB to CF, MSB to LSB</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit highlight">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span>
+                </div>
+                <span class="carry-flag highlight">0</span> <!-- CF will be set to 0 (old MSB) -->
+            </div>
+            <span class="arrow rol-msb-to-cf">&#8594;</span>
+            <span class="arrow-label label rol-msb-to-cf">MSB (0) moves to CF</span>
+            <span class="arrow rol-msb-to-lsb">&#8594;</span> <!-- Right arrow for wrap-around -->
+            <span class="arrow-label label rol-msb-to-lsb">MSB (0) wraps to LSB</span>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Resulting State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit highlight">0</span>
+                </div>
+                <span class="carry-flag highlight">0</span>
+            </div>
+            <p class="concept-description">Result: <code>10101010₂</code> (170 decimal), CF = <code>0</code></p>
+        </div>
+        <pre class="assembly-code"><code>ROL AL, 1  ; Rotate 8-bit AL register left by 1 bit</code></pre>
+
+        <h3>Example 2: 8-bit, ROL 1</h3>
+        <p class="concept-description">Initial State: Register = <code>10000001₂</code> (129 decimal)</p>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Initial State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">1</span>
+                </div>
+                <span class="carry-flag">?</span>
+            </div>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Step 1: MSB to CF, MSB to LSB</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit highlight">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">1</span>
+                </div>
+                <span class="carry-flag highlight">1</span> <!-- CF will be set to 1 (old MSB) -->
+            </div>
+            <span class="arrow rol-msb-to-cf">&#8594;</span>
+            <span class="arrow-label label rol-msb-to-cf">MSB (1) moves to CF</span>
+            <span class="arrow rol-msb-to-lsb">&#8594;</span>
+            <span class="arrow-label label rol-msb-to-lsb">MSB (1) wraps to LSB</span>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Resulting State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">1</span><span class="bit highlight">1</span>
+                </div>
+                <span class="carry-flag highlight">1</span>
+            </div>
+            <p class="concept-description">Result: <code>00000011₂</code> (3 decimal), CF = <code>1</code></p>
+        </div>
+        <pre class="assembly-code"><code>ROL AL, 1  ; Rotate 8-bit AL register left by 1 bit</code></pre>
 
     </div>
 
