@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotates Through Carry (RCL & RCR)</title>
+    <!--
+        We're bringing in the 'Inter' font for a clean, modern look across the entire page.
+        For the numerical and code-like values, 'Roboto Mono' is included. This monospace font
+        is like a perfectly aligned grid for numbers, ensuring they stack up neatly and are
+        easy to compare, which is super important when you're dealing with byte values!
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+            The 'body' is the canvas for our entire page. We're setting a very light blue
+            background, like a clear sky, to give a fresh and inviting feel.
+            The 'display: flex' and 'justify-content: center' ensure our main content
+            block is perfectly centered on the screen, no matter its size.
+            'min-height: 100vh' makes sure the background fills the entire screen,
+            even if the content is short.
+        */
+        body {
+            background-color: #e6f7ff; /* Very light blue background */
+            font-family: 'Inter', sans-serif; /* Our main clean font */
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: flex-start; /* Align content to the top */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            margin: 0;
+            padding: 25px; /* Generous padding around the content */
+            box-sizing: border-box; /* Include padding in element's total size */
+            color: #333; /* Standard dark gray text for readability */
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+        }
+
+        /*
+            This 'container' is like the main stage for our content. It's a crisp white
+            card that stands out against the blue background. Its rounded corners and
+            soft shadow give it a modern, elevated look, making the content feel important
+            and easy to focus on.
+        */
+        .container {
+            background-color: #ffffff; /* Pure white background for the content area */
+            border-radius: 20px; /* Smoothly rounded corners */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); /* A more prominent, soft shadow */
+            max-width: 900px; /* Max width for readability */
+            width: 100%; /* Ensures it's responsive on smaller screens */
+            padding: 35px; /* Inner padding to give content ample space */
+            box-sizing: border-box; /* Includes padding in the total width/height */
+            text-align: center; /* Centers the main heading and intro text */
+            transition: all 0.3s ease-in-out; /* Smooth transitions for responsive changes */
+            overflow-y: auto; /* Allows vertical scrolling within this container */
+            max-height: calc(100vh - 40px); /* Limits container height to prevent body scroll */
+        }
+
+        /*
+            The main heading for the document. It's a bold, vibrant blue.
+        */
+        h1 {
+            color: #007BFF; /* A vibrant blue for the main title */
+            font-size: 2.5em; /* Large and impactful */
+            font-weight: 700; /* Extra bold for emphasis */
+            margin-bottom: 25px; /* Space below the title */
+            letter-spacing: 0.5px; /* A little space between letters for style */
+        }
+
+        /*
+            A brief introductory paragraph.
+        */
+        p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #555; /* Slightly softer dark gray */
+            margin-bottom: 35px;
+            text-align: center;
+            max-width: 700px; /* Limits paragraph width for better readability */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /*
+            Section headings for RCL and RCR.
+        */
+        h2 {
+            color: #6f42c1; /* Purple for section headings */
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #d8b4fe; /* Light purple underline */
+            padding-bottom: 10px;
+            text-align: left;
+        }
+
+        /*
+            Example headings.
+        */
+        h3 {
+            color: #0056b3; /* Darker blue for example headings */
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        /* Styling for the concept description */
+        .concept-description {
+            font-size: 1em;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        /* Container for a single bit visualization step */
+        .bit-visual-step {
+            background-color: #f7fcff; /* Very light blue background */
+            border: 1px solid #cce5ff; /* Light blue border */
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative; /* For absolute positioning of internal elements */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex; /* Use flexbox for internal layout */
+            flex-direction: column; /* Stack elements vertically */
+            align-items: center; /* Center items horizontally */
+        }
+
+        /* Label for the state (e.g., "Initial State") */
+        .state-label {
+            font-weight: 700;
+            color: #36454F;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        /* Container for the register bits and carry flag, aligned horizontally */
+        .register-and-cf-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            position: relative; /* For relative positioning of arrows if needed */
+            width: 100%; /* Take full width to center content */
+        }
+
+        /* Container for the register bits */
+        .register-bits {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Individual bit styling */
+        .bit {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px; /* Fixed width for each bit */
+            height: 30px; /* Fixed height for each bit */
+            border: 1px solid #a8d9ff; /* Light blue border */
+            background-color: #eaf8ff; /* Lighter blue background */
+            margin: 0 2px; /* Small space between bits */
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 700;
+            color: #0056b3; /* Dark blue for bit values */
+            border-radius: 4px;
+        }
+
+        /* Highlight for active bits (e.g., MSB/LSB involved in shift) */
+        .bit.highlight {
+            background-color: #ffd700; /* Gold highlight */
+            border-color: #e0b300;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Carry Flag styling */
+        .carry-flag {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px; /* Wider for CF label */
+            height: 30px;
+            border: 1px solid #ff7f50; /* Coral border */
+            background-color: #ffe4e1; /* Light coral background */
+            margin-left: 20px;
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 700;
+            color: #d62828; /* Red for CF value */
+            border-radius: 4px;
+            position: relative;
+        }
+        .carry-flag::before {
+            content: 'CF:';
+            position: absolute;
+            top: -18px; /* Position label above */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8em;
+            font-weight: 600;
+            color: #d62828;
+            white-space: nowrap;
+        }
+
+        /* Container for arrows and labels, positioned absolutely within bit-visual-step */
+        .flow-diagram {
+            position: absolute;
+            top: 50%; /* Center vertically relative to bit-visual-step */
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between; /* Distribute arrows horizontally */
+            align-items: center;
+            pointer-events: none; /* Allow clicks through arrows */
+            z-index: 10; /* Ensure arrows are on top */
+            transform: translateY(-50%); /* Adjust for vertical centering */
+            padding: 0 10px; /* Add some padding to prevent arrows from touching edges */
+            box-sizing: border-box;
+        }
+
+        /* Arrow styling */
+        .arrow {
+            font-size: 2.5em; /* Larger arrow size for visibility */
+            color: #28a745; /* Green for movement */
+            font-weight: bold;
+            line-height: 1; /* Prevent extra space around arrow character */
+        }
+
+        /* Label for arrow movement */
+        .arrow-label {
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #28a745;
+            white-space: nowrap;
+            margin: 0 5px; /* Space between arrow and label */
+        }
+
+        /* Specific positioning for RCL arrows */
+        .flow-diagram.rcl .arrow.msb-to-cf {
+            position: absolute;
+            left: calc(50% - 150px); /* Adjust based on register width */
+            top: -30px; /* Position above the register */
+            transform: translateX(-50%);
+        }
+        .flow-diagram.rcl .label.msb-to-cf {
+            position: absolute;
+            left: calc(50% - 150px);
+            top: -55px;
+            transform: translateX(-50%);
+        }
+        .flow-diagram.rcl .arrow.cf-to-lsb {
+            position: absolute;
+            right: calc(50% - 150px); /* Adjust based on register width */
+            top: -30px; /* Position above the CF */
+            transform: translateX(50%);
+        }
+        .flow-diagram.rcl .label.cf-to-lsb {
+            position: absolute;
+            right: calc(50% - 150px);
+            top: -55px;
+            transform: translateX(50%);
+        }
+
+        /* Specific positioning for RCR arrows */
+        .flow-diagram.rcr .arrow.lsb-to-cf {
+            position: absolute;
+            right: calc(50% - 150px); /* Adjust based on register width */
+            top: -30px; /* Position above the register */
+            transform: translateX(50%);
+        }
+        .flow-diagram.rcr .label.lsb-to-cf {
+            position: absolute;
+            right: calc(50% - 150px);
+            top: -55px;
+            transform: translateX(50%);
+        }
+        .flow-diagram.rcr .arrow.cf-to-msb {
+            position: absolute;
+            left: calc(50% - 150px); /* Adjust based on register width */
+            top: -30px; /* Position above the CF */
+            transform: translateX(-50%);
+        }
+        .flow-diagram.rcr .label.cf-to-msb {
+            position: absolute;
+            left: calc(50% - 150px);
+            top: -55px;
+            transform: translateX(-50%);
+        }
+
+        /* Assembly code box */
+        pre.assembly-code {
+            background-color: #f0f0f0;
+            border-left: 5px solid #007bff;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9em;
+            line-height: 1.4;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .container {
+                padding: 25px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            p {
+                font-size: 1em;
+            }
+            h2 {
+                font-size: 1.6em;
+            }
+            h3 {
+                font-size: 1.2em;
+            }
+            .bit-visual-step {
+                padding: 12px;
+            }
+            .bit {
+                width: 28px;
+                height: 28px;
+                font-size: 0.9em;
+            }
+            .carry-flag {
+                width: 35px;
+                height: 28px;
+                font-size: 0.9em;
+            }
+            .carry-flag::before {
+                top: -16px;
+                font-size: 0.75em;
+            }
+            .arrow {
+                font-size: 2em;
+            }
+            .arrow-label {
+                font-size: 0.8em;
+            }
+            pre.assembly-code {
+                font-size: 0.85em;
+                padding: 12px;
+            }
+            .flow-diagram.rcl .arrow.msb-to-cf,
+            .flow-diagram.rcl .label.msb-to-cf,
+            .flow-diagram.rcl .arrow.cf-to-lsb,
+            .flow-diagram.rcl .label.cf-to-lsb,
+            .flow-diagram.rcr .arrow.lsb-to-cf,
+            .flow-diagram.rcr .label.lsb-to-cf,
+            .flow-diagram.rcr .arrow.cf-to-msb,
+            .flow-diagram.rcr .label.cf-to-msb {
+                top: -25px; /* Adjust top for smaller screens */
+            }
+            .flow-diagram.rcl .label.msb-to-cf,
+            .flow-diagram.rcl .label.cf-to-lsb,
+            .flow-diagram.rcr .label.lsb-to-cf,
+            .flow-diagram.rcr .label.cf-to-msb {
+                top: -45px; /* Adjust top for labels */
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .container {
+                padding: 20px;
+                border-radius: 15px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+                max-height: calc(100vh - 30px); /* Adjust for smaller padding */
+            }
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+            p {
+                font-size: 0.95em;
+                margin-bottom: 25px;
+            }
+            h2 {
+                font-size: 1.4em;
+            }
+            h3 {
+                font-size: 1.1em;
+            }
+            .bit-visual-step {
+                padding: 10px;
+            }
+            .bit {
+                width: 25px;
+                height: 25px;
+                font-size: 0.85em;
+            }
+            .carry-flag {
+                width: 30px;
+                height: 25px;
+                font-size: 0.85em;
+            }
+            .carry-flag::before {
+                top: -14px;
+                font-size: 0.7em;
+            }
+            .arrow {
+                font-size: 1.8em;
+            }
+            .arrow-label {
+                font-size: 0.75em;
+            }
+            pre.assembly-code {
+                font-size: 0.8em;
+                padding: 10px;
+            }
+            .flow-diagram.rcl .arrow.msb-to-cf,
+            .flow-diagram.rcl .label.msb-to-cf,
+            .flow-diagram.rcl .arrow.cf-to-lsb,
+            .flow-diagram.rcl .label.cf-to-lsb,
+            .flow-diagram.rcr .arrow.lsb-to-cf,
+            .flow-diagram.rcr .label.lsb-to-cf,
+            .flow-diagram.rcr .arrow.cf-to-msb,
+            .flow-diagram.rcr .label.cf-to-msb {
+                top: -20px; /* Adjust top for smaller screens */
+            }
+            .flow-diagram.rcl .label.msb-to-cf,
+            .flow-diagram.rcl .label.cf-to-lsb,
+            .flow-diagram.rcr .label.lsb-to-cf,
+            .flow-diagram.rcr .label.cf-to-msb {
+                top: -38px; /* Adjust top for labels */
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+                border-radius: 10px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                max-height: calc(100vh - 20px); /* Further adjust for smaller padding */
+            }
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 15px;
+            }
+            p {
+                font-size: 0.85em;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 1.2em;
+            }
+            h3 {
+                font-size: 1em;
+            }
+            .bit-visual-step {
+                padding: 8px;
+            }
+            .bit {
+                width: 22px;
+                height: 22px;
+                font-size: 0.8em;
+                margin: 0 1px;
+            }
+            .carry-flag {
+                width: 28px;
+                height: 22px;
+                font-size: 0.8em;
+                margin-left: 10px;
+            }
+            .carry-flag::before {
+                top: -12px;
+                font-size: 0.65em;
+            }
+            .arrow {
+                font-size: 1.5em;
+            }
+            .arrow-label {
+                font-size: 0.7em;
+            }
+            pre.assembly-code {
+                font-size: 0.75em;
+                padding: 8px;
+            }
+            .flow-diagram.rcl .arrow.msb-to-cf,
+            .flow-diagram.rcl .label.msb-to-cf,
+            .flow-diagram.rcl .arrow.cf-to-lsb,
+            .flow-diagram.rcl .label.cf-to-lsb,
+            .flow-diagram.rcr .arrow.lsb-to-cf,
+            .flow-diagram.rcr .label.lsb-to-cf,
+            .flow-diagram.rcr .arrow.cf-to-msb,
+            .flow-diagram.rcr .label.cf-to-msb {
+                top: -15px; /* Adjust top for smaller screens */
+            }
+            .flow-diagram.rcl .label.msb-to-cf,
+            .flow-diagram.rcl .label.cf-to-lsb,
+            .flow-diagram.rcr .label.lsb-to-cf,
+            .flow-diagram.rcr .label.cf-to-msb {
+                top: -30px; /* Adjust top for labels */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🔄 Rotates Through Carry (RCL & RCR): The Visual Breakdown</h1>
+
+        <p>In assembly language, rotate instructions are like circular shifts, but "Rotates Through Carry" (RCL and RCR) add an extra twist: they involve the CPU's **Carry Flag (CF)**. This makes the rotation operate on N+1 bits (where N is the size of your operand, e.g., 8, 16, 32, or 64 bits), creating a continuous loop between the register and the Carry Flag.</p>
+
+        <p>Let's dive into how these work with clear visuals.</p>
+
+        <h2>Rotate Left Through Carry (RCL)</h2>
+        <p class="concept-description">
+            <strong>Concept:</strong> The bits in the operand shift to the left. The bit that "falls off" the Most Significant Bit (MSB) end moves into the Carry Flag (CF). Simultaneously, the *original* value of the Carry Flag is inserted into the Least Significant Bit (LSB) position. It's like a circular shift involving the register and the Carry Flag as a single, larger bit string.
+        </p>
+
+        <h3>Example 1: 8-bit, CF=0, RCL 1</h3>
+        <p class="concept-description">Initial State: Register = <code>01010101₂</code> (85 decimal), CF = <code>0</code></p>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Initial State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span>
+                </div>
+                <span class="carry-flag">0</span>
+            </div>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Step 1: MSB to CF, CF to LSB</div>
+            <div class="flow-diagram rcl">
+                <span class="arrow msb-to-cf">&#8594;</span> <!-- Right arrow -->
+                <span class="arrow-label label msb-to-cf">MSB (0) moves to CF</span>
+                <span class="arrow cf-to-lsb">&#8594;</span> <!-- Right arrow -->
+                <span class="arrow-label label cf-to-lsb">Old CF (0) moves to LSB</span>
+            </div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit highlight">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span>
+                </div>
+                <span class="carry-flag highlight">0</span>
+            </div>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Resulting State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit highlight">0</span>
+                </div>
+                <span class="carry-flag highlight">0</span>
+            </div>
+            <p class="concept-description">Result: <code>10101010₂</code> (170 decimal), CF = <code>0</code></p>
+        </div>
+        <pre class="assembly-code"><code>RCL AL, 1  ; Rotate 8-bit AL register left through carry by 1 bit</code></pre>
+
+        <h3>Example 2: 8-bit, CF=1, RCL 1</h3>
+        <p class="concept-description">Initial State: Register = <code>10000000₂</code> (128 decimal), CF = <code>1</code></p>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Initial State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span>
+                </div>
+                <span class="carry-flag">1</span>
+            </div>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Step 1: MSB to CF, CF to LSB</div>
+            <div class="flow-diagram rcl">
+                <span class="arrow msb-to-cf">&#8594;</span>
+                <span class="arrow-label label msb-to-cf">MSB (1) moves to CF</span>
+                <span class="arrow cf-to-lsb">&#8594;</span>
+                <span class="arrow-label label cf-to-lsb">Old CF (1) moves to LSB</span>
+            </div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit highlight">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span>
+                </div>
+                <span class="carry-flag highlight">1</span>
+            </div>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Resulting State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit highlight">1</span>
+                </div>
+                <span class="carry-flag highlight">1</span>
+            </div>
+            <p class="concept-description">Result: <code>00000001₂</code> (1 decimal), CF = <code>1</code></p>
+        </div>
+        <pre class="assembly-code"><code>RCL AL, 1  ; Rotate 8-bit AL register left through carry by 1 bit</code></pre>
+
+        <h3>Example 3: 16-bit, CF=0, RCL 1</h3>
+        <p class="concept-description">Initial State: Register = <code>0000000010000000₂</code> (128 decimal), CF = <code>0</code></p>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Initial State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span>
+                </div>
+                <span class="carry-flag">0</span>
+            </div>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Step 1: MSB to CF, CF to LSB</div>
+            <div class="flow-diagram rcl">
+                <span class="arrow msb-to-cf">&#8594;</span>
+                <span class="arrow-label label msb-to-cf">MSB (0) moves to CF</span>
+                <span class="arrow cf-to-lsb">&#8594;</span>
+                <span class="arrow-label label cf-to-lsb">Old CF (0) moves to LSB</span>
+            </div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit highlight">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span>
+                </div>
+                <span class="carry-flag highlight">0</span>
+            </div>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Resulting State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit highlight">0</span>
+                </div>
+                <span class="carry-flag highlight">0</span>
+            </div>
+            <p class="concept-description">Result: <code>0000000100000000₂</code> (256 decimal), CF = <code>0</code></p>
+        </div>
+        <pre class="assembly-code"><code>RCL AX, 1  ; Rotate 16-bit AX register left through carry by 1 bit</code></pre>
+
+        <h2>Rotate Right Through Carry (RCR)</h2>
+        <p class="concept-description">
+            <strong>Concept:</strong> The bits in the operand shift to the right. The bit that "falls off" the Least Significant Bit (LSB) end moves into the Carry Flag (CF). Simultaneously, the *original* value of the Carry Flag is inserted into the Most Significant Bit (MSB) position. It's also like a circular shift involving the register and the Carry Flag as a single, larger bit string, but in the opposite direction of RCL.
+        </p>
+
+        <h3>Example 1: 8-bit, CF=0, RCR 1</h3>
+        <p class="concept-description">Initial State: Register = <code>10101010₂</code> (170 decimal), CF = <code>0</code></p>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Initial State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span>
+                </div>
+                <span class="carry-flag">0</span>
+            </div>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Step 1: LSB to CF, CF to MSB</div>
+            <div class="flow-diagram rcr">
+                <span class="arrow lsb-to-cf">&#8592;</span> <!-- Left arrow -->
+                <span class="arrow-label label lsb-to-cf">LSB (0) moves to CF</span>
+                <span class="arrow cf-to-msb">&#8592;</span> <!-- Left arrow -->
+                <span class="arrow-label label cf-to-msb">Old CF (0) moves to MSB</span>
+            </div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit highlight">0</span>
+                </div>
+                <span class="carry-flag highlight">0</span>
+            </div>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Resulting State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit highlight">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span>
+                </div>
+                <span class="carry-flag highlight">0</span>
+            </div>
+            <p class="concept-description">Result: <code>01010101₂</code> (85 decimal), CF = <code>0</code></p>
+        </div>
+        <pre class="assembly-code"><code>RCR AL, 1  ; Rotate 8-bit AL register right through carry by 1 bit</code></pre>
+
+        <h3>Example 2: 8-bit, CF=1, RCR 1</h3>
+        <p class="concept-description">Initial State: Register = <code>00000001₂</code> (1 decimal), CF = <code>1</code></p>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Initial State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">1</span>
+                </div>
+                <span class="carry-flag">1</span>
+            </div>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Step 1: LSB to CF, CF to MSB</div>
+            <div class="flow-diagram rcr">
+                <span class="arrow lsb-to-cf">&#8592;</span>
+                <span class="arrow-label label lsb-to-cf">LSB (1) moves to CF</span>
+                <span class="arrow cf-to-msb">&#8592;</span>
+                <span class="arrow-label label cf-to-msb">Old CF (1) moves to MSB</span>
+            </div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit highlight">1</span>
+                </div>
+                <span class="carry-flag highlight">1</span>
+            </div>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Resulting State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit highlight">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span>
+                </div>
+                <span class="carry-flag highlight">1</span>
+            </div>
+            <p class="concept-description">Result: <code>10000000₂</code> (128 decimal), CF = <code>1</code></p>
+        </div>
+        <pre class="assembly-code"><code>RCR AL, 1  ; Rotate 8-bit AL register right through carry by 1 bit</code></pre>
+
+        <h3>Example 3: 16-bit, CF=0, RCR 1</h3>
+        <p class="concept-description">Initial State: Register = <code>0000000100000000₂</code> (256 decimal), CF = <code>0</code></p>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Initial State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span>
+                </div>
+                <span class="carry-flag">0</span>
+            </div>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Step 1: LSB to CF, CF to MSB</div>
+            <div class="flow-diagram rcr">
+                <span class="arrow lsb-to-cf">&#8592;</span>
+                <span class="arrow-label label lsb-to-cf">LSB (0) moves to CF</span>
+                <span class="arrow cf-to-msb">&#8592;</span>
+                <span class="arrow-label label cf-to-msb">Old CF (0) moves to MSB</span>
+            </div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit highlight">0</span>
+                </div>
+                <span class="carry-flag highlight">0</span>
+            </div>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Resulting State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit highlight">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span>
+                </div>
+                <span class="carry-flag highlight">0</span>
+            </div>
+            <p class="concept-description">Result: <code>0000000010000000₂</code> (128 decimal), CF = <code>0</code></p>
+        </div>
+        <pre class="assembly-code"><code>RCR AX, 1  ; Rotate 16-bit AX register right through carry by 1 bit</code></pre>
+
+    </div>
+
+</body>
+</html>
