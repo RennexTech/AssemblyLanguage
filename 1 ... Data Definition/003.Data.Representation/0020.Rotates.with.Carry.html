@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rotates Through Carry (RCL & RCR) & Rotate Left (ROL)</title>
+    <title>Rotates Through Carry (RCL & RCR) & Rotate (ROL & ROR)</title>
     <!--
         We're bringing in the 'Inter' font for a clean, modern look across the entire page.
         For the numerical and code-like values, 'Roboto Mono' is included. This monospace font
@@ -295,6 +295,30 @@
             transform: translateX(-50%);
         }
 
+        /* Specific arrow positioning for ROR */
+        .arrow.ror-lsb-to-cf {
+            right: calc(50% - 150px); /* Position near LSB */
+            top: 20px; /* Above the register/CF line */
+            transform: translateX(50%);
+        }
+        .label.ror-lsb-to-cf {
+            right: calc(50% - 150px);
+            top: 0px;
+            transform: translateX(50%);
+        }
+        .arrow.ror-lsb-to-msb {
+            /* This arrow indicates the wrap-around from LSB to MSB */
+            left: 50%; /* Center horizontally */
+            top: calc(100% - 30px); /* Position below the register-and-cf-container */
+            transform: translateX(-50%) rotate(180deg); /* Rotate for leftward wrap */
+            font-size: 2.5em; /* Larger to stand out */
+        }
+        .label.ror-lsb-to-msb {
+            left: 50%;
+            top: calc(100% - 5px); /* Label below the arrow */
+            transform: translateX(-50%);
+        }
+
 
         /* Assembly code box */
         pre.assembly-code {
@@ -360,18 +384,19 @@
             .arrow.rcl-cf-to-lsb, .label.rcl-cf-to-lsb,
             .arrow.rcr-lsb-to-cf, .label.rcr-lsb-to-cf,
             .arrow.rcr-cf-to-msb, .label.rcr-cf-to-msb,
-            .arrow.rol-msb-to-cf, .label.rol-msb-to-cf {
+            .arrow.rol-msb-to-cf, .label.rol-msb-to-cf,
+            .arrow.ror-lsb-to-cf, .label.ror-lsb-to-cf {
                 top: 15px; /* Adjust top for arrows */
             }
             .label.rcl-msb-to-cf, .label.rcl-cf-to-lsb,
             .label.rcr-lsb-to-cf, .label.rcr-cf-to-msb,
-            .label.rol-msb-to-cf {
+            .label.rol-msb-to-cf, .label.ror-lsb-to-cf {
                 top: -5px; /* Adjust top for labels */
             }
-            .arrow.rol-msb-to-lsb {
+            .arrow.rol-msb-to-lsb, .arrow.ror-lsb-to-msb {
                 top: calc(100% - 25px);
             }
-            .label.rol-msb-to-lsb {
+            .label.rol-msb-to-lsb, .label.ror-lsb-to-msb {
                 top: calc(100% - 0px);
             }
         }
@@ -432,18 +457,19 @@
             .arrow.rcl-cf-to-lsb, .label.rcl-cf-to-lsb,
             .arrow.rcr-lsb-to-cf, .label.rcr-lsb-to-cf,
             .arrow.rcr-cf-to-msb, .label.rcr-cf-to-msb,
-            .arrow.rol-msb-to-cf, .label.rol-msb-to-cf {
+            .arrow.rol-msb-to-cf, .label.rol-msb-to-cf,
+            .arrow.ror-lsb-to-cf, .label.ror-lsb-to-cf {
                 top: 10px; /* Adjust top for arrows */
             }
             .label.rcl-msb-to-cf, .label.rcl-cf-to-lsb,
             .label.rcr-lsb-to-cf, .label.rcr-cf-to-msb,
-            .label.rol-msb-to-cf {
+            .label.rol-msb-to-cf, .label.ror-lsb-to-cf {
                 top: -10px; /* Adjust top for labels */
             }
-            .arrow.rol-msb-to-lsb {
+            .arrow.rol-msb-to-lsb, .arrow.ror-lsb-to-msb {
                 top: calc(100% - 20px);
             }
-            .label.rol-msb-to-lsb {
+            .label.rol-msb-to-lsb, .label.ror-lsb-to-msb {
                 top: calc(100% - 0px);
             }
         }
@@ -506,18 +532,19 @@
             .arrow.rcl-cf-to-lsb, .label.rcl-cf-to-lsb,
             .arrow.rcr-lsb-to-cf, .label.rcr-lsb-to-cf,
             .arrow.rcr-cf-to-msb, .label.rcr-cf-to-msb,
-            .arrow.rol-msb-to-cf, .label.rol-msb-to-cf {
+            .arrow.rol-msb-to-cf, .label.rol-msb-to-cf,
+            .arrow.ror-lsb-to-cf, .label.ror-lsb-to-cf {
                 top: 5px; /* Adjust top for arrows */
             }
             .label.rcl-msb-to-cf, .label.rcl-cf-to-lsb,
             .label.rcr-lsb-to-cf, .label.rcr-cf-to-msb,
-            .label.rol-msb-to-cf {
+            .label.rol-msb-to-cf, .label.ror-lsb-to-cf {
                 top: -15px; /* Adjust top for labels */
             }
-            .arrow.rol-msb-to-lsb {
+            .arrow.rol-msb-to-lsb, .arrow.ror-lsb-to-msb {
                 top: calc(100% - 15px);
             }
-            .label.rol-msb-to-lsb {
+            .label.rol-msb-to-lsb, .label.ror-lsb-to-msb {
                 top: calc(100% - 0px);
             }
         }
@@ -526,10 +553,10 @@
 <body>
 
     <div class="container">
-        <h1>🔄 Rotates Through Carry (RCL & RCR) & Rotate Left (ROL): The Visual Breakdown</h1>
+        <h1>🔄 Rotates Through Carry (RCL & RCR) & Rotate (ROL & ROR): The Visual Breakdown</h1>
 
         <p>In assembly language, rotate instructions are like circular shifts, but "Rotates Through Carry" (RCL and RCR) add an extra twist: they involve the CPU's **Carry Flag (CF)**. This makes the rotation operate on N+1 bits (where N is the size of your operand, e.g., 8, 16, 32, or 64 bits), creating a continuous loop between the register and the Carry Flag.</p>
-        <p>The `ROL` (Rotate Left) instruction is similar but simpler: the bit shifted out of the Most Significant Bit (MSB) moves directly into the Least Significant Bit (LSB) *and* also copies into the Carry Flag (CF). The original CF value is not involved in the rotation.</p>
+        <p>The `ROL` (Rotate Left) and `ROR` (Rotate Right) instructions are similar but simpler: the bit shifted out of one end moves directly into the other end *and* also copies into the Carry Flag (CF). The original CF value is not involved in the rotation.</p>
 
         <p>Let's dive into how these work with clear visuals.</p>
 
@@ -859,6 +886,89 @@
             <p class="concept-description">Result: <code>00000011₂</code> (3 decimal), CF = <code>1</code></p>
         </div>
         <pre class="assembly-code"><code>ROL AL, 1  ; Rotate 8-bit AL register left by 1 bit</code></pre>
+
+        <h2>Rotate Right (ROR)</h2>
+        <p class="concept-description">
+            <strong>Concept:</strong> The bits in the operand shift to the right. The bit that "falls off" the Least Significant Bit (LSB) end wraps around and moves into the Most Significant Bit (MSB) position. Additionally, a copy of the bit that "falls off" the LSB end is placed into the Carry Flag (CF). Similar to ROL, the original CF value does NOT participate in the rotation.
+        </p>
+
+        <h3>Example 1: 8-bit, ROR 1</h3>
+        <p class="concept-description">Initial State: Register = <code>10101010₂</code> (170 decimal)</p>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Initial State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span>
+                </div>
+                <span class="carry-flag">?</span> <!-- CF state before ROR is not used, but will be set by LSB -->
+            </div>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Step 1: LSB to CF, LSB to MSB</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit highlight">0</span>
+                </div>
+                <span class="carry-flag highlight">0</span> <!-- CF will be set to 0 (old LSB) -->
+            </div>
+            <span class="arrow ror-lsb-to-cf">&#8592;</span> <!-- Left arrow -->
+            <span class="arrow-label label ror-lsb-to-cf">LSB (0) moves to CF</span>
+            <span class="arrow ror-lsb-to-msb">&#8592;</span> <!-- Left arrow for wrap-around -->
+            <span class="arrow-label label ror-lsb-to-msb">LSB (0) wraps to MSB</span>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Resulting State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit highlight">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span><span class="bit">0</span><span class="bit">1</span>
+                </div>
+                <span class="carry-flag highlight">0</span>
+            </div>
+            <p class="concept-description">Result: <code>01010101₂</code> (85 decimal), CF = <code>0</code></p>
+        </div>
+        <pre class="assembly-code"><code>ROR AL, 1  ; Rotate 8-bit AL register right by 1 bit</code></pre>
+
+        <h3>Example 2: 8-bit, ROR 1</h3>
+        <p class="concept-description">Initial State: Register = <code>00000001₂</code> (1 decimal)</p>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Initial State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">1</span>
+                </div>
+                <span class="carry-flag">?</span>
+            </div>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Step 1: LSB to CF, LSB to MSB</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit highlight">1</span>
+                </div>
+                <span class="carry-flag highlight">1</span> <!-- CF will be set to 1 (old LSB) -->
+            </div>
+            <span class="arrow ror-lsb-to-cf">&#8592;</span>
+            <span class="arrow-label label ror-lsb-to-cf">LSB (1) moves to CF</span>
+            <span class="arrow ror-lsb-to-msb">&#8592;</span>
+            <span class="arrow-label label ror-lsb-to-msb">LSB (1) wraps to MSB</span>
+        </div>
+
+        <div class="bit-visual-step">
+            <div class="state-label">Resulting State</div>
+            <div class="register-and-cf-container">
+                <div class="register-bits">
+                    <span class="bit highlight">1</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span><span class="bit">0</span>
+                </div>
+                <span class="carry-flag highlight">1</span>
+            </div>
+            <p class="concept-description">Result: <code>10000000₂</code> (128 decimal), CF = <code>1</code></p>
+        </div>
+        <pre class="assembly-code"><code>ROR AL, 1  ; Rotate 8-bit AL register right by 1 bit</code></pre>
 
     </div>
 
