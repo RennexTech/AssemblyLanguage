@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossary: Key Terms for x86 Real Mode Memory Management</title>
+    <style>
+        /*
+         * This CSS is embedded directly in the HTML document,
+         * ensuring all styling is local and self-contained.
+         * It's designed for a clean, dictionary-like presentation.
+         */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            font-weight: 700;
+            color: #0056b3;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #007bff;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #dee2e6; /* Dashed line for term separation */
+        }
+
+        p {
+            margin-bottom: 1em;
+            text-align: justify;
+        }
+
+        ul {
+            margin-bottom: 1em;
+            padding-left: 25px;
+        }
+
+        li {
+            margin-bottom: 0.5em;
+        }
+
+        code {
+            background-color: #e9ecef;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.9em;
+            color: #c82333;
+        }
+
+        pre {
+            background-color: #212529;
+            color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1.5em;
+            font-family: 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+            border-radius: 0;
+        }
+
+        .term-definition {
+            margin-bottom: 30px; /* Space between each term's definition */
+        }
+
+        .term-name {
+            font-weight: bold;
+            color: #0056b3;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                margin: 10px auto;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Glossary: Key Terms for x86 Real Mode Memory Management</h1>
+        <p>
+            This document provides definitions for essential terms related to x86 Real Mode,
+            segmented memory addressing, and CPU operation in older systems. Understanding these
+            concepts is fundamental for anyone diving into low-level computing, reverse engineering,
+            or malware analysis.
+        </p>
+
+        <div class="term-definition">
+            <h2>Real Mode</h2>
+            <p>
+                The foundational operating mode of all x86 processors. Every x86 CPU starts in Real Mode
+                when it powers on or resets, primarily for backward compatibility with early IBM PCs.
+                In this mode, there is no memory protection, and programs have direct access to physical
+                memory and hardware.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>x86 Processor</h2>
+            <p>
+                A family of instruction set architectures developed by Intel, first introduced with the
+                8086 microprocessor. It defines how a CPU processes instructions and manages memory.
+                This architecture has evolved significantly but maintains backward compatibility.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>16-bit Register</h2>
+            <p>
+                A storage location within the CPU that can hold a 16-bit binary value (a number
+                from 0 to 65,535, or 2<sup>16</sup> - 1). Early x86 CPUs like the 8086/8088 primarily
+                used 16-bit registers for all operations and addressing.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>20-bit Address</h2>
+            <p>
+                An address that consists of 20 binary bits. A 20-bit address can uniquely identify
+                2<sup>20</sup> = 1,048,576 bytes, which equals 1 Megabyte (1MB) of memory. This was the
+                maximum addressable memory in x86 Real Mode.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>1 Megabyte (1MB)</h2>
+            <p>
+                A unit of digital information, equal to 1,024 Kilobytes (KB) or 1,048,576 bytes.
+                This was the total amount of memory that the original IBM PC and x86 processors
+                in Real Mode could address.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Segmented Memory Model</h2>
+            <p>
+                A memory organization scheme used in x86 Real Mode where memory is divided into
+                smaller, overlapping blocks called "segments." To access a memory location, both a
+                segment address and an offset within that segment are required. This contrasts with
+                a flat memory model.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Flat Memory Model</h2>
+            <p>
+                A memory organization scheme where memory is viewed as a single, continuous, linear
+                address space. Modern 32-bit and 64-bit operating systems typically use a flat memory
+                model, often combined with paging for virtual memory.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Segment Register</h2>
+            <p>
+                A special-purpose 16-bit register within the x86 CPU that holds the base address (or
+                more accurately, the segment selector) of a memory segment. Examples include
+                <code>CS</code> (Code Segment), <code>DS</code> (Data Segment), <code>SS</code> (Stack Segment),
+                and <code>ES</code> (Extra Segment).
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Offset Register</h2>
+            <p>
+                A 16-bit register or immediate value that specifies a displacement (offset) from the
+                starting address of a memory segment. It pinpoints the exact location within that segment.
+                Examples include <code>IP</code>, <code>SP</code>, <code>BX</code>, <code>SI</code>, <code>DI</code>, and <code>BP</code>.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Physical Address</h2>
+            <p>
+                The actual, real address in the computer's main memory (RAM) where data or instructions
+                are stored. In Real Mode, this is a 20-bit address derived from the segment:offset calculation.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Logical Address</h2>
+            <p>
+                In a segmented memory model, a logical address is the combination of a segment and an
+                offset (e.g., <code>CS:IP</code> or <code>DS:BX</code>). This logical address is translated
+                by the CPU's hardware into a physical address.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Paragraph (16-byte boundary)</h2>
+            <p>
+                A unit of memory in x86 Real Mode, equal to 16 bytes. Segments always begin on a paragraph
+                boundary, meaning their starting physical addresses are always a multiple of 16. This is
+                why the segment value is effectively multiplied by 16 (shifted left by 4 bits) during
+                address calculation.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Address Generation Unit (AGU) / Address Computation Unit (ACU)</h2>
+            <p>
+                A dedicated execution unit within the CPU responsible for calculating memory addresses.
+                In Real Mode, the AGU performs the crucial task of combining the segment and offset values
+                to produce the 20-bit physical address, including the conceptual "shift left by 4" operation
+                on the segment value.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Arithmetic Logic Unit (ALU)</h2>
+            <p>
+                A core component of the CPU that performs arithmetic (addition, subtraction, etc.) and
+                logical (AND, OR, NOT) operations. It is distinct from the AGU, which specializes only
+                in address calculations.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>SHL (Shift Left) Instruction</h2>
+            <p>
+                A standard assembly language instruction that shifts the bits of a register or memory
+                location to the left by a specified number of positions. In a typical <code>SHL</code>
+                operation, bits shifted out from the most significant bit (leftmost) position are
+                moved into the Carry Flag (CF) and are effectively "lost" from the register, while
+                zeros are inserted on the right. This is distinct from the AGU's address calculation.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Carry Flag (CF)</h2>
+            <p>
+                A single-bit flag in the CPU's FLAGS register that indicates whether an arithmetic
+                operation resulted in a carry (for addition) or a borrow (for subtraction) out of the
+                most significant bit. It also captures bits shifted out during `SHL` or `SHR` instructions.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>General-Purpose Registers (GPRs)</h2>
+            <p>
+                Registers within the CPU that can be used for a wide variety of data manipulation and
+                addressing tasks. Examples in 16-bit x86 include <code>AX</code>, <code>BX</code>,
+                <code>CX</code>, <code>DX</code>, <code>SI</code>, <code>DI</code>, <code>BP</code>, and <code>SP</code>.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>CS (Code Segment)</h2>
+            <p>
+                A 16-bit segment register that points to the segment containing the currently executing
+                program instructions. The Instruction Pointer (IP) holds the offset within this segment.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>DS (Data Segment)</h2>
+            <p>
+                A 16-bit segment register that typically points to the segment containing program data.
+                Most data access instructions implicitly use <code>DS</code> unless another segment register
+                is explicitly specified.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>SS (Stack Segment)</h2>
+            <p>
+                A 16-bit segment register that points to the segment containing the program's stack.
+                The Stack Pointer (SP) and Base Pointer (BP) typically hold offsets within this segment.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>ES (Extra Segment)</h2>
+            <p>
+                A 16-bit segment register, often used as an additional data segment, particularly for
+                string operations or when working with multiple data areas.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>IP (Instruction Pointer)</h2>
+            <p>
+                A 16-bit register that holds the offset of the next instruction to be executed, relative
+                to the start of the Code Segment (CS). The combination <code>CS:IP</code> forms the
+                logical address of the next instruction.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>SP (Stack Pointer)</h2>
+            <p>
+                A 16-bit register that holds the offset of the top of the stack, relative to the start
+                of the Stack Segment (SS). It is used for push and pop operations.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>BX (Base Register)</h2>
+            <p>
+                A 16-bit general-purpose register often used as a base address for memory access,
+                especially within the Data Segment (DS).
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>SI (Source Index)</h2>
+            <p>
+                A 16-bit general-purpose register typically used as an index for source operands in
+                string operations or for general memory indexing. It is often paired with the Data Segment (DS).
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>DI (Destination Index)</h2>
+            <p>
+                A 16-bit general-purpose register typically used as an index for destination operands
+                in string operations or for general memory indexing. It is often paired with the Extra Segment (ES).
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>BP (Base Pointer)</h2>
+            <p>
+                A 16-bit general-purpose register often used as a base address for accessing data on the
+                stack, relative to the Stack Segment (SS).
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Immediate Offset</h2>
+            <p>
+                A constant value directly encoded within an instruction that serves as an offset for
+                memory access. For example, in <code>MOV AX, [0x100]</code>, <code>0x100</code> is an immediate offset.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Base Offset</h2>
+            <p>
+                An offset derived from the value held in a base register (like <code>BX</code> or <code>BP</code>),
+                used to point to a starting position within a memory segment.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Index Offset</h2>
+            <p>
+                An offset derived from the value held in an index register (like <code>SI</code> or <code>DI</code>),
+                often used for accessing elements in arrays or structures.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Overlapping Segments</h2>
+            <p>
+                A characteristic of Real Mode's segmented memory where different segment:offset logical
+                addresses can translate to the exact same physical memory address. This occurs because
+                segments start on 16-byte boundaries, allowing their 64KB ranges to intersect.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Memory Protection</h2>
+            <p>
+                A hardware-enforced mechanism that prevents programs from accessing memory areas that
+                they are not authorized to use. Real Mode lacks memory protection, making it susceptible
+                to crashes and security vulnerabilities. Introduced in Protected Mode.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Virtual Memory</h2>
+            <p>
+                A memory management technique that allows a computer to compensate for physical memory
+                shortages by temporarily transferring data from RAM to disk storage. It also provides
+                each program with its own isolated address space. Not present in Real Mode.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Paging</h2>
+            <p>
+                A memory management scheme that breaks logical memory into blocks of the same size,
+                called pages, and physical memory into same-sized blocks, called frames. It's a key
+                component of virtual memory and memory protection, introduced in Protected Mode.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Privilege Levels (Rings)</h2>
+            <p>
+                Hardware-enforced security levels in x86 processors (Ring 0 to Ring 3), where Ring 0
+                is the most privileged (kernel mode) and Ring 3 is the least privileged (user mode).
+                Real Mode effectively runs all code at Ring 0, with no privilege separation.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>BIOS (Basic Input/Output System)</h2>
+            <p>
+                Firmware stored on a chip on the motherboard that initializes hardware components,
+                performs Power-On Self-Test (POST), and loads the bootloader when the computer starts.
+                It operates in Real Mode during its initial phase.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>UEFI (Unified Extensible Firmware Interface)</h2>
+            <p>
+                A modern replacement for BIOS, providing more advanced features for system boot-up
+                and configuration. Like BIOS, UEFI firmware also starts execution in Real Mode (or a
+                similar compatibility mode) before transitioning to a more capable mode.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Bootloader</h2>
+            <p>
+                A small program that loads the operating system when a computer starts. The first stage
+                of a bootloader (e.g., in the MBR) often executes in Real Mode.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>MBR (Master Boot Record)</h2>
+            <p>
+                The first sector of a hard disk (512 bytes) that contains the bootloader code and the
+                disk's partition table. The code in the MBR is executed in Real Mode.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>VBR (Volume Boot Record)</h2>
+            <p>
+                The first sector of a formatted partition or volume, containing code that loads the
+                operating system from that partition. Like MBR code, VBR code also executes in Real Mode.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Interrupts (e.g., INT 13h, INT 10h, INT 21h)</h2>
+            <p>
+                Software or hardware signals that cause the CPU to temporarily suspend its current
+                task and execute a special routine called an Interrupt Service Routine (ISR). In Real Mode,
+                these interrupts (like <code>INT 13h</code> for disk services, <code>INT 10h</code> for video,
+                and <code>INT 21h</code> for DOS services) were crucial for interacting with hardware and the OS.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Protected Mode</h2>
+            <p>
+                A more advanced operating mode of x86 processors (introduced with the 80286) that provides
+                memory protection, virtual memory, and hardware-enforced privilege levels. Operating systems
+                like Windows and Linux run in Protected Mode.
+            </p>
+        </div>
+
+        <div class="term-definition">
+            <h2>Long Mode</h2>
+            <p>
+                The 64-bit operating mode of x86-64 processors, allowing access to significantly more
+                memory (up to 16 Exabytes) and introducing 64-bit registers and instructions. It is
+                the most advanced mode in modern x86 CPUs.
+            </p>
+        </div>
+
+    </div>
+</body>
+</html>
