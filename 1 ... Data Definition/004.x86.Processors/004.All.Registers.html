@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>x86 Real Mode Registers: Roles and Addressing Combinations</title>
+    <style>
+        /*
+         * This CSS is embedded directly in the HTML document,
+         * ensuring all styling is local and self-contained.
+         * It aims for readability, a clean aesthetic, and responsiveness.
+         */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            color: #0056b3;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        h2 {
+            font-size: 2.2em;
+            margin-top: 40px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            font-size: 1.6em;
+            margin-top: 30px;
+            color: #007bff;
+        }
+
+        h4 {
+            font-size: 1.3em;
+            margin-top: 25px;
+            color: #495057;
+        }
+
+        p {
+            margin-bottom: 1em;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-bottom: 1em;
+            padding-left: 25px;
+        }
+
+        li {
+            margin-bottom: 0.5em;
+        }
+
+        code {
+            background-color: #e9ecef;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.9em;
+            color: #c82333;
+        }
+
+        pre {
+            background-color: #212529;
+            color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1.5em;
+            font-family: 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: inherit;
+            border-radius: 0;
+        }
+
+        .highlight {
+            background-color: #ffc107;
+            padding: 0.1em 0.3em;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .register-group {
+            margin-bottom: 40px;
+            padding: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            background-color: #f0f4f8;
+        }
+
+        .register-group h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #0056b3;
+        }
+
+        .register-item {
+            margin-bottom: 20px;
+        }
+
+        .register-item h4 {
+            margin-top: 0;
+            margin-bottom: 5px;
+            color: #495057;
+        }
+
+        .example-box {
+            background-color: #e6f7ff;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .example-box p {
+            margin-bottom: 0.5em;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                margin: 10px auto;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            h2 {
+                font-size: 1.8em;
+            }
+            h3 {
+                font-size: 1.4em;
+            }
+            h4 {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>x86 Real Mode Registers: Roles and Addressing Combinations</h1>
+            <p>
+                When diving into old `.com` programs or low-level boot code, understanding the 16-bit
+                registers of the x86 architecture in Real Mode is absolutely critical. These registers
+                are the CPU's small, super-fast memory locations that hold data, instructions, and,
+                most importantly for us, components of memory addresses. This document breaks down
+                each type of register and illustrates how they combine to form the physical addresses
+                that the CPU actually uses.
+            </p>
+        </header>
+
+        <section>
+            <h2>1. The Register Set Overview</h2>
+            <p>
+                In Real Mode, all general-purpose, pointer, and index registers are 16-bit. They can
+                hold values from <code>0x0000</code> to <code>0xFFFF</code>. Segment registers are also
+                16-bit, but they play a special role in memory addressing.
+            </p>
+
+            <div class="register-group">
+                <h3>1.1. General-Purpose Registers (GPRs)</h3>
+                <p>
+                    These are the workhorses for data manipulation and arithmetic. They can also be
+                    used as parts of memory addresses (offsets). Each 16-bit register can be accessed
+                    as two separate 8-bit halves (e.g., <code>AX</code> can be <code>AH</code> and <code>AL</code>).
+                </p>
+                <div class="register-item">
+                    <h4><code>AX</code> (Accumulator Register)</h4>
+                    <p>
+                        Primarily used for arithmetic operations, I/O operations, and string manipulations.
+                        Often involved in multiplication and division.
+                    </p>
+                </div>
+                <div class="register-item">
+                    <h4><code>BX</code> (Base Register)</h4>
+                    <p>
+                        A versatile register, frequently used as a <span class="highlight">base register</span>
+                        for memory addressing. When used in addressing, it typically holds an offset
+                        relative to the <code>DS</code> (Data Segment) register.
+                    </p>
+                </div>
+                <div class="register-item">
+                    <h4><code>CX</code> (Count Register)</h4>
+                    <p>
+                        Mainly used as a counter in loops and string operations.
+                    </p>
+                </div>
+                <div class="register-item">
+                    <h4><code>DX</code> (Data Register)</h4>
+                    <p>
+                        Used for I/O operations, large arithmetic operations (e.g., high-order word in
+                        multiplication/division), and as a general data register.
+                    </p>
+                </div>
+            </div>
+
+            <div class="register-group">
+                <h3>1.2. Segment Registers</h3>
+                <p>
+                    These 16-bit registers are fundamental to Real Mode's segmented memory model. They
+                    define the starting point (base) of 64KB memory segments. The CPU's Address
+                    Generation Unit (AGU) uses these values to calculate the 20-bit physical address.
+                </p>
+                <div class="register-item">
+                    <h4><code>CS</code> (Code Segment)</h4>
+                    <p>
+                        Points to the segment where the currently executing instructions are located.
+                        The CPU fetches instructions from the address formed by <code>CS:IP</code>.
+                    </p>
+                </div>
+                <div class="register-item">
+                    <h4><code>DS</code> (Data Segment)</h4>
+                    <p>
+                        Points to the segment where most program data is stored. Unless explicitly
+                        overridden, data access instructions (like <code>MOV AX, [BX]</code>) will
+                        assume the offset is relative to <code>DS</code>.
+                    </p>
+                </div>
+                <div class="register-item">
+                    <h4><code>SS</code> (Stack Segment)</h4>
+                    <p>
+                        Points to the segment where the program's stack is located. Stack operations
+                        (<code>PUSH</code>, <code>POP</code>, function calls) implicitly use <code>SS</code>.
+                    </p>
+                </div>
+                <div class="register-item">
+                    <h4><code>ES</code> (Extra Segment)</h4>
+                    <p>
+                        An additional data segment register, often used for string operations (as a
+                        destination segment) or when a program needs to access data in a segment
+                        different from <code>DS</code>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="register-group">
+                <h3>1.3. Pointer and Index Registers</h3>
+                <p>
+                    These 16-bit registers are primarily used to hold offsets for memory addressing.
+                    They are crucial for accessing data structures, arrays, and the stack.
+                </p>
+                <div class="register-item">
+                    <h4><code>IP</code> (Instruction Pointer)</h4>
+                    <p>
+                        Holds the <span class="highlight">offset</span> of the next instruction to be
+                        executed, relative to the start of the <code>CS</code> (Code Segment). The CPU
+                        automatically increments <code>IP</code> as instructions are fetched. You
+                        cannot directly modify <code>IP</code> with a <code>MOV</code> instruction;
+                        it's changed by jumps, calls, returns, and interrupts.
+                    </p>
+                </div>
+                <div class="register-item">
+                    <h4><code>SP</code> (Stack Pointer)</h4>
+                    <p>
+                        Holds the <span class="highlight">offset</span> of the top of the stack,
+                        relative to the start of the <code>SS</code> (Stack Segment). It's implicitly
+                        used by <code>PUSH</code>, <code>POP</code>, <code>CALL</code>, and <code>RET</code> instructions.
+                    </p>
+                </div>
+                <div class="register-item">
+                    <h4><code>BP</code> (Base Pointer)</h4>
+                    <p>
+                        Often used as a <span class="highlight">base pointer</span> for accessing
+                        data on the stack, particularly local variables and function parameters. It
+                        typically holds an offset relative to the <code>SS</code> (Stack Segment).
+                    </p>
+                </div>
+                <div class="register-item">
+                    <h4><code>SI</code> (Source Index)</h4>
+                    <p>
+                        Used as an <span class="highlight">index register</span>, primarily for pointing
+                        to source data in string operations (e.g., <code>MOVSB</code>, <code>CMPSB</code>).
+                        It typically holds an offset relative to the <code>DS</code> (Data Segment).
+                    </p>
+                </div>
+                <div class="register-item">
+                    <h4><code>DI</code> (Destination Index)</h4>
+                    <p>
+                        Used as an <span class="highlight">index register</span>, primarily for pointing
+                        to destination data in string operations. It typically holds an offset relative
+                        to the <code>ES</code> (Extra Segment).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Addressing Combinations in Real Mode</h2>
+            <p>
+                The power of Real Mode addressing comes from combining these 16-bit registers (and sometimes
+                immediate values) to form the 16-bit offset, which then pairs with a 16-bit segment register
+                to produce the final 20-bit physical address.
+            </p>
+            <p>
+                Remember the formula: <code>Physical Address = (Segment Register &lt;&lt; 4) + Offset</code>.
+                The examples below focus on how the <code>Offset</code> part is formed.
+            </p>
+
+            <h3>2.1. Direct (Immediate) Addressing</h3>
+            <p>
+                The offset is a fixed value directly specified in the instruction. The segment register
+                is usually <code>DS</code> by default for data access.
+            </p>
+            <div class="example-box">
+                <p><strong>Example:</strong> Reading data from a fixed memory location.</p>
+                <pre><code>MOV AX, [0x1000]</code></pre>
+                <p>
+                    <strong>Explanation:</strong> Reads a word (2 bytes) from the memory location
+                    at <code>DS:0x1000</code>. If <code>DS</code> is <code>0x07C0</code> (common for bootloaders),
+                    the physical address would be <code>(0x07C0 &lt;&lt; 4) + 0x1000 = 0x7C00 + 0x1000 = 0x8C00</code>.
+                </p>
+            </div>
+
+            <h3>2.2. Register Indirect Addressing (Base Registers)</h3>
+            <p>
+                The offset is held entirely within a single base register (<code>BX</code> or <code>BP</code>).
+                <code>BX</code> defaults to <code>DS</code>, while <code>BP</code> defaults to <code>SS</code>.
+            </p>
+            <div class="example-box">
+                <p><strong>Example:</strong> Accessing data pointed to by <code>BX</code>.</p>
+                <pre><code>MOV AL, [BX]</code></pre>
+                <p>
+                    <strong>Explanation:</strong> Reads a byte from the memory location at
+                    <code>DS:BX</code>. If <code>DS=0x07C0</code> and <code>BX=0x0050</code>,
+                    physical address is <code>0x7C00 + 0x0050 = 0x7C50</code>.
+                </p>
+            </div>
+            <div class="example-box">
+                <p><strong>Example:</strong> Accessing data on the stack using <code>BP</code>.</p>
+                <pre><code>MOV AX, [BP]</code></pre>
+                <p>
+                    <strong>Explanation:</strong> Reads a word from the memory location at
+                    <code>SS:BP</code>. This is common for accessing function parameters or local variables
+                    on the stack frame.
+                </p>
+            </div>
+
+            <h3>2.3. Register Indirect Addressing (Index Registers)</h3>
+            <p>
+                Similar to base registers, but using <code>SI</code> or <code>DI</code>.
+                <code>SI</code> defaults to <code>DS</code>, <code>DI</code> defaults to <code>ES</code>.
+            </p>
+            <div class="example-box">
+                <p><strong>Example:</strong> Copying a string using <code>SI</code> and <code>DI</code>.</p>
+                <pre><code>MOV BYTE PTR [DI], AL  ; Writes AL to ES:DI
+MOV AL, [SI]           ; Reads byte from DS:SI</code></pre>
+                <p>
+                    <strong>Explanation:</strong> These are common in string manipulation loops.
+                    <code>[SI]</code> typically points to the source, and <code>[DI]</code> to the destination.
+                    The segment registers are implicitly used.
+                </p>
+            </div>
+
+            <h3>2.4. Base-Indexed Addressing</h3>
+            <p>
+                Combines a base register (<code>BX</code> or <code>BP</code>) with an index register
+                (<code>SI</code> or <code>DI</code>). This is powerful for accessing elements in arrays
+                of structures, or 2D arrays.
+            </p>
+            <div class="example-box">
+                <p><strong>Example:</strong> Accessing an element in an array pointed to by <code>BX</code>,
+                    with an offset for the element itself from <code>SI</code>.</p>
+                <pre><code>MOV AX, [BX + SI]</code></pre>
+                <p>
+                    <strong>Explanation:</strong> Reads a word from <code>DS:(BX + SI)</code>.
+                    If <code>BX</code> points to the start of a structure and <code>SI</code> is an offset
+                    to a field within that structure, this is how you'd access it.
+                </p>
+            </div>
+            <div class="example-box">
+                <p><strong>Example:</strong> Accessing a local variable on the stack using <code>BP</code>
+                    and an index <code>DI</code> (less common but possible).</p>
+                <pre><code>MOV CL, [BP + DI]</code></pre>
+                <p>
+                    <strong>Explanation:</strong> Reads a byte from <code>SS:(BP + DI)</code>.
+                </p>
+            </div>
+
+            <h3>2.5. Base-Indexed Addressing with Displacement</h3>
+            <p>
+                Combines a base register, an index register, and a fixed immediate value (displacement).
+                This is the most complex addressing mode in Real Mode, allowing for precise access.
+            </p>
+            <div class="example-box">
+                <p><strong>Example:</strong> Accessing a field within a structure in an array.</p>
+                <pre><code>MOV AX, [BX + SI + 0x10]</code></pre>
+                <p>
+                    <strong>Explanation:</strong> Reads a word from <code>DS:(BX + SI + 0x10)</code>.
+                    Here, <code>BX</code> might point to the start of an array, <code>SI</code> to the
+                    start of a specific element within that array, and <code>0x10</code> could be the
+                    offset to a particular field within that element.
+                </p>
+            </div>
+            <div class="example-box">
+                <p><strong>Example:</strong> Accessing a local variable on the stack with a fixed offset.</p>
+                <pre><code>MOV BYTE PTR [BP - 0x04], AL</code></pre>
+                <p>
+                    <strong>Explanation:</strong> Writes a byte to <code>SS:(BP - 0x04)</code>.
+                    This is common for accessing local variables that are a fixed distance from <code>BP</code>.
+                </p>
+            </div>
+
+            <h3>2.6. Jump/Call Addressing (Implicit CS:IP)</h3>
+            <p>
+                Instructions like <code>JMP</code> and <code>CALL</code> modify the <code>CS</code> and/or <code>IP</code>
+                registers to transfer control to a new location.
+            </p>
+            <div class="example-box">
+                <p><strong>Example:</strong> Short jump within the current code segment.</p>
+                <pre><code>JMP SHORT LABEL_A</code></pre>
+                <p>
+                    <strong>Explanation:</strong> Modifies <code>IP</code> by a small, signed 8-bit offset
+                    to jump to <code>LABEL_A</code> within the current <code>CS</code>.
+                </p>
+            </div>
+            <div class="example-box">
+                <p><strong>Example:</strong> Near jump within the current code segment.</p>
+                <pre><code>JMP NEAR PTR LABEL_B</code></pre>
+                <p>
+                    <strong>Explanation:</strong> Modifies <code>IP</code> by a 16-bit offset to jump to
+                    <code>LABEL_B</code> within the current <code>CS</code>.
+                </p>
+            </div>
+            <div class="example-box">
+                <p><strong>Example:</strong> Far jump to a different code segment.</p>
+                <pre><code>JMP FAR PTR 0x1234:0x5678</code></pre>
+                <p>
+                    <strong>Explanation:</strong> Loads <code>CS</code> with <code>0x1234</code> and
+                    <code>IP</code> with <code>0x5678</code>, transferring execution to a completely
+                    different segment. This is how control is passed between different parts of memory,
+                    like from a bootloader to the operating system.
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h2>3. Relevance for Reversing Old `.com` Programs</h2>
+            <p>
+                `.com` files are a classic example of programs designed for Real Mode. They are
+                simple, memory-resident executables that load at a fixed address (typically
+                <code>0x0100</code> within their segment) and often assume <code>CS</code>, <code>DS</code>,
+                <code>ES</code>, and <code>SS</code> all point to the same segment.
+            </p>
+            <p>
+                When you're reversing a `.com` program, you'll frequently see:
+            </p>
+            <ul>
+                <li>
+                    <strong>Heavy use of <code>BX</code>, <code>SI</code>, <code>DI</code> for data access:</strong>
+                    These registers are the primary means of navigating memory.
+                </li>
+                <li>
+                    <strong>Direct offsets:</strong> Many instructions will use hardcoded offsets like
+                    <code>MOV AL, [0x0050]</code> to access program data or jump tables.
+                </li>
+                <li>
+                    <strong>String instructions:</strong> Operations like <code>MOVSB</code>, <code>CMPSB</code>,
+                    <code>STOSB</code>, which implicitly use <code>DS:SI</code> for source and <code>ES:DI</code>
+                    for destination, are common.
+                </li>
+                <li>
+                    <strong>Stack manipulation:</strong> Functions will use <code>PUSH</code> and <code>POP</code>
+                    to save/restore registers and <code>BP</code> to access stack variables.
+                </li>
+                <li>
+                    <strong>Far jumps/calls to BIOS/DOS interrupts:</strong> `.com` programs rely heavily
+                    on system services provided by the BIOS (e.g., <code>INT 10h</code> for video,
+                    <code>INT 13h</code> for disk) and DOS (e.g., <code>INT 21h</code> for file I/O).
+                    Understanding the parameters passed via registers for these interrupts is key.
+                </li>
+            </ul>
+            <p>
+                By mastering these register roles and addressing modes, you'll be able to accurately
+                trace execution flow, identify data access patterns, and understand the logic of these
+                vintage programs, giving you a powerful edge in your reverse engineering journey.
+            </p>
+        </section>
+    </div>
+</body>
+</html>
