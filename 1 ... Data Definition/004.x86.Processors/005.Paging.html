@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linear Address Breakdown for Paging</title>
+    <!--
+        Just like a skilled surgeon meticulously plans an operation,
+        our CSS here defines the precise visual cuts and arrangements
+        for our linear address. We're not just drawing boxes; we're
+        creating a clear, color-coded map that shows how a single,
+        long address is dissected into critical pieces, each with its
+        own role in finding the exact spot in memory.
+    -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+            The body is our stage. We're setting a clean, professional backdrop
+            with a light grey color and ensuring everything is perfectly centered.
+            This creates an environment where the complex details of memory
+            addressing can be presented without distraction, much like a
+            well-organized workbench for a reverse engineer.
+        */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /*
+            The main container is the blueprint for our entire visualization.
+            It's a clean, white canvas with soft, rounded edges and a subtle shadow,
+            giving it a sense of depth and importance. It acts as the central
+            hub, neatly organizing all the address components and their explanations.
+        */
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 800px; /* Wider to accommodate the address bits */
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        /*
+            This box represents the complete linear address, the starting point
+            of our dissection. It's given a prominent blue border and a light
+            blue background, signifying its importance as the input to the paging process.
+        */
+        .linear-address-box {
+            border: 2px solid #3498db;
+            padding: 15px 25px;
+            margin-bottom: 20px;
+            background-color: #eaf6ff;
+            border-radius: 10px;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.5em;
+            width: fit-content;
+            box-sizing: border-box;
+        }
+
+        /*
+            The arrow acts as a visual guide, showing the flow from the
+            complete linear address down to its segmented parts. It's a clear
+            indicator of transformation, much like a "process" arrow in a flowchart.
+        */
+        .arrow {
+            font-size: 3em;
+            color: #34495e;
+            margin: 10px 0;
+            line-height: 1;
+        }
+
+        /*
+            This is the core visualizer for the linear address bits.
+            It uses flexbox to lay out the three segments horizontally,
+            making it clear that they are parts of a single, larger whole.
+            The `justify-between` ensures they are spaced out nicely.
+        */
+        .address-bits-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end; /* Align labels at the bottom */
+            width: 100%;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            position: relative; /* For the bit labels */
+        }
+
+        /*
+            Each segment (Page Directory Index, Page Table Index, Offset)
+            is a distinct box with its own color and label. The `flex-grow`
+            property allows them to take up proportional space, visually
+            representing their bit length. The `relative` positioning is
+            key for placing the bit range labels accurately below them.
+        */
+        .bit-segment {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 10px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            position: relative;
+            box-sizing: border-box;
+            height: 100px; /* Fixed height for visual consistency */
+            justify-content: center;
+            flex-shrink: 0; /* Prevent shrinking below content */
+        }
+
+        /* Specific styling for each segment's color */
+        .page-directory-index {
+            background-color: #e74c3c; /* Red */
+            border: 2px solid #c0392b;
+            flex-basis: 30%; /* Approx 10 bits out of 32 */
+            margin-right: 5px;
+        }
+        .page-table-index {
+            background-color: #f1c40f; /* Yellow */
+            border: 2px solid #f39c12;
+            flex-basis: 30%; /* Approx 10 bits out of 32 */
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+        .offset {
+            background-color: #2ecc71; /* Green */
+            border: 2px solid #27ae60;
+            flex-basis: 40%; /* Approx 12 bits out of 32 */
+            margin-left: 5px;
+        }
+
+        /*
+            These labels show the bit ranges (e.g., 31-22). They are positioned
+            absolutely below each segment, ensuring they stay aligned even if
+            the segment content changes.
+        */
+        .bit-range-label {
+            position: absolute;
+            bottom: -30px; /* Position below the segment */
+            font-size: 0.85em;
+            color: #555;
+            white-space: nowrap; /* Prevent wrapping */
+        }
+
+        /*
+            Explanation section styling. This provides context and details
+            for each part of the chopped address.
+        */
+        .explanation-section {
+            text-align: left;
+            width: 100%;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+        }
+        .explanation-section h3 {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+        .explanation-section p {
+            font-size: 1em;
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        /*
+            Media queries for responsiveness. On smaller screens, we want
+            the address segments to stack vertically instead of horizontally,
+            to prevent squishing and maintain readability. The bit range labels
+            are also adjusted.
+        */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            .linear-address-box {
+                font-size: 1.2em;
+                padding: 10px 15px;
+            }
+            .address-bits-container {
+                flex-direction: column; /* Stack vertically */
+                align-items: center;
+            }
+            .bit-segment {
+                width: 90%; /* Take more width */
+                margin: 10px 0; /* Vertical margin */
+                height: 80px; /* Slightly smaller height */
+                flex-basis: auto; /* Remove flex-basis for vertical stacking */
+            }
+            .page-directory-index, .page-table-index, .offset {
+                margin: 5px 0; /* Adjust margins for vertical stack */
+            }
+            .bit-range-label {
+                position: static; /* Remove absolute positioning */
+                margin-top: 5px; /* Add margin below segment */
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-3xl font-bold text-gray-800 mb-8">Dissecting the Linear Address</h1>
+
+        <!--
+            This represents the complete 32-bit linear address, the input to the paging mechanism.
+            It's like having a full, unparsed serial number for a specific item.
+            For demonstration, we'll use a placeholder value.
+        -->
+        <div class="linear-address-box">
+            Linear Address (e.g., 0x7FFFC000)
+            <div class="text-sm font-normal mt-1">(32 bits total)</div>
+        </div>
+
+        <!--
+            The downward arrow signifies the process of breaking down this single address
+            into its meaningful components by the Paging Unit.
+        -->
+        <div class="arrow">⬇️</div>
+        <div class="text-lg font-semibold text-gray-600 mb-4">Paging Unit "Chops" It Into:</div>
+
+        <!--
+            This is the visual representation of the linear address being divided.
+            Each colored block represents a specific set of bits with a distinct purpose.
+        -->
+        <div class="address-bits-container">
+            <!--
+                Page Directory Index (PDI): These are the highest-order bits of the linear address.
+                Think of them as the "super-directory" or the first level of a nested folder structure.
+                They point to an entry in the Page Directory, which in turn points to a Page Table.
+                If you're looking for a book in a massive library, this is like knowing which *building*
+                or *major section* the book is in.
+            -->
+            <div class="bit-segment page-directory-index flex-1">
+                Page Directory Index (PDI)
+                <span class="bit-range-label">Bits 31-22 (10 bits)</span>
+            </div>
+
+            <!--
+                Page Table Index (PTI): These are the middle bits. Once the Page Directory Index
+                has led you to the correct Page Table, the Page Table Index tells you which
+                entry *within that specific Page Table* to look at. This entry will then
+                contain the physical address of the actual memory page (frame).
+                In our library analogy, this is like knowing which *floor* or *aisle* within that
+                building/section the book is on.
+            -->
+            <div class="bit-segment page-table-index flex-1">
+                Page Table Index (PTI)
+                <span class="bit-range-label">Bits 21-12 (10 bits)</span>
+            </div>
+
+            <!--
+                Offset: These are the lowest-order bits. Once you've found the physical memory
+                page (frame) using the PDI and PTI, the Offset tells you *where within that page*
+                the specific data you're looking for resides. This is the most granular detail.
+                In the library, this is the exact *shelf number* and *position on the shelf*
+                where your book is. It's the final, precise location within the memory block.
+            -->
+            <div class="bit-segment offset flex-1.2">
+                Offset
+                <span class="bit-range-label">Bits 11-0 (12 bits)</span>
+            </div>
+        </div>
+
+        <!-- Detailed explanations for each part -->
+        <div class="explanation-section">
+            <h3>Understanding the "Chopped" Bits:</h3>
+            <p>
+                When the Paging Unit receives a Linear Address, it doesn't process it as one monolithic number. Instead, it systematically breaks it down into three distinct fields, each serving a specific purpose in the multi-level page table lookup:
+            </p>
+
+            <h3>1. Page Directory Index (PDI)</h3>
+            <p>
+                This is like the main directory in a huge apartment complex. It's the first set of numbers the paging unit looks at. These bits tell the CPU which entry in the Page Directory to consult. The Page Directory is essentially a top-level table, and each entry in it points to a specific Page Table. Think of it as finding the right *building* or *district* in a very large city. If you're doing malware analysis, understanding how the PDI works can help you trace how an attacker might try to manipulate the highest level of memory mapping to redirect execution.
+            </p>
+
+            <h3>2. Page Table Index (PTI)</h3>
+            <p>
+                Once the Page Directory Index has led you to a specific Page Table (which is like the directory for a specific *building* within the complex), the Page Table Index comes into play. These middle bits tell the CPU which entry *within that particular Page Table* to look at. This entry contains the crucial information: the physical base address of the actual memory page (or "frame") where your data resides. This is like finding the right *floor* or *specific wing* within that building. For reverse engineers, understanding the PTI is vital because it's the gateway to pinpointing the exact virtual page that maps to a physical memory location.
+            </p>
+
+            <h3>3. Offset</h3>
+            <p>
+                Finally, the Offset bits are the most granular part. Once the Page Directory Index and Page Table Index have successfully guided the CPU to the correct physical memory page (frame), the Offset tells the CPU the exact position *within that page* where the desired data or instruction is located. This is like knowing the precise *apartment number* on that floor, or the exact *byte position* within a 4KB memory block. This part of the address is *not* translated; it's simply added to the physical base address of the page. In malware analysis, understanding the offset is critical for precise code injection or data modification, as it allows you to target specific instructions or variables within a page.
+            </p>
+            <p>
+                This three-part breakdown is fundamental to how virtual memory works, allowing the operating system to map a program's seemingly contiguous memory space to potentially non-contiguous physical memory, enabling efficient memory sharing and protection.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
