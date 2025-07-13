@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>32-bit to 64-bit Register Equivalents</title>
+    <!--
+        This CSS is like a quick-reference guide for a pilot, clearly labeling
+        each control in the cockpit. We're setting up a clean, light interface
+        with calming blue tones to make the transition from 32-bit to 64-bit
+        registers visually straightforward and easy to digest. It's about
+        clarity and immediate recognition.
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+            The 'body' is our clean, bright workspace. We're using a very light
+            background and a fresh, readable font. The flexbox properties ensure
+            that our register table is perfectly centered, like a key diagram
+            pinned right in the middle of your study board.
+        */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light grey background for a clean look */
+            display: flex;
+            justify-content: center; /* Horizontally center content */
+            align-items: center; /* Vertically center content */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            margin: 0; /* Remove default body margin */
+            padding: 20px; /* Add some padding around edges */
+            box-sizing: border-box; /* Include padding in element's total width/height */
+        }
+
+        /*
+            The 'container' is the frame for our register map. It's a bright
+            white card with soft, rounded edges and a subtle shadow, making it
+            feel like a physical reference card. It neatly holds all the register
+            information, keeping it organized and accessible.
+        */
+        .container {
+            background-color: #ffffff; /* White background for the card */
+            padding: 40px; /* Generous padding inside */
+            border-radius: 15px; /* Rounded corners */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            max-width: 500px; /* Limit max width for better readability */
+            width: 100%; /* Make it responsive */
+            box-sizing: border-box;
+            text-align: center; /* Center text within the container */
+        }
+
+        /*
+            The 'h1' is the title of our register guide. It's bold and clear,
+            setting the stage for the important information that follows.
+        */
+        h1 {
+            font-size: 2.2em; /* Large font size for the title */
+            font-weight: bold;
+            color: #2c3e50; /* Dark text for contrast */
+            margin-bottom: 30px; /* Space below the title */
+        }
+
+        /*
+            The 'table' itself is designed for maximum readability.
+            We use 'border-collapse: separate' to allow individual cell
+            rounding and 'border-spacing: 0' to remove gaps, creating a
+            seamless, professional look.
+        */
+        table {
+            width: 100%;
+            border-collapse: separate; /* Allows individual cell borders/radius */
+            border-spacing: 0; /* No space between cells */
+        }
+
+        /*
+            Table headers ('th') and data cells ('td') are styled for clarity.
+            They have ample padding, left-aligned text, and a distinct
+            bottom border to separate rows.
+        */
+        th, td {
+            padding: 15px 20px; /* Padding inside cells */
+            text-align: left; /* Align text to the left */
+            border-bottom: 1px solid #e0e0e0; /* Light grey separator line */
+            color: #34495e; /* Darker text for content */
+        }
+
+        /*
+            Table headers are bolded and given a slightly different background
+            and text color to distinguish them as category labels.
+        */
+        th {
+            font-weight: bold;
+            background-color: #eaf6ff; /* Very light blue background for headers */
+            color: #3498db; /* Blue text for headers */
+            font-size: 1.1em; /* Slightly larger font for headers */
+        }
+
+        /*
+            Applying rounded corners to the table's top and bottom edges.
+            This gives the entire table a polished, modern appearance.
+        */
+        th:first-child { border-top-left-radius: 10px; }
+        th:last-child { border-top-right-radius: 10px; }
+        tr:last-child td:first-child { border-bottom-left-radius: 10px; }
+        tr:last-child td:last-child { border-bottom-right-radius: 10px; }
+
+        /* Remove the bottom border from the last row for a clean finish */
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /*
+            Styling for the register names themselves. They are bolded
+            and given a slightly darker blue color to make them stand out
+            as the key pieces of information.
+        */
+        .register-name {
+            font-weight: bold;
+            color: #2c3e50; /* Dark text for the register names */
+            font-size: 1.05em; /* Slightly larger font for register names */
+        }
+
+        /*
+            Media queries for responsiveness. On smaller screens, we adjust
+            padding and font sizes to ensure the table remains perfectly
+            legible and doesn't overflow, adapting gracefully to mobile devices.
+        */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px; /* Reduce padding on smaller screens */
+            }
+            h1 {
+                font-size: 1.8em; /* Smaller title on mobile */
+                margin-bottom: 20px;
+            }
+            th, td {
+                padding: 12px 15px; /* Reduce cell padding */
+                font-size: 0.9em; /* Reduce font size for cells */
+            }
+            .register-name {
+                font-size: 1em; /* Adjust register name font size */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>x86 to x86-64 General-Purpose Register Equivalents</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>32-bit Register</th>
+                    <th>64-bit Equivalent</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--
+                    EAX / RAX: The Accumulator Register.
+                    In 32-bit, it's EAX. In 64-bit, it expands to RAX.
+                    This is like upgrading a small delivery truck (EAX) to a full-sized semi-trailer (RAX).
+                    It can carry much larger payloads (64-bit data) and is still the primary register
+                    for arithmetic operations and function return values.
+                -->
+                <tr>
+                    <td><span class="register-name">EAX</span></td>
+                    <td><span class="register-name">RAX</span></td>
+                </tr>
+                <!--
+                    EBX / RBX: The Base Register.
+                    Often used as a base pointer for data access.
+                    It's like expanding a small storage locker (EBX) into a large warehouse (RBX).
+                    It can hold larger memory addresses and is still valuable for addressing data.
+                -->
+                <tr>
+                    <td><span class="register-name">EBX</span></td>
+                    <td><span class="register-name">RBX</span></td>
+                </tr>
+                <!--
+                    ECX / RCX: The Counter Register.
+                    Frequently used as a loop counter or for string operations.
+                    Think of it as upgrading a simple stopwatch (ECX) to a sophisticated digital timer (RCX).
+                    It can count higher and is often used for passing the first function argument in 64-bit Windows.
+                -->
+                <tr>
+                    <td><span class="register-name">ECX</span></td>
+                    <td><span class="register-name">RCX</span></td>
+                </tr>
+                <!--
+                    EDX / RDX: The Data Register.
+                    Often used for I/O port access, arithmetic operations (e.g., multiplication/division with EAX/RAX).
+                    It's like giving your data a bigger briefcase (EDX) that can now become a large suitcase (RDX).
+                    It's also used for passing the second function argument in 64-bit Windows.
+                -->
+                <tr>
+                    <td><span class="register-name">EDX</span></td>
+                    <td><span class="register-name">RDX</span></td>
+                </tr>
+                <!--
+                    EBP / RBP: The Base Pointer Register.
+                    Primarily used as a frame pointer to access local variables and function arguments on the stack.
+                    It's like expanding a small bookmark (EBP) in a book to a full-sized, sturdy page marker (RBP).
+                    It helps you navigate the current function's stack frame.
+                -->
+                <tr>
+                    <td><span class="register-name">EBP</span></td>
+                    <td><span class="register-name">RBP</span></td>
+                </tr>
+                <!--
+                    ESP / RSP: The Stack Pointer Register.
+                    Always points to the top of the stack. Crucial for managing function calls and local variables.
+                    This is like upgrading your stack of plates from a small pile (ESP) to a towering, stable column (RSP).
+                    It always points to the next available spot on the stack.
+                -->
+                <tr>
+                    <td><span class="register-name">ESP</span></td>
+                    <td><span class="register-name">RSP</span></td>
+                </tr>
+                <!--
+                    ESI / RSI: The Source Index Register.
+                    Often used as a source pointer for string and memory block operations.
+                    It's like upgrading a simple pointer (ESI) to a highly precise laser pointer (RSI)
+                    that can point to any byte in a much larger data source.
+                -->
+                <tr>
+                    <td><span class="register-name">ESI</span></td>
+                    <td><span class="register-name">RSI</span></td>
+                </tr>
+                <!--
+                    EDI / RDI: The Destination Index Register.
+                    Often used as a destination pointer for string and memory block operations.
+                    This is the counterpart to RSI, like the target area for your laser pointer.
+                    It's also used for passing the first function argument in 64-bit Linux/macOS.
+                -->
+                <tr>
+                    <td><span class="register-name">EDI</span></td>
+                    <td><span class="register-name">RDI</span></td>
+                </tr>
+                <!--
+                    New 64-bit Registers (R8-R15):
+                    These are entirely new general-purpose registers introduced in x86-64.
+                    They are like adding eight brand-new, high-capacity toolboxes to your workbench.
+                    They provide much-needed extra storage for data and arguments, reducing the
+                    reliance on the stack and improving performance. For reverse engineers,
+                    these are new places to look for data and function arguments.
+                -->
+                <tr>
+                    <td><span class="register-name">N/A</span></td>
+                    <td><span class="register-name">R8</span></td>
+                </tr>
+                <tr>
+                    <td><span class="register-name">N/A</span></td>
+                    <td><span class="register-name">R9</span></td>
+                </tr>
+                <tr>
+                    <td><span class="register-name">N/A</span></td>
+                    <td><span class="register-name">R10</span></td>
+                </tr>
+                <tr>
+                    <td><span class="register-name">N/A</span></td>
+                    <td><span class="register-name">R11</span></td>
+                </tr>
+                <tr>
+                    <td><span class="register-name">N/A</span></td>
+                    <td><span class="register-name">R12</span></td>
+                </tr>
+                <tr>
+                    <td><span class="register-name">N/A</span></td>
+                    <td><span class="register-name">R13</span></td>
+                </tr>
+                <tr>
+                    <td><span class="register-name">N/A</span></td>
+                    <td><span class="register-name">R14</span></td>
+                </tr>
+                <tr>
+                    <td><span class="register-name">N/A</span></td>
+                    <td><span class="register-name">R15</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

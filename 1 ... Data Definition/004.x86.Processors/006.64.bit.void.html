@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Long Mode: Security & Features</title>
+    <!--
+        We're bringing in the 'Inter' font for a clean, modern look across the entire page.
+        For the numerical and code-like values, 'Roboto Mono' is included. This monospace font
+        is like a perfectly aligned grid for numbers, ensuring they stack up neatly and are
+        easy to compare, which is super important when you're dealing with byte values!
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+            The 'body' is the canvas for our entire page. We're setting a very light blue
+            background, like a clear sky, to give a fresh and inviting feel.
+            The 'display: flex' and 'justify-content: center' ensure our main content
+            block is perfectly centered on the screen, no matter its size.
+            'min-height: 100vh' makes sure the background fills the entire screen,
+            even if the content is short.
+        */
+        body {
+            background-color: #e6f7ff; /* Very light blue background */
+            font-family: 'Inter', sans-serif; /* Our main clean font */
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: flex-start; /* Align content to the top */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            margin: 0;
+            padding: 25px; /* Generous padding around the content */
+            box-sizing: border-box; /* Include padding in element's total size */
+            color: #333; /* Standard dark gray text for readability */
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+        }
+
+        /*
+            This 'container' is like the main stage for our content. It's a crisp white
+            card that stands out against the blue background. Its rounded corners and
+            soft shadow give it a modern, elevated look, making the content feel important
+            and easy to focus on.
+        */
+        .container {
+            background-color: #ffffff; /* Pure white background for the content area */
+            border-radius: 20px; /* Smoothly rounded corners */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); /* A more prominent, soft shadow */
+            max-width: 900px; /* Max width for readability */
+            width: 100%; /* Ensures it's responsive on smaller screens */
+            padding: 35px; /* Inner padding to give content ample space */
+            box-sizing: border-box; /* Includes padding in the total width/height */
+            text-align: center; /* Centers the main heading and intro text */
+            transition: all 0.3s ease-in-out; /* Smooth transitions for responsive changes */
+            overflow-y: auto; /* Allows vertical scrolling within this container */
+            max-height: calc(100vh - 40px); /* Limits container height to prevent body scroll */
+        }
+
+        /*
+            The main heading for the document. It's a bold, vibrant blue.
+        */
+        h1 {
+            color: #007BFF; /* A vibrant blue for the main title */
+            font-size: 2.5em; /* Large and impactful */
+            font-weight: 700; /* Extra bold for emphasis */
+            margin-bottom: 25px; /* Space below the title */
+            letter-spacing: 0.5px; /* A little space between letters for style */
+        }
+
+        /*
+            A brief introductory paragraph.
+        */
+        p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #555; /* Slightly softer dark gray */
+            margin-bottom: 35px;
+            text-align: center;
+            max-width: 700px; /* Limits paragraph width for better readability */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Section headings */
+        h2 {
+            color: #6f42c1; /* Purple for section headings */
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #d8b4fe; /* Light purple underline */
+            padding-bottom: 10px;
+            text-align: left;
+        }
+
+        /* Table styling for features */
+        .feature-table {
+            width: 100%;
+            border-collapse: separate; /* Allows border-radius on cells */
+            border-spacing: 0; /* Remove space between cells */
+            margin-top: 30px;
+            margin-bottom: 30px;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* Soft shadow for the table */
+            border-radius: 10px; /* Rounded corners for the entire table */
+            overflow: hidden; /* Ensures content respects border-radius */
+        }
+
+        .feature-table th,
+        .feature-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0; /* Light separator lines */
+        }
+
+        .feature-table th {
+            background-color: #007BFF; /* Blue header background */
+            color: #ffffff; /* White text for headers */
+            font-weight: 600;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Rounded corners for first and last header cells */
+        .feature-table th:first-child {
+            border-top-left-radius: 10px;
+        }
+        .feature-table th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        .feature-table td {
+            background-color: #fcfdff; /* Very light background for cells */
+            color: #444;
+            line-height: 1.6;
+        }
+
+        /* Alternating row colors for better readability */
+        .feature-table tbody tr:nth-child(odd) td {
+            background-color: #f7faff; /* Slightly darker for odd rows */
+        }
+
+        /* Remove bottom border from last row */
+        .feature-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Rounded corners for last row cells */
+        .feature-table tbody tr:last-child td:first-child {
+            border-bottom-left-radius: 10px;
+        }
+        .feature-table tbody tr:last-child td:last-child {
+            border-bottom-right-radius: 10px;
+        }
+
+        /* Feature name styling */
+        .feature-name {
+            font-weight: 700;
+            color: #0056b3; /* Darker blue for feature names */
+            font-size: 1.05em;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .container {
+                padding: 25px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            p {
+                font-size: 1em;
+            }
+            .feature-table th,
+            .feature-table td {
+                padding: 12px 18px;
+            }
+            .feature-table th {
+                font-size: 1em;
+            }
+            .feature-name {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .container {
+                padding: 20px;
+                border-radius: 15px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+                max-height: calc(100vh - 30px); /* Adjust for smaller padding */
+            }
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+            p {
+                font-size: 0.95em;
+                margin-bottom: 25px;
+            }
+            .feature-table {
+                display: block; /* Make table behave like a block for stacking */
+                border-radius: 10px;
+            }
+            .feature-table thead, .feature-table tbody, .feature-table th, .feature-table td, .feature-table tr {
+                display: block; /* Stack table elements */
+            }
+            .feature-table thead tr {
+                position: absolute; /* Hide header row visually */
+                top: -9999px;
+                left: -9999px;
+            }
+            .feature-table tr {
+                margin-bottom: 15px;
+                border: 1px solid #e0e0e0;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            }
+            .feature-table td {
+                border: none; /* Remove individual cell borders */
+                position: relative;
+                padding-left: 50%; /* Make space for pseudo-element label */
+                text-align: right;
+            }
+            .feature-table td::before {
+                content: attr(data-label); /* Use data-label for header */
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: 700;
+                color: #007BFF; /* Blue label */
+            }
+            .feature-table tbody tr:nth-child(odd) td {
+                background-color: #fcfdff; /* Reset background for stacked rows */
+            }
+            .feature-table tbody tr:nth-child(odd) {
+                background-color: #f7faff; /* Apply alternating background to the row itself */
+            }
+            .feature-table tbody tr:last-child {
+                border-bottom: 1px solid #e0e0e0; /* Ensure last row has border */
+            }
+            .feature-table tbody tr:last-child td:first-child,
+            .feature-table tbody tr:last-child td:last-child {
+                border-bottom-left-radius: 0; /* Remove bottom radius for stacked */
+                border-bottom-right-radius: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+                border-radius: 10px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                max-height: calc(100vh - 20px); /* Further adjust for smaller padding */
+            }
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 15px;
+            }
+            p {
+                font-size: 0.85em;
+                margin-bottom: 20px;
+            }
+            .feature-table td {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+            .feature-table td::before {
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🛡️ Long Mode: Security & Features</h1>
+
+        <p>Long Mode represents a significant leap in x86 architecture, introducing 64-bit processing capabilities. Beyond just expanding addressable memory, it brought crucial advancements in security, performance, and the fundamental design of how the operating system interacts with hardware. These changes are vital for modern computing environments, especially in areas like malware analysis where understanding low-level system behavior is key.</p>
+
+        <table class="feature-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="feature-name" data-label="Feature">NX Bit (No-eXecute)</td>
+                    <td data-label="Description">A hardware-level implementation of Data Execution Prevention (DEP). It marks memory pages as non-executable, preventing malicious code from running in data segments. This is like putting a "no running" sign on certain areas of a building; if someone tries to run there, the system immediately knows something is wrong.</td>
+                </tr>
+                <tr>
+                    <td class="feature-name" data-label="Feature">SMEP (Supervisor Mode Exec Protection)</td>
+                    <td data-label="Description">Prevents code running in supervisor mode (Ring 0, kernel) from executing instructions located in user-mode memory pages. This is a critical defense against privilege escalation attacks, where an attacker might try to trick the kernel into executing their malicious code from user space. Think of it as a security guard for the kernel, ensuring it only executes code from trusted, internal areas.</td>
+                </tr>
+                <tr>
+                    <td class="feature-name" data-label="Feature">Long Mode Kernel</td>
+                    <td data-label="Description">In 64-bit mode, the operating system kernel must run in Ring 0. This means the kernel operates with full privileges, directly managing hardware and memory. It's the ultimate control room, and in Long Mode, it's built to handle the vast 64-bit address space efficiently and securely.</td>
+                </tr>
+                <tr>
+                    <td class="feature-name" data-label="Feature">64-bit Syscalls</td>
+                    <td data-label="Description">The traditional <code>int 0x80</code> and <code>sysenter</code> instructions for system calls are replaced by more efficient <code>syscall</code> and <code>sysret</code> instructions. This new mechanism provides a faster and more streamlined way for user-mode applications to request services from the kernel, improving overall system performance by reducing overhead. It's like upgrading from a slow, manual request process to a high-speed automated system.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Security, performance, and architectural design all leveled up significantly in Long Mode, laying the groundwork for the robust 64-bit operating systems we use today. Understanding these foundational changes is essential for anyone diving deep into system internals, reverse engineering, or modern malware analysis.</p>
+
+    </div>
+
+</body>
+</html>

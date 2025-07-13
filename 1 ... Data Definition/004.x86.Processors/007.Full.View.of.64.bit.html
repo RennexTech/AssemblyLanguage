@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expanded x86-64 Long Mode Features (Custom CSS)</title>
+    <!--
+        Like a master craftsman forging metal without a pre-made mold,
+        this CSS is meticulously handcrafted to shape our data table.
+        Every property, from colors to spacing and shadows, is defined
+        explicitly to achieve the desired aesthetic and responsiveness,
+        ensuring a clean, professional presentation without relying on
+        any external frameworks.
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+            The 'body' element is our stage. We set the font, background color,
+            and use flexbox to perfectly center the content on the screen.
+            This creates a clean, focused environment for our table,
+            much like preparing a dedicated workstation for a detailed analysis.
+        */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark background color */
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            min-height: 100vh; /* Full viewport height */
+            margin: 0; /* Remove default margin */
+            padding: 20px; /* Padding around the content */
+            box-sizing: border-box; /* Include padding in element's total width/height */
+        }
+
+        /*
+            The 'container' acts as the main card holding our feature table.
+            It's given a slightly lighter dark background, generous padding,
+            rounded corners, and a subtle shadow with a blue glow to make it
+            stand out elegantly. This is our presentation board for key information.
+        */
+        .container {
+            background-color: #2d3748; /* Slightly lighter dark background for the card */
+            padding: 30px; /* Generous padding inside */
+            border-radius: 20px; /* Rounded corners */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(59, 130, 246, 0.5); /* Shadow and blue glow */
+            max-width: 800px; /* Maximum width for readability */
+            width: 100%; /* Full width on smaller screens */
+            box-sizing: border-box;
+        }
+
+        /*
+            The 'table' is styled to be clean and organized.
+            'border-collapse: separate' and 'border-spacing: 0' are used
+            to allow individual cell border-radius without gaps.
+        */
+        table {
+            width: 100%;
+            border-collapse: separate; /* Allows border-radius on cells */
+            border-spacing: 0; /* Removes space between cells */
+        }
+
+        /*
+            Styles for both table headers ('th') and data cells ('td').
+            They get consistent padding, text alignment, and a light text color
+            for good contrast against the dark background. A subtle bottom border
+            separates the rows.
+        */
+        th, td {
+            padding: 18px 25px; /* Padding for content inside cells */
+            text-align: left; /* Align text to the left */
+            color: #e2e8f0; /* Light text color */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle row separator */
+        }
+
+        /*
+            Specific styling for table headers. They are bolded,
+            given a slightly different light color, and a faint background
+            to distinguish them from data rows.
+        */
+        th {
+            font-weight: bold;
+            color: #a0aec0; /* Slightly lighter color for headers */
+            font-size: 1.1em; /* Slightly larger font size */
+            background-color: rgba(0, 0, 0, 0.1); /* Slight background for header row */
+        }
+
+        /*
+            Applying border-radius to the corners of the table.
+            This ensures the rounded aesthetic extends to the table edges.
+        */
+        th:first-child { border-top-left-radius: 10px; }
+        th:last-child { border-top-right-radius: 10px; }
+        tr:last-child td:first-child { border-bottom-left-radius: 10px; }
+        tr:last-child td:last-child { border-bottom-right-radius: 10px; }
+
+        /* Remove the bottom border from the last row for a cleaner finish */
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /*
+            Styling for the paragraphs within the table cells.
+            This ensures the descriptive text is readable and well-spaced.
+        */
+        td p {
+            font-size: 0.95em; /* Slightly smaller font for paragraphs */
+            line-height: 1.6; /* Improved line spacing for readability */
+            color: #cbd5e0; /* A softer light color for body text */
+            margin-top: 5px; /* Small margin above paragraphs */
+        }
+
+        /*
+            Media queries for responsiveness. Like a flexible design,
+            this adjusts the layout and sizing for smaller screens (e.g., mobile phones).
+            Padding and font sizes are reduced to ensure content remains legible
+            and fits well without horizontal scrolling.
+        */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px; /* Reduce padding on smaller screens */
+            }
+            th, td {
+                padding: 12px 15px; /* Reduce cell padding */
+                font-size: 0.9em; /* Reduce font size for cells */
+            }
+            td p {
+                font-size: 0.85em; /* Reduce font size for paragraphs */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Long Mode Characteristics</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--
+                    Addressing: This feature defines the vast memory landscape available in Long Mode.
+                    It's like upgrading from a small village map to a global atlas.
+                    With 64-bit virtual addressing, programs can perceive an enormous memory space,
+                    far beyond what's physically installed. While the CPU uses 48 bits for these virtual addresses,
+                    the system can physically access up to 52 bits of physical memory, allowing for
+                    terabytes of RAM. This massive addressability is key for modern applications
+                    and large datasets.
+                -->
+                <tr>
+                    <td>Addressing</td>
+                    <td>
+                        <p>Long Mode significantly expands the addressable memory space. It utilizes <strong>64-bit virtual addresses</strong>, allowing programs to perceive an immense memory landscape, though typically only 48 bits are actively used for virtual addressing in current implementations. Concurrently, it supports up to <strong>52-bit physical addresses</strong>, enabling the system to access truly vast amounts of physical RAM, far beyond the gigabytes of older architectures.</p>
+                    </td>
+                </tr>
+                <!--
+                    Paging: This is the mandatory navigation system for memory in Long Mode.
+                    It's like a multi-layered GPS that every single memory request *must* go through.
+                    The 4-level hierarchy (PML4, PDPT, Page Directory, Page Table) is essential
+                    for translating those massive virtual addresses into physical locations,
+                    providing granular memory protection and enabling efficient virtual memory management.
+                -->
+                <tr>
+                    <td>Paging</td>
+                    <td>
+                        <p>In Long Mode, <strong>paging is mandatory</strong>; all memory accesses must go through the paging mechanism. This is a fundamental shift from older modes where it could be optional. It employs a <strong>4-level page table hierarchy</strong> (PML4, PDPT, Page Directory, and Page Table) to efficiently translate the large 64-bit virtual addresses into physical addresses, enabling robust memory protection, isolation between processes, and the implementation of virtual memory.</p>
+                    </td>
+                </tr>
+                <!--
+                    Segmentation: This feature has taken a backseat in Long Mode.
+                    It's like a legacy road system that's still technically there but
+                    rarely used for primary navigation, with the new, more efficient
+                    paging system taking over. While segment registers still exist,
+                    they are typically set up to provide a "flat" memory model,
+                    meaning they don't perform active address translation but rather
+                    point to the entire 64-bit address space.
+                -->
+                <tr>
+                    <td>Segmentation</td>
+                    <td>
+                        <p>Segmentation in Long Mode operates primarily as a <strong>flat model</strong>, meaning the segment registers typically point to the entire 64-bit address space. Consequently, it is <strong>mostly unused</strong> for address translation in favor of the more powerful and flexible paging mechanism. While segment registers are still present for historical compatibility and certain security features, they do not perform the base-and-limit address translation as they did in older modes.</p>
+                    </td>
+                </tr>
+                <!--
+                    Instruction Set: This is the enhanced toolkit for the CPU in Long Mode.
+                    It includes all the capabilities of the older x86 instruction sets,
+                    plus new 64-bit instructions and a significantly expanded set of general-purpose
+                    and SSE/AVX registers. This allows for more efficient processing of large data
+                    and more complex computations.
+                -->
+                <tr>
+                    <td>Instruction Set</td>
+                    <td>
+                        <p>Long Mode introduces the <strong>full x86-64 instruction set</strong>, which is a superset of the 32-bit x86 instructions. This includes new 64-bit instructions for operations on 64-bit operands and a substantial increase in the number of general-purpose registers (from 8 to 16) and SSE/AVX registers. This expansion significantly enhances the CPU's computational power and its ability to handle larger data sets directly.</p>
+                    </td>
+                </tr>
+                <!--
+                    Real Mode Support: This signifies a break from the past.
+                    It's like a modern high-speed train no longer having tracks
+                    for old steam locomotives. Real Mode, the original 16-bit
+                    operating mode, is no longer directly supported by the CPU
+                    when in Long Mode. To run legacy 16-bit code, one must rely
+                    on software emulation (like DOSBox) or hardware virtualization
+                    features provided by modern UEFI firmware.
+                -->
+                <tr>
+                    <td>Real Mode Support</td>
+                    <td>
+                        <p>Direct <strong>Real Mode support is gone</strong> when the CPU is operating in Long Mode. This means that legacy 16-bit code cannot execute natively. To run such applications, users must rely on <strong>emulation or virtualization</strong> technologies, such as DOSBox for software-level emulation or hardware virtualization features integrated into modern UEFI firmware that can create a virtualized environment for older operating systems.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
