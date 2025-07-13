@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Management Glossary</title>
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles for the body and overall layout */
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* A bluish-white background for the entire page */
+            background-color: #F0F8FF; /* AliceBlue */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Ensure it takes full viewport height */
+            padding: 1.5rem; /* Default padding */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+            margin: 0; /* Remove default body margin */
+        }
+
+        /* Responsive padding for body */
+        @media (min-width: 768px) { /* Medium screens */
+            body {
+                padding: 2rem;
+            }
+        }
+        @media (min-width: 1024px) { /* Large screens */
+            body {
+                padding: 2.5rem;
+            }
+        }
+
+        /* Main container for the glossary content */
+        .glossary-container {
+            max-width: 896px; /* Equivalent to Tailwind's max-w-4xl (56rem) */
+            width: 100%; /* Ensure it takes full width up to max-width */
+            margin-left: auto;
+            margin-right: auto;
+            /* A very dark, almost black, background to make neon pop */
+            background-color: #0d1117; /* Dark blue-gray */
+            border-radius: 0.75rem; /* Equivalent to Tailwind's rounded-xl */
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3); /* Subtle outer glow for the container */
+            padding: 1.5rem; /* Default padding */
+            color: #CBD5E0; /* Light gray for general text, visible on dark background */
+        }
+
+        /* Responsive padding for the container */
+        @media (min-width: 768px) {
+            .glossary-container {
+                padding: 2rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            .glossary-container {
+                padding: 2.5rem;
+            }
+        }
+
+        /* Main title styling */
+        .main-title {
+            font-size: 2.25rem; /* Equivalent to Tailwind's text-4xl */
+            font-weight: 800; /* Equivalent to Tailwind's font-extrabold */
+            text-align: center;
+            margin-bottom: 2.5rem; /* Equivalent to Tailwind's mb-10 */
+        }
+
+        /* Responsive font sizes for main title */
+        @media (min-width: 768px) {
+            .main-title {
+                font-size: 3rem; /* Equivalent to Tailwind's text-5xl */
+            }
+        }
+        @media (min-width: 1024px) {
+            .main-title {
+                font-size: 3.75rem; /* Equivalent to Tailwind's text-6xl */
+            }
+        }
+
+        /* Grid layout for terms and definitions */
+        .terms-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Default to single column */
+            gap: 2rem; /* Equivalent to Tailwind's gap-8 */
+        }
+
+        /* Responsive grid columns */
+        @media (min-width: 768px) { /* Medium screens and up */
+            .terms-grid {
+                grid-template-columns: repeat(2, 1fr); /* Two columns */
+            }
+        }
+
+        /* Card styling for each term */
+        .term-card {
+            background-color: rgba(23, 27, 34, 0.95); /* Slightly lighter dark blue-gray, with high opacity */
+            border-radius: 0.5rem; /* Equivalent to Tailwind's rounded-lg */
+            padding: 1.5rem; /* Equivalent to Tailwind's p-6 */
+            border: 1px solid rgba(0, 255, 255, 0.5); /* More visible cyan border */
+            box-shadow:
+                0 0 20px rgba(0, 255, 255, 0.6), /* Stronger outer glow */
+                inset 0 0 10px rgba(0, 191, 255, 0.4); /* Stronger inner glow */
+            transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+        }
+
+        .term-card:hover {
+            transform: translateY(-7px); /* Lift effect on hover increased */
+            box-shadow:
+                0 0 35px rgba(0, 255, 255, 0.8), /* Even stronger outer glow on hover */
+                inset 0 0 15px rgba(0, 191, 255, 0.6); /* Even stronger inner glow on hover */
+        }
+
+        /* Term heading styling */
+        .term-heading {
+            font-size: 1.5rem; /* Equivalent to Tailwind's text-2xl */
+            font-weight: 600; /* Equivalent to Tailwind's font-semibold */
+            margin-bottom: 0.75rem; /* Equivalent to Tailwind's mb-3 */
+        }
+
+        /* Definition text styling */
+        .definition-paragraph {
+            font-size: 1.125rem; /* Equivalent to Tailwind's text-lg */
+            line-height: 1.625; /* Equivalent to Tailwind's leading-relaxed */
+        }
+
+        /* Neon glow effect for headings - made highly visible */
+        .neon-glow {
+            /* The text itself is a bright, electric cyan */
+            color: #00FFFF; /* Bright Cyan */
+            text-shadow:
+                0 0 10px #00FFFF,   /* Stronger initial cyan glow */
+                0 0 20px #00FFFF,  /* More intense cyan glow */
+                0 0 40px #00FFFF,  /* Wider cyan glow */
+                0 0 80px #00BFFF,  /* Deep Sky Blue for a stronger, deeper glow */
+                0 0 120px #00BFFF, /* Even wider deep sky blue glow */
+                0 0 160px #00BFFF; /* Maximum spread of the deep sky blue glow */
+        }
+
+        /* Styling for the definition text to give it a subtle, yet visible glow */
+        .definition-text {
+            text-shadow:
+                0 0 3px rgba(0, 255, 255, 0.7), /* More pronounced faint cyan glow */
+                0 0 8px rgba(0, 191, 255, 0.5); /* More pronounced faint deep sky blue glow */
+        }
+    </style>
+</head>
+<body>
+    <div class="glossary-container">
+        <!-- Main title of the glossary -->
+        <h1 class="main-title neon-glow">
+            Memory Management Terms
+        </h1>
+
+        <!-- Grid layout for terms and definitions -->
+        <div class="terms-grid">
+
+            <!-- Term 1: Logical Address -->
+            <div class="term-card">
+                <h2 class="term-heading neon-glow">Logical Address</h2>
+                <p class="definition-paragraph definition-text">
+                    The "fake" but indispensable address your program thinks it's accessing. It's your program's private mental map of memory, its personal "sandbox."
+                    <!--
+                    Imagine you're a kid playing in a sandbox. You've got your own little world, and you think you're digging for treasure directly in the sand.
+                    This "sandbox" is your logical address space. You don't know (or care) that beneath the sandbox, there's a whole garden, and even a foundation!
+                    Your program operates in its own little world, oblivious to the real hardware addresses.
+                    -->
+                </p>
+            </div>
+
+            <!-- Term 2: Physical Address -->
+            <div class="term-card">
+                <h2 class="term-heading neon-glow">Physical Address</h2>
+                <p class="definition-paragraph definition-text">
+                    The actual, real-deal location in your RAM chips on the motherboard. Your program never sees this directly; it's the raw hardware truth.
+                    <!--
+                    Continuing the sandbox analogy: The physical address is the exact spot in the garden (your RAM) where the sandbox is actually placed.
+                    The kid playing (your program) doesn't need to know the garden's layout or where the sandbox is physically bolted down.
+                    The system handles that translation behind the scenes, ensuring the sandbox is always where it needs to be.
+                    -->
+                </p>
+            </div>
+
+            <!-- Term 3: Virtual Memory -->
+            <div class="term-card">
+                <h2 class="term-heading neon-glow">Virtual Memory</h2>
+                <p class="definition-paragraph definition-text">
+                    The ultimate illusionist trick! It makes your programs believe they have way more memory than your computer physically possesses by cleverly using both RAM and disk space. It's like having an infinite closet in a small room.
+                    <!--
+                    Think of a small apartment with a magical, seemingly infinite closet. You can keep pulling out clothes, books, and gadgets, and it never seems to get full.
+                    In reality, the closet might have a secret door to a storage unit downstairs (your hard drive), and items are swapped in and out as you need them.
+                    Virtual memory creates this illusion of vast space, even if your physical RAM is limited, by intelligently using slower disk space as an overflow.
+                    -->
+                </p>
+            </div>
+
+            <!-- Term 4: Page Tables -->
+            <div class="term-card">
+                <h2 class="term-heading neon-glow">Page Tables</h2>
+                <p class="definition-paragraph definition-text">
+                    The secret internal map, meticulously maintained by the OS and MMU, that translates those fake logical addresses into real physical ones. Think of it as the building's master directory for all the staged apartments.
+                    <!--
+                    Imagine a massive apartment building where every apartment has a "staged" number (the logical address) that's easy for tenants to remember, like "Unit A-5."
+                    But the building manager (the OS and MMU) has a master directory (the page table) that says "Unit A-5 is actually physically located at floor 10, room 12B."
+                    When you request "Unit A-5," the manager quickly looks it up in the directory to find the real physical location.
+                    -->
+                </p>
+            </div>
+
+            <!-- Term 5: MMU (Memory Management Unit) -->
+            <div class="term-card">
+                <h2 class="term-heading neon-glow">MMU</h2>
+                <p class="definition-paragraph definition-text">
+                    The dedicated hardware brain within your CPU that performs all this complex address translation, mapping, and permission checking in real-time. It's the traffic cop and bouncer of memory.
+                    <!--
+                    Consider the MMU as a highly efficient, super-fast concierge at a grand hotel. When a guest (your program) asks for their room by their guest-assigned room number (logical address),
+                    the concierge (MMU) instantly checks their internal system and directs them to the exact physical room number.
+                    It also acts as a bouncer, ensuring guests only go to their assigned rooms and don't wander into restricted areas, preventing one program from messing with another's memory.
+                    -->
+                </p>
+            </div>
+
+            <!-- Term 6: 48-bit Limit -->
+            <div class="term-card">
+                <h2 class="term-heading neon-glow">48-bit Limit</h2>
+                <p class="definition-paragraph definition-text">
+                    The real-world cap on how much virtual address space 64-bit systems actually use (typically 256TB or 4PB). It's a practical limit because mapping all 64 bits would make the system too slow and complicated. No need for more space than you can use!
+                    <!--
+                    Think of it like building a super-highway. While theoretically you could build a 64-lane highway, the cost, complexity, and sheer amount of traffic needed to justify it would be astronomical.
+                    So, engineers decide to build a very wide, but not infinitely wide, highway (say, 48 lanes) that's more than enough for all practical traffic needs.
+                    Similarly, a 48-bit address space is more than enough for current and foreseeable applications, and trying to map the full 64 bits would introduce unnecessary overhead and complexity for the CPU.
+                    -->
+                </p>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
