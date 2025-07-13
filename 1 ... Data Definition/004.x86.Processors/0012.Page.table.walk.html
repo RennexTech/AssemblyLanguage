@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Table Walk Illustration</title>
+    <style>
+        /*
+        * The Canvas of Our Memory Management World:
+        * Think of the 'body' as the boundless sky for our memory management illustration.
+        * We're setting it up to be a full-screen stage, vertically aligning
+        * all our components like stars in a constellation for perfect balance.
+        * The dark background provides the perfect contrast for our glowing components.
+        */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+            justify-content: center; /* Center vertically */
+            align-items: center; /* Center horizontally */
+            min-height: 100vh; /* Make sure it takes full viewport height */
+            background-color: #1a1a2e; /* A deep, dark background, like the void where data lives */
+            color: #e0e0e0; /* Light text for contrast */
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /*
+        * The Brain (CPU) Requesting Data:
+        * This is our main container, like the central processing unit (CPU)
+        * where the entire memory access operation is orchestrated.
+        * It holds all the pieces of our page table walk puzzle.
+        * We're using a grid here to precisely lay out our components,
+        * like a circuit board with specific slots for each chip.
+        */
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 0.5fr 1fr 0.5fr 1fr; /* Defines 5 columns for our flow */
+            grid-template-rows: auto auto auto; /* Rows for elements and spacing */
+            gap: 20px 0px; /* Vertical gap between rows, no horizontal gap */
+            align-items: center;
+            justify-items: center;
+            padding: 30px;
+            background: linear-gradient(145deg, #2a2a4a, #1a1a2e); /* Subtle gradient for depth */
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 255, 255, 0.3); /* Soft glow */
+            max-width: 1200px;
+            width: 90%;
+            position: relative; /* For absolute positioning of arrows */
+        }
+
+        /*
+        * The Building Blocks of Memory:
+        * These are the fundamental units in our memory map, like specialized
+        * registers or memory locations. Each box represents a concept:
+        * Virtual Address, MMU, Page Table entries, Physical Address.
+        * They have a soft, illuminated appearance, as if data is flowing through them.
+        * The 'walk-active' class will light them up during our simulated traversal.
+        */
+        .box {
+            background-color: #3f3f5f; /* Base color for the boxes */
+            border: 2px solid #6a5acd; /* A subtle purple border */
+            border-radius: 8px;
+            padding: 15px 25px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(106, 90, 205, 0.5); /* Inner glow */
+            transition: all 0.5s ease-in-out; /* Smooth transition for active state */
+            width: fit-content; /* Adjust width to content */
+            min-width: 150px;
+        }
+
+        /*
+        * Lighting Up the Path:
+        * When the 'walk-active' class is applied, it's like power surging
+        * through a circuit, illuminating the active component.
+        * This helps visualize the current step of the page table walk.
+        */
+        .box.walk-active {
+            background-color: #00bcd4; /* Brighter blue when active */
+            border-color: #00e5ff; /* More vibrant border */
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.8), 0 0 30px rgba(0, 229, 255, 0.6); /* Intense glow */
+            transform: scale(1.05); /* Slightly enlarge to draw attention */
+        }
+
+        /* Specific box styling */
+        .virtual-address {
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
+        }
+
+        .mmu {
+            grid-column: 3 / 4;
+            grid-row: 1 / 2;
+        }
+
+        .page-table-level {
+            min-width: 180px;
+        }
+
+        .page-table-level-1 {
+            grid-column: 1 / 2;
+            grid-row: 3 / 4;
+            margin-top: 50px; /* Push it down from MMU */
+        }
+
+        .page-table-level-2 {
+            grid-column: 3 / 4;
+            grid-row: 3 / 4;
+            margin-top: 50px; /* Push it down */
+        }
+
+        .page-table-entry {
+            grid-column: 5 / 6;
+            grid-row: 3 / 4;
+            margin-top: 50px; /* Push it down */
+        }
+
+        .physical-address {
+            grid-column: 5 / 6;
+            grid-row: 1 / 2; /* Positioned at the end of the top row */
+            position: relative; /* For its incoming arrow */
+        }
+
+        /*
+        * The Information Flow: Arrows
+        * These are the conduits, like data buses, that show the direction
+        * of information flow during the page table walk. We're using
+        * pseudo-elements to create the arrowheads, making them sleek and clean.
+        * The 'walk-active' class will make them glow, indicating data is
+        * currently traversing this path.
+        */
+        .arrow {
+            position: absolute;
+            background-color: #8a2be2; /* Blue-violet base color */
+            height: 3px;
+            transition: all 0.5s ease-in-out;
+            z-index: 1; /* Ensure arrows are behind boxes but visible */
+        }
+
+        .arrow::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 8px 0 8px 12px; /* Creates an arrowhead pointing right */
+            border-color: transparent transparent transparent #8a2be2;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: border-color 0.5s ease-in-out;
+        }
+
+        .arrow.walk-active {
+            background-color: #ff007f; /* Vibrant pink when active */
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.8);
+        }
+
+        .arrow.walk-active::after {
+            border-color: transparent transparent transparent #ff007f;
+        }
+
+        /* Specific arrow positions */
+        /* Virtual Address to MMU */
+        #arrow-va-mmu {
+            left: calc(var(--va-right) + 5px); /* Position from VA right edge */
+            top: calc(var(--va-center-y)); /* Align with VA center */
+            width: calc(var(--mmu-left) - var(--va-right) - 10px); /* Span between VA and MMU */
+        }
+
+        /* MMU to Page Table Level 1 (down) */
+        #arrow-mmu-pt1-down {
+            left: calc(var(--mmu-center-x));
+            top: calc(var(--mmu-bottom) + 5px);
+            height: calc(var(--pt1-top) - var(--mmu-bottom) - 10px);
+            width: 3px; /* Vertical line */
+            transform-origin: top;
+            transform: rotate(90deg) translateX(0) translateY(-100%); /* Rotate and position */
+            /* Custom arrowhead for vertical arrow */
+        }
+        #arrow-mmu-pt1-down::after {
+            border-width: 12px 8px 0 8px; /* Arrowhead pointing down */
+            border-color: #8a2be2 transparent transparent transparent;
+            left: 50%;
+            bottom: 0; /* Position at the end of the line */
+            top: unset;
+            transform: translateX(-50%) translateY(100%); /* Adjust for rotation */
+        }
+        .arrow.walk-active#arrow-mmu-pt1-down::after {
+            border-color: #ff007f transparent transparent transparent;
+        }
+
+
+        /* Page Table Level 1 to Page Table Level 2 */
+        #arrow-pt1-pt2 {
+            left: calc(var(--pt1-right) + 5px);
+            top: calc(var(--pt1-center-y));
+            width: calc(var(--pt2-left) - var(--pt1-right) - 10px);
+        }
+
+        /* Page Table Level 2 to Page Table Entry */
+        #arrow-pt2-pte {
+            left: calc(var(--pt2-right) + 5px);
+            top: calc(var(--pt2-center-y));
+            width: calc(var(--pte-left) - var(--pt2-right) - 10px);
+        }
+
+        /* Page Table Entry to Physical Address (up and across) */
+        #arrow-pte-pa-vertical {
+            left: calc(var(--pte-center-x));
+            top: calc(var(--pa-bottom) + 5px); /* Start below PA, assuming PA is above PTE */
+            height: calc(var(--pte-top) - var(--pa-bottom) - 10px); /* Height between PTE top and PA bottom */
+            width: 3px; /* Vertical line */
+            transform-origin: top;
+            transform: rotate(90deg) translateX(0) translateY(-100%); /* Rotate and position */
+            /* Arrowhead for vertical part pointing upwards */
+        }
+        #arrow-pte-pa-vertical::after {
+            border-width: 0 8px 12px 8px; /* Arrowhead pointing up */
+            border-color: transparent transparent #8a2be2 transparent;
+            left: 50%;
+            top: 0; /* Position at the start of the line */
+            bottom: unset;
+            transform: translateX(-50%) translateY(-100%); /* Adjust for rotation */
+        }
+        .arrow.walk-active#arrow-pte-pa-vertical::after {
+            border-color: transparent transparent #ff007f transparent;
+        }
+
+        #arrow-pte-pa-horizontal {
+            left: calc(var(--pte-center-x) + 5px); /* Start right of PTE center */
+            top: calc(var(--pa-center-y));
+            width: calc(var(--pa-left) - var(--pte-center-x) - 10px); /* Span to PA left edge */
+            /* Rotate 180deg to point left */
+            transform: rotate(180deg);
+            transform-origin: left center;
+        }
+        #arrow-pte-pa-horizontal::after {
+            /* Adjust arrowhead for horizontal arrow (now pointing left) */
+            border-width: 8px 12px 8px 0; /* Arrowhead pointing left */
+            border-color: transparent #8a2be2 transparent transparent;
+            left: 0;
+            right: unset;
+            transform: translateY(-50%) translateX(100%); /* Adjust for rotation */
+        }
+        .arrow.walk-active#arrow-pte-pa-horizontal::after {
+            border-color: transparent #ff007f transparent transparent;
+        }
+
+
+        /*
+        * The Control Panel:
+        * This button initiates the page table walk animation.
+        * It's styled to be prominent and inviting, encouraging interaction.
+        */
+        .controls {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        button {
+            background-color: #ff6347; /* Tomato red, stands out */
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 5px 15px rgba(255, 99, 71, 0.4);
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            background-color: #e04a30; /* Darker red on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+
+        button:active {
+            transform: translateY(0); /* Press effect */
+            box-shadow: 0 2px 5px rgba(255, 99, 71, 0.4);
+        }
+
+        /*
+        * Breakpoints for Responsiveness:
+        * Like a flexible memory manager adapting to different system configurations,
+        * our layout adjusts for smaller screens. This ensures a good
+        * viewing experience on various devices.
+        */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr; /* Stack all elements in one column */
+                grid-template-rows: auto;
+                gap: 25px; /* More vertical space */
+                padding: 20px;
+            }
+
+            .box {
+                grid-column: 1 / 2 !important; /* Force all boxes to column 1 */
+                width: 80%; /* Make them slightly narrower */
+                min-width: unset;
+            }
+
+            /* Adjust grid rows for stacked layout */
+            .virtual-address { grid-row: 1; }
+            .mmu { grid-row: 2; }
+            .page-table-level-1 { grid-row: 3; margin-top: 0; }
+            .page-table-level-2 { grid-row: 4; margin-top: 0; }
+            .page-table-entry { grid-row: 5; margin-top: 0; }
+            .physical-address { grid-row: 6; }
+
+
+            /* Hide arrows on small screens as they become complex and unreadable */
+            .arrow {
+                display: none;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Page Table Walk: Memory Address Translation</h1>
+
+    <div class="container" id="illustrationContainer">
+        <div class="box virtual-address" id="virtualAddress">Virtual Address</div>
+
+        <div class="box mmu" id="mmu">MMU</div>
+
+        <div class="box page-table-level page-table-level-1" id="pageTableLevel1">Page Table Level 1</div>
+
+        <div class="box page-table-level page-table-level-2" id="pageTableLevel2">Page Table Level 2</div>
+
+        <div class="box page-table-level page-table-entry" id="pageTableEntry">Page Table Entry (PTE)<br>(PFN + Bits)</div>
+
+        <div class="box physical-address" id="physicalAddress">Physical Address</div>
+
+        <div class="arrow" id="arrow-va-mmu"></div>
+        <div class="arrow" id="arrow-mmu-pt1-down"></div>
+        <div class="arrow" id="arrow-pt1-pt2"></div>
+        <div class="arrow" id="arrow-pt2-pte"></div>
+        <div class="arrow" id="arrow-pte-pa-vertical"></div>
+        <div class="arrow" id="arrow-pte-pa-horizontal"></div>
+
+    </div>
+
+    <div class="controls">
+        <button id="startWalkBtn">Start Page Table Walk</button>
+    </div>
+
+    <script>
+        /*
+        * The Choreographer of the Walk: JavaScript
+        * This script is the "conductor" of our page table walk symphony.
+        * It defines the sequence of events, applying visual 'active' states
+        * to simulate the flow of address translation.
+        */
+
+        // Get references to all our visual elements, like grabbing tools from a toolbox
+        const virtualAddress = document.getElementById('virtualAddress');
+        const mmu = document.getElementById('mmu');
+        const pageTableLevel1 = document.getElementById('pageTableLevel1');
+        const pageTableLevel2 = document.getElementById('pageTableLevel2');
+        const pageTableEntry = document.getElementById('pageTableEntry');
+        const physicalAddress = document.getElementById('physicalAddress');
+
+        const arrowVaMmu = document.getElementById('arrow-va-mmu');
+        const arrowMmuPt1Down = document.getElementById('arrow-mmu-pt1-down');
+        const arrowPt1Pt2 = document.getElementById('arrow-pt1-pt2');
+        const arrowPt2Pte = document.getElementById('arrow-pt2-pte');
+        const arrowPtePaVertical = document.getElementById('arrow-pte-pa-vertical');
+        const arrowPtePaHorizontal = document.getElementById('arrow-pte-pa-horizontal');
+
+        const startWalkBtn = document.getElementById('startWalkBtn');
+
+        // Store elements in arrays for easy iteration and resetting
+        const allBoxes = [virtualAddress, mmu, pageTableLevel1, pageTableLevel2, pageTableEntry, physicalAddress];
+        const allArrows = [arrowVaMmu, arrowMmuPt1Down, arrowPt1Pt2, arrowPt2Pte, arrowPtePaVertical, arrowPtePaHorizontal];
+
+        /*
+        * Resetting the Stage:
+        * Before each new "walk," we need to clear the previous highlights.
+        * This function is like resetting the board for a new game, removing
+        * all 'walk-active' classes from boxes and arrows.
+        */
+        function resetWalk() {
+            allBoxes.forEach(box => box.classList.remove('walk-active'));
+            allArrows.forEach(arrow => arrow.classList.remove('walk-active'));
+        }
+
+        /*
+        * Positioning the Connectors (Arrows):
+        * Because our layout is dynamic (flexbox/grid), we need to calculate
+        * arrow positions after the boxes have rendered. This function is
+        * like a precise engineer, measuring distances and setting up the
+        * pipes that connect our components.
+        * We use CSS variables to pass these calculated values to the CSS.
+        */
+        function positionArrows() {
+            const container = document.getElementById('illustrationContainer');
+            if (!container) return; // Exit if container not found (e.g., during initial load)
+
+            const vaRect = virtualAddress.getBoundingClientRect();
+            const mmuRect = mmu.getBoundingClientRect();
+            const pt1Rect = pageTableLevel1.getBoundingClientRect();
+            const pt2Rect = pageTableLevel2.getBoundingClientRect();
+            const pteRect = pageTableEntry.getBoundingClientRect();
+            const paRect = physicalAddress.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect(); // Get container's position
+
+            // Calculate positions relative to the container for CSS variables
+            // Normalizing coordinates: subtract container's top/left to get values relative to container
+            const getRelativeRect = (rect) => ({
+                top: rect.top - containerRect.top,
+                bottom: rect.bottom - containerRect.top,
+                left: rect.left - containerRect.left,
+                right: rect.right - containerRect.left,
+                width: rect.width,
+                height: rect.height,
+                centerX: rect.left + rect.width / 2 - containerRect.left,
+                centerY: rect.top + rect.height / 2 - containerRect.top
+            });
+
+            const va = getRelativeRect(vaRect);
+            const mmu = getRelativeRect(mmuRect);
+            const pt1 = getRelativeRect(pt1Rect);
+            const pt2 = getRelativeRect(pt2Rect);
+            const pte = getRelativeRect(pteRect);
+            const pa = getRelativeRect(paRect);
+
+
+            // Set CSS variables on the container element
+            // These variables are then used in the CSS for arrow positioning
+            container.style.setProperty('--va-right', `${va.right}px`);
+            container.style.setProperty('--va-center-y', `${va.centerY}px`);
+
+            container.style.setProperty('--mmu-left', `${mmu.left}px`);
+            container.style.setProperty('--mmu-bottom', `${mmu.bottom}px`);
+            container.style.setProperty('--mmu-center-x', `${mmu.centerX}px`);
+            container.style.setProperty('--mmu-center-y', `${mmu.centerY}px`);
+
+            container.style.setProperty('--pt1-top', `${pt1.top}px`);
+            container.style.setProperty('--pt1-right', `${pt1.right}px`);
+            container.style.setProperty('--pt1-center-y', `${pt1.centerY}px`);
+            container.style.setProperty('--pt1-center-x', `${pt1.centerX}px`);
+
+            container.style.setProperty('--pt2-left', `${pt2.left}px`);
+            container.style.setProperty('--pt2-right', `${pt2.right}px`);
+            container.style.setProperty('--pt2-center-y', `${pt2.centerY}px`);
+            container.style.setProperty('--pt2-center-x', `${pt2.centerX}px`);
+
+            container.style.setProperty('--pte-left', `${pte.left}px`);
+            container.style.setProperty('--pte-right', `${pte.right}px`);
+            container.style.setProperty('--pte-top', `${pte.top}px`);
+            container.style.setProperty('--pte-bottom', `${pte.bottom}px`);
+            container.style.setProperty('--pte-center-x', `${pte.centerX}px`);
+            container.style.setProperty('--pte-center-y', `${pte.centerY}px`);
+
+            container.style.setProperty('--pa-left', `${pa.left}px`);
+            container.style.setProperty('--pa-bottom', `${pa.bottom}px`);
+            container.style.setProperty('--pa-top', `${pa.top}px`);
+            container.style.setProperty('--pa-center-x', `${pa.centerX}px`);
+            container.style.setProperty('--pa-center-y', `${pa.centerY}px`);
+
+            // For responsiveness, hide arrows if screen is too small
+            if (window.innerWidth <= 768) {
+                allArrows.forEach(arrow => arrow.style.display = 'none');
+            } else {
+                allArrows.forEach(arrow => arrow.style.display = 'block');
+            }
+        }
+
+
+        /*
+        * Simulating the Walk:
+        * This asynchronous function is the core of our animation.
+        * It's like guiding a laser pointer through the memory hierarchy,
+        * pausing at each step to explain what's happening.
+        * The `await new Promise(...)` acts as our pause button,
+        * creating a delay between each step for clarity.
+        */
+        async function startPageTableWalk() {
+            startWalkBtn.disabled = true; // Disable button during walk
+            resetWalk(); // Clean up from previous walk
+
+            const delay = 800; // Milliseconds between steps, like the speed of light
+
+            // Step 1: Virtual Address
+            virtualAddress.classList.add('walk-active');
+            await new Promise(resolve => setTimeout(resolve, delay));
+
+            // Step 2: VA to MMU
+            arrowVaMmu.classList.add('walk-active');
+            mmu.classList.add('walk-active');
+            await new Promise(resolve => setTimeout(resolve, delay));
+            virtualAddress.classList.remove('walk-active'); // VA deactivates
+
+            // Step 3: MMU to Page Table Level 1 (downwards search)
+            arrowMmuPt1Down.classList.add('walk-active');
+            pageTableLevel1.classList.add('walk-active');
+            await new Promise(resolve => setTimeout(resolve, delay));
+            mmu.classList.remove('walk-active'); // MMU deactivates
+
+            // Step 4: Page Table Level 1 to Page Table Level 2
+            arrowPt1Pt2.classList.add('walk-active');
+            pageTableLevel2.classList.add('walk-active');
+            await new Promise(resolve => setTimeout(resolve, delay));
+            pageTableLevel1.classList.remove('walk-active'); // Level 1 deactivates
+            arrowMmuPt1Down.classList.remove('walk-active'); // Arrow from MMU to PT1 deactivates
+
+            // Step 5: Page Table Level 2 to Page Table Entry (PTE)
+            arrowPt2Pte.classList.add('walk-active');
+            pageTableEntry.classList.add('walk-active');
+            await new Promise(resolve => setTimeout(resolve, delay));
+            pageTableLevel2.classList.remove('walk-active'); // Level 2 deactivates
+            arrowPt1Pt2.classList.remove('walk-active'); // Arrow from PT1 to PT2 deactivates
+
+
+            // Step 6: PTE to Physical Address (vertical part)
+            arrowPtePaVertical.classList.add('walk-active');
+            await new Promise(resolve => setTimeout(resolve, delay));
+
+            // Step 7: PTE to Physical Address (horizontal part)
+            arrowPtePaHorizontal.classList.add('walk-active');
+            physicalAddress.classList.add('walk-active');
+            await new Promise(resolve => setTimeout(resolve, delay));
+
+            // Final state: all done, PTE and arrows deactivating
+            pageTableEntry.classList.remove('walk-active');
+            arrowPtePaVertical.classList.remove('walk-active');
+            arrowPt2Pte.classList.remove('walk-active'); // This was still active
+            // Physical Address stays active to show the final result briefly
+            await new Promise(resolve => setTimeout(resolve, delay * 1.5));
+            physicalAddress.classList.remove('walk-active');
+
+            startWalkBtn.disabled = false; // Enable button for next walk
+        }
+
+        // Event Listeners: Attaching our functions to user actions
+        startWalkBtn.addEventListener('click', startPageTableWalk);
+
+        // Initial arrow positioning and reposition on window resize
+        // Like calibrating our instruments when the environment changes.
+        window.addEventListener('load', positionArrows);
+        window.addEventListener('resize', positionArrows);
+    </script>
+</body>
+</html>
