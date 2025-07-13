@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body {
+    background-color: #1a1a2e; /* Deep dark background */
+    color: #e0e0e0;
+    font-family: 'Consolas', 'Monaco', monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Prevent scrollbar from glow effects */
+  }
+
+  table {
+    width: 85%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    /* Overall table shadow - blend of both colors */
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), /* Cyan base */
+                0 0 40px rgba(255, 0, 255, 0.5), /* Magenta base */
+                0 0 60px rgba(0, 255, 255, 0.3),
+                0 0 80px rgba(255, 0, 255, 0.3);
+  }
+
+  th, td {
+    padding: 15px 20px;
+    text-align: left;
+    font-size: 1.05em;
+  }
+
+  /* --- Logical Address Column (Cyan/Blue Neon) --- */
+  table th:nth-child(1),
+  table td:nth-child(1) {
+    border: 1px solid rgba(0, 255, 255, 0.5); /* Cyan border */
+    background-color: rgba(0, 255, 255, 0.08); /* Faint cyan background */
+    color: #00ffff; /* Bright cyan text */
+    text-shadow: 0 0 8px #00ffff, 0 0 16px #00ffff; /* Cyan text glow */
+  }
+
+  table th:nth-child(1) {
+    background-color: rgba(0, 255, 255, 0.15); /* Slightly stronger header background */
+    color: #ffffff; /* Whiter header text for pop */
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff; /* Stronger cyan header glow */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.15em;
+    border-right: none; /* Blend border between columns */
+  }
+
+  /* --- Physical Address Column (Magenta/Purple Neon) --- */
+  table th:nth-child(2),
+  table td:nth-child(2) {
+    border: 1px solid rgba(255, 0, 255, 0.5); /* Magenta border */
+    background-color: rgba(255, 0, 255, 0.08); /* Faint magenta background */
+    color: #ff00ff; /* Bright magenta text */
+    text-shadow: 0 0 8px #ff00ff, 0 0 16px #ff00ff; /* Magenta text glow */
+  }
+
+  table th:nth-child(2) {
+    background-color: rgba(255, 0, 255, 0.15); /* Slightly stronger header background */
+    color: #ffffff; /* Whiter header text for pop */
+    text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff; /* Stronger magenta header glow */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.15em;
+    border-left: none; /* Blend border between columns */
+  }
+
+  /* --- Row Styling and Hover --- */
+  tr:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.1); /* Slight darker tint for odd rows */
+  }
+
+  /* Hover effect for a subtle interaction */
+  tr:hover td {
+    background-color: rgba(0, 255, 255, 0.15); /* Cyan tint for first column on hover */
+    box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.6);
+  }
+
+  tr:hover td:nth-child(2) {
+    background-color: rgba(255, 0, 255, 0.15); /* Magenta tint for second column on hover */
+    box-shadow: inset 0 0 10px rgba(255, 0, 255, 0.6);
+  }
+</style>
+</head>
+<body>
+
+<table>
+  <thead>
+    <tr>
+      <th>Logical Address (Program's View)</th>
+      <th>Physical Address (Hardware's Reality)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0x401000 (Chrome's perceived address)</td>
+      <td>0x0001ABCD (Actual RAM location)</td>
+    </tr>
+    <tr>
+      <td>0x401000 (Discord's perceived address)</td>
+      <td>0x0002EFGH (Another actual RAM location)</td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
