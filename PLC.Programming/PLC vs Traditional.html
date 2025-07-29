@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLC vs. Traditional Control Systems</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light blue-gray background */
+            color: #1e293b; /* Darker text for readability */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to the top */
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 900px; /* Max width for the table */
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 1rem; /* Rounded corners for the whole container */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            overflow: hidden; /* Ensures rounded corners apply to children */
+            border: 1px solid #e2e8f0; /* Subtle border */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse; /* Remove gaps between cells */
+        }
+        th, td {
+            padding: 1.25rem 1.5rem; /* Generous padding */
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0; /* Light border for rows */
+        }
+        th {
+            background-color: #e0f2fe; /* Light blue header background */
+            color: #0c4a6e; /* Darker blue text for headers */
+            font-weight: 700; /* Bold headers */
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+        tr:last-child td {
+            border-bottom: none; /* No border on the last row */
+        }
+        tr:nth-child(even) {
+            background-color: #f8fafc; /* Zebra striping for readability */
+        }
+        .header-title {
+            font-size: 2.25rem; /* Large title */
+            font-weight: 700;
+            color: #0f172a; /* Very dark blue for title */
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #eff6ff; /* Lighter blue background for title */
+            border-bottom: 1px solid #dbeafe;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+        }
+        .takeaway {
+            font-size: 1.125rem; /* Slightly larger text for takeaway */
+            font-weight: 600;
+            color: #0f172a;
+            text-align: center;
+            padding: 1.5rem;
+            background-color: #ecfdf5; /* Light green background for takeaway */
+            border-top: 1px solid #d1fae5;
+            border-bottom-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+        }
+        .emoji {
+            font-size: 1.2em; /* Larger emoji */
+        }
+        .plc-col {
+            color: #047857; /* Green for PLC advantages */
+            font-weight: 600;
+        }
+        .relay-col {
+            color: #b91c1c; /* Red for relay disadvantages */
+        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            th, td {
+                padding: 1rem;
+                font-size: 0.875rem;
+            }
+            .header-title {
+                font-size: 1.75rem;
+            }
+            .takeaway {
+                font-size: 1rem;
+            }
+        }
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 0.5rem;
+            }
+            .header-title, .takeaway {
+                border-radius: 0.5rem;
+            }
+            th, td {
+                display: block; /* Stack cells on small screens */
+                width: 100%;
+                text-align: left;
+                padding: 0.75rem 1rem;
+            }
+            th:not(:first-child), td:not(:first-child) {
+                border-top: 1px solid #e2e8f0; /* Add top border for stacked cells */
+            }
+            tr {
+                margin-bottom: 1rem;
+                display: block;
+                border: 1px solid #e2e8f0;
+                border-radius: 0.75rem;
+                overflow: hidden;
+            }
+            tr:nth-child(even) {
+                background-color: #ffffff; /* Reset zebra striping for stacked rows */
+            }
+            tr:nth-child(even) .plc-col, tr:nth-child(even) .relay-col {
+                background-color: #f8fafc; /* Apply light background to these cells in even rows */
+            }
+            td::before {
+                content: attr(data-label);
+                font-weight: 700;
+                display: block;
+                color: #0c4a6e;
+                margin-bottom: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-title">
+            <span class="emoji">🤖</span> PLC vs. Traditional Control Systems
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Comparison Point</th>
+                    <th>PLCs <span class="emoji">🔥</span></th>
+                    <th>Old-School Relays <span class="emoji">🧓</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="Comparison Point">Flexibility</td>
+                    <td class="plc-col" data-label="PLCs">Can reprogram in software. Update logic with a few clicks, like updating an app.</td>
+                    <td class="relay-col" data-label="Old-School Relays">Need rewiring physically. Changing logic means literally moving wires around.</td>
+                </tr>
+                <tr>
+                    <td data-label="Comparison Point">Reliability</td>
+                    <td class="plc-col" data-label="PLCs">Designed for harsh environments. Solid-state parts mean fewer things to break.</td>
+                    <td class="relay-col" data-label="Old-School Relays">Prone to mechanical failure. Physical contacts wear out, leading to misfires.</td>
+                </tr>
+                <tr>
+                    <td data-label="Comparison Point">Data Collection</td>
+                    <td class="plc-col" data-label="PLCs">Built-in sensors, counters, memory. They can log everything, like a machine's fitness tracker.</td>
+                    <td class="relay-col" data-label="Old-School Relays">Basically none. They just switch things on/off; no data insights.</td>
+                </tr>
+                <tr>
+                    <td data-label="Comparison Point">Expandability</td>
+                    <td class="plc-col" data-label="PLCs">Add new modules anytime. Just snap in extra I/O or comms cards as needs grow.</td>
+                    <td class="relay-col" data-label="Old-School Relays">Not scalable easily. Adding functions often means building a whole new panel.</td>
+                </tr>
+                <tr>
+                    <td data-label="Comparison Point">Repeatability</td>
+                    <td class="plc-col" data-label="PLCs">High. Logic doesn't drift. Once programmed, a PLC executes the same sequence perfectly every single time, like a robot's exact dance moves.</td>
+                    <td class="relay-col" data-label="Old-School Relays">Can wear out, misfire. Mechanical parts degrade, causing inconsistent timing or faulty operations over time.</td>
+                </tr>
+                <tr>
+                    <td data-label="Comparison Point">Space</td>
+                    <td class="plc-col" data-label="PLCs">Compact modules. A small PLC can control a huge system, saving precious cabinet space.</td>
+                    <td class="relay-col" data-label="Old-School Relays">Requires large panels. Each relay is bulky, so complex systems need massive control boards.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="takeaway">
+            Takeaway: PLCs absolutely obliterate relays when it comes to industrial use. It’s not even close.
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demystifying Tech Terms</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /*
+         * Imagine you're building a sleek new clubhouse for all your tech notes.
+         * The 'body' is like the main hall – we want it to be comfy and readable.
+         * So, we set a default font (Poppins, of course!) and a nice background color.
+         * We also make sure the text isn't squished against the edges, giving it some breathing room.
+         */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5; /* A soft, light gray for a clean look */
+            color: #333; /* Dark gray for good readability */
+            margin: 20px;
+            display: flex; /* Helps center our content later */
+            justify-content: center; /* Horizontally center */
+            align-items: center; /* Vertically center (if body height allows) */
+            min-height: 100vh; /* Make sure it takes at least the full viewport height */
+        }
+
+        /*
+         * This is our 'container' – think of it as a fancy display case for your table.
+         * It gives the table a nice background, rounded corners (no sharp edges here!),
+         * and a subtle shadow, making it pop out a bit from the page.
+         * It's like putting your awesome definitions on a pedestal.
+         */
+        .container {
+            background-color: #ffffff; /* Pure white for the table's background */
+            padding: 30px;
+            border-radius: 12px; /* Nicely rounded corners */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* A gentle, modern shadow */
+            max-width: 800px; /* Don't let the table get too wide on big screens */
+            width: 95%; /* Responsive width for smaller screens */
+            text-align: center; /* Center the title */
+        }
+
+        /*
+         * The 'h1' is the grand title, "Demystifying Tech Terms!"
+         * We want it to be prominent, a bit bold, and visually appealing.
+         * It's the signpost that says, "Hey, awesome knowledge ahead!"
+         */
+        h1 {
+            color: #007bff; /* A vibrant blue, fresh and inviting */
+            font-weight: 600; /* A bit bolder than normal */
+            margin-bottom: 30px; /* Give it some space before the table starts */
+            font-size: 2.2em; /* Make it nice and big */
+        }
+
+        /*
+         * This is our actual 'table' – the organized shelf where all our terms live.
+         * We make sure it takes up all available width inside its container,
+         * collapse the borders (so they look neat and continuous), and give
+         * a clean border around the whole thing.
+         */
+        table {
+            width: 100%;
+            border-collapse: collapse; /* Makes borders nice and clean */
+            margin-top: 20px;
+            border-radius: 8px; /* Slightly rounded corners for the table itself */
+            overflow: hidden; /* Ensures the rounded corners are visible with borders */
+        }
+
+        /*
+         * 'thead' is like the header of a library shelf – where you label the sections.
+         * We give it a slightly different background and make the text white
+         * so it stands out, clearly showing "Term" and "Meaning."
+         */
+        thead {
+            background-color: #007bff; /* The same vibrant blue as the heading */
+            color: white; /* White text for contrast */
+        }
+
+        /*
+         * 'th' and 'td' are the individual labels and books on our shelves.
+         * We give them some padding so the text isn't cramped,
+         * align the text to the left for easy reading, and add a subtle bottom border
+         * to separate each row, like neat lines between books.
+         */
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #eee; /* Light gray line for separation */
+        }
+
+        /*
+         * 'th' specifically gets a bolder font to stand out as a header.
+         * It's like the bold labels on your shelf.
+         */
+        th {
+            font-weight: 600;
+            font-size: 1.1em; /* Slightly larger text for headers */
+        }
+
+        /*
+         * This is a cool trick! Every *other* row gets a slightly different background color.
+         * Think of it like alternating colors on a keyboard to make it easier to see
+         * where one key ends and another begins. It makes the table much easier to read,
+         * especially with longer content.
+         */
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9; /* Very light gray for alternating rows */
+        }
+
+        /*
+         * When you hover over a row, we want it to highlight!
+         * This is like when you point a flashlight at a specific book on the shelf –
+         * it just makes it clear which item you're looking at. Super interactive!
+         */
+        tbody tr:hover {
+            background-color: #e9f5ff; /* A slightly darker blue hover, but still light */
+            cursor: pointer; /* Changes the mouse to a pointer, indicating interactivity */
+            transition: background-color 0.3s ease; /* Smooth transition for the hover effect */
+        }
+
+        /*
+         * A small tweak for the last row's data cell – we remove its bottom border
+         * so the table looks clean at the very end. No unnecessary lines!
+         */
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /*
+         * For smaller screens, like phones, we make the font size a bit smaller
+         * so everything fits nicely. It's like having a compact view for your notes
+         * when you're on the go.
+         */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            th, td {
+                padding: 12px 15px;
+                font-size: 0.9em;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛠️ Software, Hardware, Firmware — Let’s Demystify This!</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Term</th>
+                    <th>Meaning</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Program</strong></td>
+                    <td>A sequence of instructions written to perform a specific task. Organized Instructions work together to form a program.</td>
+                </tr>
+                <tr>
+                    <td><strong>Software</strong></td>
+                    <td>A collection of programs and related data that work together to control a system. Software enables computers and devices to carry out complex operations.</td>
+                </tr>
+                <tr>
+                    <td><strong>Hardware</strong></td>
+                    <td>The physical parts of a computer or control system — such as the CPU, memory, and input/output devices. These are the tangible components required for system operation and user interaction.</td>
+                </tr>
+                <tr>
+                    <td><strong>Firmware</strong></td>
+                    <td>Software that is permanently stored on hardware components, typically in read-only memory. It provides low-level control for the device's specific hardware — for example, the internal operating system of a PLC.</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+</body>
+</html>
