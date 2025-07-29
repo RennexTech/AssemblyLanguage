@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLC Size, Complexity, and Cost</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light blue-gray background */
+            color: #1e293b; /* Darker text for readability */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to the top */
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 800px; /* Max width for the graphic */
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 1rem; /* Rounded corners for the whole container */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            overflow: hidden; /* Ensures rounded corners apply to children */
+            border: 1px solid #e2e8f0; /* Subtle border */
+            padding: 1.5rem;
+        }
+        .header-title {
+            font-size: 2.25rem; /* Large title */
+            font-weight: 700;
+            color: #0f172a; /* Very dark blue for title */
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #eff6ff; /* Lighter blue background for title */
+            border-bottom: 1px solid #dbeafe;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+        }
+        .intro-text {
+            font-size: 1.125rem; /* Slightly larger text for intro */
+            font-weight: 600;
+            color: #0f172a;
+            text-align: center;
+            padding: 1rem 1.5rem;
+            background-color: #f0f9ff; /* Light blue background for intro */
+            border-top: 1px solid #e0f2fe;
+            margin-bottom: 2rem;
+            border-radius: 0.75rem; /* Rounded corners for intro text */
+        }
+        .graphic-area {
+            position: relative;
+            width: 100%;
+            padding-bottom: 75%; /* Aspect ratio 4:3 (height is 75% of width) */
+            background-color: #e2e8f0; /* Light gray background for the graph area */
+            border: 2px solid #334155; /* Darker border for the graph */
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+        .axis-label {
+            position: absolute;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #334155;
+        }
+        .x-axis-label {
+            bottom: -2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+        .y-axis-label {
+            top: 50%;
+            left: -2.5rem;
+            transform: translateY(-50%) rotate(-90deg);
+            transform-origin: left top;
+            white-space: nowrap;
+        }
+        .grid-line {
+            position: absolute;
+            background-color: #cbd5e1; /* Light grid lines */
+        }
+        .grid-x {
+            height: 100%;
+            width: 1px;
+            top: 0;
+        }
+        .grid-y {
+            width: 100%;
+            height: 1px;
+            left: 0;
+        }
+        .tick-label {
+            position: absolute;
+            font-size: 0.75rem;
+            color: #475569;
+        }
+        .x-tick {
+            bottom: -1.5rem;
+            transform: translateX(-50%);
+        }
+        .y-tick {
+            left: -1.8rem;
+            transform: translateY(-50%);
+        }
+
+        .box {
+            position: absolute;
+            border: 2px solid #000; /* Black border for boxes */
+            background-color: rgba(255, 255, 255, 0.7); /* Slightly transparent white fill */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            color: #000;
+            font-size: 1.2rem;
+        }
+        .box-label {
+            position: absolute;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #334155;
+            background-color: #ffffff;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.3rem;
+            border: 1px solid #cbd5e1;
+            white-space: nowrap;
+        }
+        .box-label.top-right {
+            top: -1.2rem;
+            right: -0.5rem;
+        }
+        .box-label.bottom-left {
+            bottom: -1.2rem;
+            left: -0.5rem;
+        }
+        .box-label.top-left {
+            top: -1.2rem;
+            left: -0.5rem;
+        }
+
+        .dot-line {
+            position: absolute;
+            width: 2px; /* Thickness of the dashed line */
+            background-image: linear-gradient(to bottom, #475569 50%, transparent 50%);
+            background-size: 2px 8px; /* Dash length and gap */
+        }
+
+        .notes-section {
+            background-color: #ecfdf5; /* Light green for notes */
+            border-left: 5px solid #28a745; /* Green border */
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-top: 2rem;
+        }
+        .notes-section h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #047857;
+            margin-bottom: 1rem;
+        }
+        .notes-section ul {
+            list-style: disc;
+            margin-left: 1.5rem;
+        }
+        .notes-section li {
+            margin-bottom: 0.5rem;
+            color: #334155;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.75rem;
+            }
+            .intro-text {
+                font-size: 1rem;
+            }
+            .axis-label {
+                font-size: 0.75rem;
+            }
+            .x-axis-label {
+                bottom: -2rem;
+            }
+            .y-axis-label {
+                left: -2rem;
+            }
+            .tick-label {
+                font-size: 0.65rem;
+            }
+            .x-tick {
+                bottom: -1rem;
+            }
+            .y-tick {
+                left: -1.5rem;
+            }
+            .box {
+                font-size: 1rem;
+            }
+            .box-label {
+                font-size: 0.75rem;
+                padding: 0.15rem 0.3rem;
+            }
+            .notes-section h3 {
+                font-size: 1.25rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            .header-title {
+                font-size: 1.5rem;
+            }
+            .intro-text {
+                font-size: 0.9rem;
+            }
+            .graphic-area {
+                padding-bottom: 100%; /* Make it more square on very small screens */
+            }
+            .axis-label {
+                font-size: 0.65rem;
+            }
+            .x-axis-label {
+                bottom: -1.8rem;
+            }
+            .y-axis-label {
+                left: -1.8rem;
+            }
+            .tick-label {
+                font-size: 0.6rem;
+            }
+            .x-tick {
+                bottom: -0.8rem;
+            }
+            .y-tick {
+                left: -1.2rem;
+            }
+            .box {
+                font-size: 0.9rem;
+            }
+            .box-label {
+                font-size: 0.65rem;
+            }
+            .notes-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-title">
+            <span class="emoji">📈</span> PLC Size, Complexity, and Cost
+        </div>
+        <div class="intro-text">
+            Just like upgrading your gaming rig, the more "muscle" (I/O count) a PLC has, the more complex tasks it can handle, and yep, the higher the price tag. This chart shows that sweet spot.
+        </div>
+
+        <div class="graphic-area">
+            <!-- Axis Labels -->
+            <div class="axis-label y-axis-label" style="left: 0.5%;">COMPLEXITY AND COST ---></div>
+            <div class="axis-label x-axis-label" style="bottom: 0.5%;">I/O COUNT ---></div>
+
+            <!-- Horizontal Grid Lines (Y-axis ticks) -->
+            <div class="grid-line grid-y" style="bottom: 0%;"></div>
+            <div class="grid-line grid-y" style="bottom: 25%;"></div>
+            <div class="grid-line grid-y" style="bottom: 50%;"></div>
+            <div class="grid-line grid-y" style="bottom: 75%;"></div>
+            <div class="grid-line grid-y" style="bottom: 100%;"></div>
+
+            <!-- Vertical Grid Lines (X-axis ticks) -->
+            <div class="grid-line grid-x" style="left: 0%;"></div>
+            <div class="grid-line grid-x" style="left: 12.5%;"></div> /* 64 */
+            <div class="grid-line grid-x" style="left: 25%;"></div> /* 128 */
+            <div class="grid-line grid-x" style="left: 37.5%;"></div> /* 512 */
+            <div class="grid-line grid-x" style="left: 50%;"></div> /* 1024 */
+            <div class="grid-line grid-x" style="left: 62.5%;"></div> /* 2048 */
+            <div class="grid-line grid-x" style="left: 75%;"></div> /* 4096 */
+            <div class="grid-line grid-x" style="left: 87.5%;"></div> /* 8192 */
+            <div class="grid-line grid-x" style="left: 100%;"></div>
+
+            <!-- X-axis Tick Labels -->
+            <div class="tick-label x-tick" style="left: 12.5%;">64</div>
+            <div class="tick-label x-tick" style="left: 25%;">128</div>
+            <div class="tick-label x-tick" style="left: 37.5%;">512</div>
+            <div class="tick-label x-tick" style="left: 50%;">1024</div>
+            <div class="tick-label x-tick" style="left: 62.5%;">2048</div>
+            <div class="tick-label x-tick" style="left: 75%;">4096</div>
+            <div class="tick-label x-tick" style="left: 87.5%;">8192</div>
+
+            <!-- Boxes representing PLC categories -->
+            <!-- Box 1 (Small PLC) -->
+            <div class="box" style="left: 15%; bottom: 10%; width: 15%; height: 20%;">
+                A
+                <div class="box-label top-right">1</div>
+            </div>
+
+            <!-- Box 2 (Medium PLC - lower end) -->
+            <div class="box" style="left: 30%; bottom: 25%; width: 20%; height: 25%;">
+                B
+                <div class="box-label top-right">2</div>
+            </div>
+
+            <!-- Box 3 (Medium PLC - higher end) -->
+            <div class="box" style="left: 45%; bottom: 45%; width: 25%; height: 30%;">
+                C
+                <div class="box-label top-right">3</div>
+            </div>
+
+            <!-- Box 4 (Large PLC) -->
+            <div class="box" style="left: 60%; bottom: 65%; width: 30%; height: 35%;">
+                D
+                <div class="box-label top-right">4</div>
+            </div>
+
+            <!-- Vertical dotted lines from boxes to X-axis -->
+            <div class="dot-line" style="left: 22.5%; height: 10%; bottom: 0%;"></div>
+            <div class="dot-line" style="left: 40%; height: 25%; bottom: 0%;"></div>
+            <div class="dot-line" style="left: 57.5%; height: 45%; bottom: 0%;"></div>
+            <div class="dot-line" style="left: 75%; height: 65%; bottom: 0%;"></div>
+
+        </div>
+
+        <div class="notes-section">
+            <h3>Quick Notes on PLC Sizing:</h3>
+            <ul>
+                <li>I/O Count (X-axis): This is like the number of "ports" or connections your PLC has for sensors and actuators. More I/O means it can control more stuff.</li>
+                <li>Complexity & Cost (Y-axis): As you move up, the PLC can handle more intricate tasks and, naturally, costs more. Think of it as going from a basic smartphone to a high-end server.</li>
+                <li>Boxes (A, B, C, D): These represent different PLC categories (Small, Medium, Large) and show that as I/O count increases, so does the complexity it can manage and its price.</li>
+                <li>The Trend: The chart clearly shows an upward trend – bigger PLCs handle bigger jobs and come with a bigger price tag.</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>
