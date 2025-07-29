@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLC vs. Personal Computers (PCs)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            /* Base font size, will be adjusted by JS */
+            font-size: 18px;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light blue-gray background */
+            color: #1e293b; /* Darker text for readability */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to the top */
+            min-height: 100vh;
+            padding: 1rem; /* Reduced overall page padding */
+            box-sizing: border-box;
+            overflow-y: hidden; /* Prevent vertical scrolling */
+        }
+        .container {
+            max-width: 950px; /* Slightly wider max-width to accommodate content */
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 1rem; /* Rounded corners for the whole container */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            overflow: hidden; /* Ensures rounded corners apply to children */
+            border: 1px solid #e2e8f0; /* Subtle border */
+            display: flex; /* Use flexbox for vertical layout */
+            flex-direction: column;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse; /* Remove gaps between cells */
+            flex-grow: 1; /* Allow table to grow and take available space */
+        }
+        th, td {
+            padding: 0.75rem 1rem; /* Reduced padding for compactness */
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0; /* Light border for rows */
+            font-size: 0.95em; /* Adjust cell font size relative to base */
+        }
+        th {
+            background-color: #e0f2fe; /* Light blue header background */
+            color: #0c4a6e; /* Darker blue text for headers */
+            font-weight: 700; /* Bold headers */
+            text-transform: uppercase;
+            font-size: 0.85em; /* Slightly smaller header font relative to base */
+            letter-spacing: 0.05em;
+        }
+        tr:last-child td {
+            border-bottom: none; /* No border on the last row */
+        }
+        tr:nth-child(even) {
+            background-color: #f8fafc; /* Zebra striping for readability */
+        }
+        .header-title {
+            font-size: 2em; /* Adjusted title size relative to new base */
+            font-weight: 700;
+            color: #0f172a; /* Very dark blue for title */
+            text-align: center;
+            margin-bottom: 0; /* Remove bottom margin to reduce space */
+            padding: 1rem; /* Reduced padding */
+            background-color: #eff6ff; /* Lighter blue background for title */
+            border-bottom: 1px solid #dbeafe;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+        }
+        .takeaway {
+            font-size: 1em; /* Adjusted takeaway text size relative to new base */
+            font-weight: 600;
+            color: #0f172a;
+            text-align: center;
+            padding: 0.75rem 1rem; /* Reduced padding */
+            background-color: #ecfdf5; /* Light green background for takeaway */
+            border-top: 1px solid #d1fae5;
+        }
+        .takeaway:last-of-type { /* Apply border-radius only to the last takeaway */
+            border-bottom-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+        }
+        .emoji {
+            font-size: 1.1em; /* Slightly larger emoji relative to surrounding text */
+        }
+        .plc-col {
+            color: #047857; /* Green for PLC advantages */
+            font-weight: 600;
+        }
+        .pc-col {
+            color: #b91c1c; /* Red for PC disadvantages */
+        }
+
+        /* Responsive adjustments for smaller screens - aiming to keep it single page */
+        @media (max-width: 768px) {
+            /* These media query adjustments will be less critical with JS scaling,
+               but still provide a fallback for very specific breakpoints or if JS fails. */
+            html {
+                font-size: 16px; /* A base for smaller screens before JS takes over */
+            }
+            .header-title {
+                font-size: 1.75em;
+            }
+            .takeaway {
+                font-size: 0.9em;
+            }
+            th, td {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.9em;
+            }
+        }
+
+        /* For very small screens, if it still doesn't fit horizontally, allow horizontal scrolling */
+        @media (max-width: 500px) {
+            .container {
+                border-radius: 0.5rem;
+            }
+            .header-title, .takeaway {
+                border-radius: 0.5rem;
+            }
+            th, td {
+                display: table-cell;
+                width: auto;
+            }
+            tr {
+                display: table-row;
+                border: none;
+                margin-bottom: 0;
+            }
+            td::before {
+                content: none;
+            }
+            table {
+                overflow-x: auto;
+                display: block;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-title">
+            <span class="emoji">💻</span> PLC vs. Personal Computers (PCs)
+        </div>
+        <div class="takeaway" style="background-color: #f0f9ff; border-top: 1px solid #e0f2fe;">
+            Here’s why industrial-grade PLCs are not just "computers with IO" — they're built like tanks <span class="emoji">💪</span>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>PLCs</th>
+                    <th>PCs (General Use)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="Feature">Operating Temp</td>
+                    <td class="plc-col" data-label="PLCs">0° to 60°C. Built to handle extreme heat or cold on the factory floor.</td>
+                    <td class="pc-col" data-label="PCs (General Use)">10° to 35°C. Designed for comfy office environments, not harsh conditions.</td>
+                </tr>
+                <tr>
+                    <td data-label="Feature">Storage Temp</td>
+                    <td class="plc-col" data-label="PLCs">-20° to 70°C. Can survive being stored in unheated warehouses or hot transport.</td>
+                    <td class="pc-col" data-label="PCs (General Use)">Varies, usually not ruggedized. Needs stable conditions; extreme temps can damage components.</td>
+                </tr>
+                <tr>
+                    <td data-label="Feature">Humidity</td>
+                    <td class="plc-col" data-label="PLCs">5–95%, non-condensing. Handles damp factory air without breaking a sweat.</td>
+                    <td class="pc-col" data-label="PCs (General Use)">Often lower tolerance. High humidity can cause short circuits or corrosion.</td>
+                </tr>
+                <tr>
+                    <td data-label="Feature">Air Quality Tolerance</td>
+                    <td class="plc-col" data-label="PLCs">No corrosive gas allowed. Built to resist industrial fumes and particles.</td>
+                    <td class="pc-col" data-col="PCs (General Use)">Needs clean, dust-free air. Dust and corrosive gases quickly degrade internal parts.</td>
+                </tr>
+                <tr>
+                    <td data-label="Feature">Vibration Resistance</td>
+                    <td class="plc-col" data-label="PLCs">MIL-STD 810C Level. Designed to withstand constant machine vibrations without issues.</td>
+                    <td class="pc-col" data-label="PCs (General Use)">Weak to medium. Continuous vibration can loosen connections or damage hard drives.</td>
+                </tr>
+                <tr>
+                    <td data-label="Feature">Shock Resistance</td>
+                    <td class="plc-col" data-label="PLCs">MIL-STD 810C. Can take a bump or drop; built for tough industrial handling.</td>
+                    <td class="pc-col" data-label="PCs (General Use)">Weak. A sudden jolt can easily damage sensitive internal components.</td>
+                </tr>
+                <tr>
+                    <td data-label="Feature">Voltage Withstand</td>
+                    <td class="plc-col" data-label="PLCs">1500VAC between key sections. Built to handle power spikes and electrical noise.</td>
+                    <td class="pc-col" data-label="PCs (General Use)">Not rated for that. Vulnerable to voltage fluctuations common in industrial settings.</td>
+                </tr>
+                <tr>
+                    <td data-label="Feature">Insulation Resistance</td>
+                    <td class="plc-col" data-label="PLCs">20MΩ @ 500VDC. High insulation prevents electrical leakage and ensures safety.</td>
+                    <td class="pc-col" data-label="PCs (General Use)">Standard at best. Less robust insulation means higher risk in high-voltage environments.</td>
+                </tr>
+                <tr>
+                    <td data-label="Feature">Noise Immunity</td>
+                    <td class="plc-col" data-label="PLCs">Meets industrial NEMA specs. Filters out electrical interference from other machinery.</td>
+                    <td class="pc-col" data-label="PCs (General Use)">No serious noise protection. Easily affected by electromagnetic interference, causing glitches.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="takeaway">
+            Takeaway: PLCs are purpose-built for the brutal realities of industrial environments. PCs, while powerful, just can't hack it when things get tough.
+        </div>
+    </div>
+
+    <script>
+        /**
+         * Dynamically adjusts the root font size based on the window's inner height.
+         * This helps the content fit within a single screen for easier screenshots,
+         * while maintaining readability by scaling all 'rem' and 'em' units proportionally.
+         */
+        function adjustFontSize() {
+            // Define a target height for optimal display (e.g., based on a common desktop resolution)
+            const targetHeight = 1050; // User mentioned 1650x1050 screen previously
+            const currentHeight = window.innerHeight;
+
+            // Calculate a scaling factor.
+            // If currentHeight is greater than targetHeight, the factor will be > 1, increasing font size.
+            // If currentHeight is less than targetHeight, the factor will be < 1, decreasing font size.
+            const scaleFactor = currentHeight / targetHeight;
+
+            // Define a base font size for the 'html' element when at targetHeight.
+            // This base size corresponds to the '18px' set in the CSS.
+            const baseHtmlFontSize = 18; // px
+
+            // Calculate the new font size for the 'html' element.
+            // We can clamp this to prevent fonts from becoming too small or too large.
+            const minFontSize = 14; // Minimum readable font size
+            const maxFontSize = 22; // Maximum desirable font size
+            let newFontSize = baseHtmlFontSize * scaleFactor;
+
+            // Apply clamping
+            newFontSize = Math.max(minFontSize, Math.min(maxFontSize, newFontSize));
+
+            // Set the new font size on the root html element
+            document.documentElement.style.fontSize = `${newFontSize}px`;
+        }
+
+        // Adjust font size when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', adjustFontSize);
+
+        // Adjust font size whenever the window is resized
+        window.addEventListener('resize', adjustFontSize);
+    </script>
+</body>
+</html>
