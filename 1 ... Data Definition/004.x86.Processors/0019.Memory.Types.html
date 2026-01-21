@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Memory Types Overview</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg: #0f172a;          /* slate-900 */
+      --card: #111827;        /* gray-900 */
+      --muted: #94a3b8;       /* slate-400 */
+      --text: #e5e7eb;        /* gray-200 */
+      --border: #1f2937;      /* gray-800 */
+      --accent: #6366f1;      /* indigo-500 */
+      --row: #0b1224;
+      --row2:#0e162c;
+      --good:#10b981;         /* emerald */
+      --warn:#f59e0b;         /* amber */
+      --bad:#ef4444;          /* red */
+      --mid:#22d3ee;          /* cyan */
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      background: radial-gradient(1200px 600px at 20% 0%, #0b1224 0%, var(--bg) 60%);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      padding: 32px;
+    }
+
+    .wrap{ max-width: 1000px; margin: 0 auto; }
+
+    .title{
+      display:flex; align-items:center; gap:12px; margin-bottom: 18px;
+    }
+    .title h2{ margin:0; letter-spacing:.2px; }
+    .chip{
+      background: linear-gradient(135deg, var(--accent), #22d3ee);
+      color: white; font-weight: 600; padding: 6px 10px; border-radius: 999px; font-size: 12px;
+      box-shadow: 0 6px 18px rgba(99,102,241,.35);
+    }
+
+    .card{
+      background: linear-gradient(180deg, var(--card), #0b1224);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      overflow: hidden;
+    }
+
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    thead th{
+      text-align: left;
+      padding: 14px 16px;
+      background: linear-gradient(180deg, #1f2937, #111827);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    thead th + th{ border-left: 1px solid var(--border); }
+
+    tbody tr{ background: var(--row); }
+    tbody tr:nth-child(even){ background: var(--row2); }
+    tbody tr:hover{ background: #121a33; transition: background .18s ease; }
+
+    td{
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    td + td{ border-left: 1px solid var(--border); }
+
+    /* Type cell */
+    .type{
+      display:flex; align-items:center; gap:10px; font-weight:600;
+    }
+    .pill{
+      width: 10px; height: 10px; border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(99,102,241,.18);
+      background: var(--accent);
+    }
+
+    /* Badges */
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      font-weight: 600; padding: 6px 10px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+    }
+    .speed-fastest{ color:#d1fae5; border-color: rgba(16,185,129,.35); background: rgba(16,185,129,.12); }
+    .speed-fast{ color:#c7d2fe; border-color: rgba(99,102,241,.35); background: rgba(99,102,241,.12); }
+    .speed-slow{ color:#fecaca; border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.12); }
+
+    .cost-high{ color:#bae6fd; border-color: rgba(14,165,233,.35); background: rgba(14,165,233,.12); }
+    .cost-very-high{ color:#fbcfe8; border-color: rgba(236,72,153,.35); background: rgba(236,72,153,.12); }
+    .cost-low{ color:#fde68a; border-color: rgba(245,158,11,.35); background: rgba(245,158,11,.12); }
+
+    .yes{ color:#fecaca; border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.12); }
+    .no{ color:#a7f3d0; border-color: rgba(16,185,129,.35); background: rgba(16,185,129,.12); }
+    .battery{ color:#cbd5e1; border-color: rgba(100,116,139,.35); background: rgba(100,116,139,.12); }
+
+    .use{
+      display:inline-block; padding:6px 10px; border-radius:8px;
+      background: rgba(99,102,241,.10); border:1px solid rgba(99,102,241,.25);
+      color:#c7d2fe; font-weight:600;
+    }
+
+    /* Column widths on larger screens */
+    @media (min-width: 900px){
+      thead th:nth-child(1), tbody td:nth-child(1){ width: 16%; }
+      thead th:nth-child(2), tbody td:nth-child(2){ width: 12%; }
+      thead th:nth-child(3), tbody td:nth-child(3){ width: 12%; }
+      thead th:nth-child(4), tbody td:nth-child(4){ width: 16%; }
+      thead th:nth-child(5), tbody td:nth-child(5){ width: 18%; }
+      thead th:nth-child(6), tbody td:nth-child(6){ width: 26%; }
+    }
+
+    .note{
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="title">
+      <h2>Memory Types, Speed, Cost & Use</h2>
+      <span class="chip">SRAM · DRAM · ROM · CMOS · VRAM</span>
+    </div>
+
+    <div class="card">
+      <table aria-label="Memory types comparison">
+        <thead>
+          <tr>
+            <th>Memory type</th>
+            <th>Speed</th>
+            <th>Cost</th>
+            <th>Needs refresh?</th>
+            <th>Volatile?</th>
+            <th>Primary use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span class="type"><span class="pill"></span>SRAM</span>
+            </td>
+            <td><span class="badge speed-fastest">Fastest</span></td>
+            <td><span class="badge cost-very-high">Very high</span></td>
+            <td><span class="badge no">No</span></td>
+            <td><span class="badge yes">Yes</span></td>
+            <td><span class="use">CPU cache (L1/L2)</span></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="type"><span class="pill"></span>DRAM</span>
+            </td>
+            <td><span class="badge speed-fast">Fast</span></td>
+            <td><span class="badge cost-low">Low</span></td>
+            <td><span class="badge yes">Yes</span></td>
+            <td><span class="badge yes">Yes</span></td>
+            <td><span class="use">Main system RAM</span></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="type"><span class="pill"></span>ROM</span>
+            </td>
+            <td><span class="badge speed-slow">Slow</span></td>
+            <td><span class="badge cost-low">Low</span></td>
+            <td><span class="badge no">No</span></td>
+            <td><span class="badge no">No</span></td>
+            <td><span class="use">Firmware / BIOS</span></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="type"><span class="pill"></span>CMOS</span>
+            </td>
+            <td><span class="badge speed-slow">Slow</span></td>
+            <td><span class="badge cost-low">Low</span></td>
+            <td><span class="badge no">No</span></td>
+            <td><span class="badge battery">No (battery)</span></td>
+            <td><span class="use">BIOS settings / time</span></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="type"><span class="pill"></span>VRAM</span>
+            </td>
+            <td><span class="badge speed-fast">Fast</span></td>
+            <td><span class="badge cost-high">High</span></td>
+            <td><span class="badge yes">Yes</span></td>
+            <td><span class="badge yes">Yes</span></td>
+            <td><span class="use">Graphics data</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note">Notes: SRAM is fastest but expensive—ideal for caches. DRAM needs refresh and is used for main memory. ROM/CMOS are non‑volatile (CMOS backed by battery). VRAM is optimized for parallel graphics access.</p>
+  </div>
+</body>
+</html>
