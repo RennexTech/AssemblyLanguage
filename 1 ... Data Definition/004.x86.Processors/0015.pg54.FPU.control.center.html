@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<title>FPU Management Registers</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fdfaf6;
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+    color: #4a4a4a;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 850px;
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border-top: 6px solid #f6ad55;
+  }
+
+  h2 {
+    color: #c05621;
+    text-align: left;
+    margin-bottom: 10px;
+    font-size: 1.6rem;
+  }
+
+  p {
+    margin-bottom: 25px;
+    color: #718096;
+    line-height: 1.5;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  th {
+    background-color: #fffaf0;
+    color: #9c4221;
+    text-align: left;
+    padding: 15px;
+    border-bottom: 2px solid #feebc8;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+
+  td {
+    padding: 18px 15px;
+    border-bottom: 1px solid #edf2f7;
+    vertical-align: top;
+  }
+
+  .code-text {
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-weight: bold;
+    color: #2d3748;
+  }
+
+  .size-badge {
+    background: #feebc8;
+    color: #9c4221;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+
+  .analogy-box {
+    font-style: italic;
+    color: #dd6b20;
+    font-size: 0.9rem;
+    display: block;
+    margin-top: 5px;
+  }
+
+  tr:hover {
+    background-color: #fffaf0;
+  }
+</style>
+</head>
+<body>
+
+<div class='container'>
+  <h2>The FPU Control Center</h2>
+  <p>These 16-bit registers manage the logic behind the math, ensuring the FPU knows the rules of the game.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Register</th>
+        <th>Size</th>
+        <th>Role & Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class='code-text'>Control Word (CW)</td>
+        <td><span class='size-badge'>16-bit</span></td>
+        <td>
+          <strong>The Rulebook:</strong> Sets rounding modes (up, down, or nearest) and precision levels. It also decides which errors should crash the program and which should be ignored.
+          <span class='analogy-box'>Analogy: Deciding if you want to round your grocery bill to the nearest dollar or the nearest cent.</span>
+        </td>
+      </tr>
+      <tr>
+        <td class='code-text'>Status Word (SW)</td>
+        <td><span class='size-badge'>16-bit</span></td>
+        <td>
+          <strong>The Messenger:</strong> Holds flags that show if a calculation resulted in an error (like dividing by zero). It also tracks which register is currently the 'Top' of the stack.
+          <span class='analogy-box'>Analogy: The check engine light on your dashboard.</span>
+        </td>
+      </tr>
+      <tr>
+        <td class='code-text'>Tag Word (TW)</td>
+        <td><span class='size-badge'>16-bit</span></td>
+        <td>
+          <strong>The Inventory:</strong> Contains 2 bits for every ST register. These bits tell the FPU if a register is Valid, Zero, Empty, or Special (NaN).
+          <span class='analogy-box'>Analogy: A sensor in a parking garage that tells you which spots are empty.</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
