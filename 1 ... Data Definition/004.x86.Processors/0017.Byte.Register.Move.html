@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>x86-64 Instruction Validity</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg: #0f172a;          /* slate-900 */
+      --card: #111827;        /* gray-900 */
+      --muted: #94a3b8;       /* slate-400 */
+      --text: #e5e7eb;        /* gray-200 */
+      --border: #1f2937;      /* gray-800 */
+      --valid: #10b981;       /* emerald-500 */
+      --invalid: #ef4444;     /* red-500 */
+      --accent: #6366f1;      /* indigo-500 */
+      --row: #0b1224;         /* darker row bg */
+      --code-bg: #0b1020;     /* code cell bg */
+    }
+
+    * { box-sizing: border-box; }
+    body{
+      margin:0;
+      background: radial-gradient(1200px 600px at 20% 0%, #0b1224 0%, var(--bg) 60%);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      padding: 32px;
+    }
+
+    .wrap{
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .title{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom: 18px;
+      letter-spacing: .2px;
+    }
+    .title .chip{
+      background: linear-gradient(135deg, var(--accent), #22d3ee);
+      color: white;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      box-shadow: 0 6px 18px rgba(99,102,241,.35);
+    }
+
+    .card{
+      background: linear-gradient(180deg, var(--card), #0b1224);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      overflow: hidden;
+    }
+
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    thead th{
+      text-align: left;
+      padding: 14px 16px;
+      background: linear-gradient(180deg, #1f2937, #111827);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    thead th:first-child{ border-right: 1px solid var(--border); }
+    thead th:nth-child(2){ border-right: 1px solid var(--border); }
+
+    tbody tr{
+      background: var(--row);
+    }
+    tbody tr:nth-child(even){
+      background: #0e162c;
+    }
+    tbody tr:hover{
+      background: #121a33;
+      transition: background .18s ease;
+    }
+
+    td{
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    td + td{ border-left: 1px solid var(--border); }
+
+    /* Code cell styling */
+    .code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: var(--code-bg);
+      color: #cbd5e1;
+      padding: 8px 10px;
+      border-radius: 8px;
+      display: inline-block;
+      border: 1px solid #1e293b;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+    }
+
+    /* Status badges */
+    .badge{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 999px;
+      letter-spacing: .2px;
+      box-shadow: 0 6px 16px rgba(0,0,0,.25);
+    }
+    .badge.valid{
+      background: rgba(16,185,129,.12);
+      color: #a7f3d0;
+      border: 1px solid rgba(16,185,129,.35);
+    }
+    .badge.invalid{
+      background: rgba(239,68,68,.12);
+      color: #fecaca;
+      border: 1px solid rgba(239,68,68,.35);
+    }
+    .dot{
+      width: 8px; height: 8px; border-radius: 50%;
+    }
+    .dot.valid{ background: var(--valid); box-shadow: 0 0 0 3px rgba(16,185,129,.25); }
+    .dot.invalid{ background: var(--invalid); box-shadow: 0 0 0 3px rgba(239,68,68,.25); }
+
+    /* Explanation column */
+    .explain{
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Subtle column separators on large screens */
+    @media (min-width: 720px){
+      thead th:nth-child(1), tbody td:nth-child(1){ width: 32%; }
+      thead th:nth-child(2), tbody td:nth-child(2){ width: 18%; }
+      thead th:nth-child(3), tbody td:nth-child(3){ width: 50%; }
+    }
+
+    /* Footer note */
+    .note{
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="title">
+      <h2 style="margin:0">x86/x86‑64 Byte Register Moves</h2>
+      <span class="chip">Instruction validity</span>
+    </div>
+
+    <div class="card">
+      <table aria-label="Instruction validity table">
+        <thead>
+          <tr>
+            <th>Instruction</th>
+            <th>Status</th>
+            <th>Explanation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code class="code">MOV AH, AL</code></td>
+            <td>
+              <span class="badge valid"><span class="dot valid"></span>Valid</span>
+            </td>
+            <td class="explain">Both are legacy byte registers (AH and AL) from the 16‑bit register family.</td>
+          </tr>
+          <tr>
+            <td><code class="code">MOV R8B, AL</code></td>
+            <td>
+              <span class="badge valid"><span class="dot valid"></span>Valid</span>
+            </td>
+            <td class="explain">Mixing a new low byte (<code class="code">R8B</code>) with a legacy low byte (<code class="code">AL</code>) is allowed.</td>
+          </tr>
+          <tr>
+            <td><code class="code">MOV AH, R8B</code></td>
+            <td>
+              <span class="badge invalid"><span class="dot invalid"></span>Invalid</span>
+            </td>
+            <td class="explain">High byte <strong>AH</strong> cannot be used with the new byte registers (<strong>R8B–R15B</strong>); the encoding forbids this mix.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note">Tip: In 64‑bit mode, prefer <code class="code">AL/BL/CL/DL</code> or <code class="code">SIL/DIL/BPL/R8B–R15B</code>; avoid <code class="code">AH/BH/CH/DH</code> when mixing with new byte registers.</p>
+  </div>
+</body>
+</html>
