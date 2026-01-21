@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<title>FPU Pointer Registers</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f4f7f6;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .card {
+    background: white;
+    width: 100%;
+    max-width: 900px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    border: 1px solid #e1e4e8;
+  }
+
+  .header {
+    background: #2d3e50;
+    color: #ffffff;
+    padding: 25px;
+    text-align: center;
+  }
+
+  .header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th {
+    background: #f8f9fa;
+    color: #5a67d8;
+    text-align: left;
+    padding: 15px 20px;
+    border-bottom: 2px solid #edf2f7;
+    font-size: 0.85rem;
+  }
+
+  td {
+    padding: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
+  .reg-code {
+    font-family: 'Consolas', monospace;
+    color: #e53e3e;
+    background: #fff5f5;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+  }
+
+  .bit-size {
+    display: inline-block;
+    background: #ebf4ff;
+    color: #2b6cb0;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .description-box {
+    color: #4a5568;
+  }
+
+  .analogy {
+    display: block;
+    margin-top: 8px;
+    color: #718096;
+    font-size: 0.85rem;
+    padding-left: 10px;
+    border-left: 3px solid #cbd5e0;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  tr:hover {
+    background-color: #fdfdfd;
+  }
+</style>
+</head>
+<body>
+
+<div class='card'>
+  <div class='header'>
+    <h2>FPU Tracking Registers</h2>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Register</th>
+        <th>Standard Size</th>
+        <th>What it remembers</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class='reg-code'>FIP</span><br>(Instruction Pointer)</td>
+        <td><span class='bit-size'>48-bit</span></td>
+        <td class='description-box'>
+          <strong>The Address of the Command:</strong> This stores the exact location in memory of the last math instruction that was executed.
+          <span class='analogy'>Analogy: The page number in a recipe book where the last instruction was found.</span>
+        </td>
+      </tr>
+      <tr>
+        <td><span class='reg-code'>FDP</span><br>(Data Pointer)</td>
+        <td><span class='bit-size'>48-bit</span></td>
+        <td class='description-box'>
+          <strong>The Address of the Data:</strong> This stores the location in memory of the number (the operand) used by that instruction.
+          <span class='analogy'>Analogy: The address of the grocery store where you bought the ingredients.</span>
+        </td>
+      </tr>
+      <tr>
+        <td><span class='reg-code'>FOP</span><br>(Last Opcode)</td>
+        <td><span class='bit-size'>11-bit</span></td>
+        <td class='description-box'>
+          <strong>The Action:</strong> This stores a small code representing the actual math operation (like Add, Subtract, or Square Root).
+          <span class='analogy'>Analogy: Remembering that the instruction was 'Bake' and not 'Boil'.</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
