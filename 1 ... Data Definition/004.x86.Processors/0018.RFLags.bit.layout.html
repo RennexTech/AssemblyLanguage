@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>RFLAGS Bit Layout (x86-64)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg: #0f172a;          /* slate-900 */
+      --card: #111827;        /* gray-900 */
+      --muted: #94a3b8;       /* slate-400 */
+      --text: #e5e7eb;        /* gray-200 */
+      --border: #1f2937;      /* gray-800 */
+      --accent: #6366f1;      /* indigo-500 */
+      --row: #0b1224;
+      --code-bg: #0b1020;
+      --good: #10b981;        /* emerald */
+      --reserved: #64748b;    /* slate */
+    }
+
+    * { box-sizing: border-box; }
+    body{
+      margin:0;
+      background: radial-gradient(1200px 600px at 20% 0%, #0b1224 0%, var(--bg) 60%);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      padding: 32px;
+    }
+
+    .wrap{ max-width: 900px; margin: 0 auto; }
+
+    .title{
+      display:flex; align-items:center; gap:12px; margin-bottom: 18px;
+    }
+    .title h2{ margin:0; letter-spacing:.2px; }
+    .chip{
+      background: linear-gradient(135deg, var(--accent), #22d3ee);
+      color: white; font-weight: 600; padding: 6px 10px; border-radius: 999px; font-size: 12px;
+      box-shadow: 0 6px 18px rgba(99,102,241,.35);
+    }
+
+    .card{
+      background: linear-gradient(180deg, var(--card), #0b1224);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      overflow: hidden;
+    }
+
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    thead th{
+      text-align: left;
+      padding: 14px 16px;
+      background: linear-gradient(180deg, #1f2937, #111827);
+      border-bottom: 1px solid var(--border);
+    }
+    thead th + th{ border-left: 1px solid var(--border); }
+
+    tbody tr{ background: var(--row); }
+    tbody tr:nth-child(even){ background: #0e162c; }
+    tbody tr:hover{ background: #121a33; transition: background .18s ease; }
+
+    td{
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    td + td{ border-left: 1px solid var(--border); }
+
+    /* Bits column badges */
+    .bits{
+      display:inline-flex; align-items:center; gap:8px;
+      font-weight: 600; padding: 6px 10px; border-radius: 999px;
+      background: rgba(99,102,241,.12); color: #c7d2fe; border: 1px solid rgba(99,102,241,.35);
+    }
+
+    /* Purpose highlights */
+    .flag-list{
+      display:flex; flex-wrap: wrap; gap:6px; margin-top:8px;
+    }
+    .flag{
+      background: rgba(16,185,129,.12);
+      color: #a7f3d0;
+      border: 1px solid rgba(16,185,129,.35);
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .reserved{
+      background: rgba(100,116,139,.12);
+      color: #cbd5e1;
+      border: 1px solid rgba(100,116,139,.35);
+      padding: 6px 10px;
+      border-radius: 8px;
+      display: inline-block;
+      font-weight: 600;
+    }
+
+    .note{
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="title">
+      <h2>RFLAGS Bit Layout (x86‑64)</h2>
+      <span class="chip">Flags & reserved bits</span>
+    </div>
+
+    <div class="card">
+      <table aria-label="RFLAGS bit layout">
+        <thead>
+          <tr>
+            <th>Bits</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="bits">0–31</span></td>
+            <td>
+              Same as <strong>EFLAGS</strong>. Includes common status/control flags:
+              <div class="flag-list" aria-label="Common flags">
+                <span class="flag">ZF (Zero)</span>
+                <span class="flag">CF (Carry)</span>
+                <span class="flag">SF (Sign)</span>
+                <span class="flag">OF (Overflow)</span>
+                <span class="flag">PF (Parity)</span>
+                <span class="flag">AF (Aux Carry)</span>
+                <span class="flag">DF (Direction)</span>
+                <span class="flag">IF (Interrupt)</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="bits">32–63</span></td>
+            <td>
+              <span class="reserved">Reserved / unused — treated as 0</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note">Note: In 64‑bit mode, user code reads/writes flags via instructions like <code>PUSHFQ/POPFQ</code> and <code>LAHF/SAHF</code> (subset). Reserved bits remain zero.</p>
+  </div>
+</body>
+</html>
