@@ -1,10 +1,16 @@
 **🔧 My World of Assembly Language 🔧**
 
-I know you're ready to dive headfirst into the wild and wonderful world of **assembly programming**. 
-
-I've documented my own assembly quest, from fumbling beginner to... well, slightly less fumbling enthusiast.
-
 ![image](https://github.com/user-attachments/assets/e6802fbb-3c32-473b-ac7c-57262e88992a)
+
+Assembly programming Manual for the world....✨💖
+
+How the notes look inside? 
+
+<img width="935" height="778" alt="image" src="https://github.com/user-attachments/assets/b10d7aca-74c5-4ed9-954e-e2d02868a7b1" />
+
+<img width="1066" height="891" alt="image" src="https://github.com/user-attachments/assets/e3cb32c9-6c83-40df-afcf-ac849fead5b1" />
+
+That's good enough to give you the joy to dive in and learn assembly...
 
 **⏱️ Pace Yourself**
 
