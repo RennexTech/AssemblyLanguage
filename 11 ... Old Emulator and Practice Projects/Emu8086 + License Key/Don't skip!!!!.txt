@@ -1,0 +1,17 @@
+These examples are designed for emu8086 assembler and microprocessor emulator.
+
+You can do practice on them , try converting them to masm equivalents and running them. 
+
+You can run the programs from visual studio community/pro/enterprise after making the adjustments.
+
+Masm is also within this folder. You can also get it from their official website or use visual studio.
+
+If you want to find emu8086 and use it, find the 3mb version, it has good syntax highlighting. 
+
+Thank you!
+
+
+
+
+
+  
