@@ -10,23 +10,6 @@ I've documented my own assembly quest, from fumbling beginner to... well, slight
 
 Assembly is learning to speak to machines – it takes **time, REPETITION, REPETITION and patience**. 
 
-When you're stuck, ChatGPT, Gemini, and Claude.
-
-For better notes, use cherrytree to open the .ctd files:
-
-![image](https://github.com/user-attachments/assets/86fdfd69-baf5-481e-a9dd-dd5c4ca20b5c)
-
-![image](https://github.com/user-attachments/assets/d5418442-7a9e-44bd-a98c-8d47ed0b3323)
-
-![image](https://github.com/user-attachments/assets/95f40381-cb0f-4cd3-942a-5b8f3fabc48e)
-
-WinAPI + Assembly: 
-
-![image](https://github.com/user-attachments/assets/cc12867a-9b5b-464f-9101-96c084184857)
-
-And much more...
-
-Change some preferences, and you'll have a similar looking cherrytree theme.
 
 **🕵️ Why Bother?**
 
@@ -54,10 +37,10 @@ You are the compiler, you get the dependencies and set them up.
 
 Remember, I'm learning too! This is my attempt to make assembly a bit less scary for all of us curious coders out there.
 
-**Tools:**
+**Tools I used:**
 
-CherryTree 🍒
-Microsoft Word 📝
+CherryTree for the old note-taking in 2022 🍒
+Microsoft Word for reavamping/beautifying the notes in 2026📝
 Time ⏳
 
 **Let's rock the assembly world together! 🚀**
