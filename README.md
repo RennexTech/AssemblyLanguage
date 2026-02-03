@@ -8,7 +8,7 @@ If you’re into reverse engineering / malware analysis:
 You don’t read 100-page PDFs straight ❌
 
 Hit a wall in x64dbg / Binary Ninja / IDA / Ghidra
-→ Find the the exact notes on that topic that is blocking you
+→ Find the exact notes on that topic that is blocking you
 → Find that section in the PDF
 → Read only what you need
 → Go back to the debugger
