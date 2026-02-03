@@ -2,6 +2,12 @@
 
 ![image](https://github.com/user-attachments/assets/e6802fbb-3c32-473b-ac7c-57262e88992a)
 
+How to read? If you're full of energy read all the pdfs. It will take time, but you'll be a beast.
+
+If you are into reverse engineering/malware analysis -> You don't read 100-page pdfs straight -> You hit a wall in x64dbg/Binja/IDA/Ghidra -> You search for the content -> Apply what you read in realtime -> "What is LEA doing here?" -> Skill + Knowledge locks in.
+
+That is active recall + contexual application = Skill Building on steroids!😤
+
 Assembly programming Manual for the world....✨💖
 
 How the notes look inside? 
