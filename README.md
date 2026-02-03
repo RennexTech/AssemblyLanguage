@@ -4,7 +4,27 @@
 
 How to read? If you're full of energy read all the pdfs. It will take time, but you'll be a beast.
 
-If you are into reverse engineering/malware analysis -> You don't read 100-page pdfs straight -> You hit a wall in x64dbg/Binja/IDA/Ghidra -> You search for the content -> Apply what you read in realtime -> "What is LEA doing here?" -> Skill + Knowledge locks in.
+If you’re into reverse engineering / malware analysis:
+You don’t read 100-page PDFs straight ❌
+
+Hit a wall in x64dbg / Binary Ninja / IDA / Ghidra
+→ Find the the exact notes on that topic that is blocking you
+→ Find that section in the PDF
+→ Read only what you need
+→ Go back to the debugger
+→ Apply it immediately
+
+“What is LEA doing here?”
+→ Search LEA x64 addressing
+→ Read 2–3 pages
+→ Step through the instruction live
+→ See it click
+→ Skill + knowledge lock in 🔒
+
+Repeat loop:
+Confusion → Targeted reading → Live application → Understanding → Muscle memory
+
+That’s how reversers actually learn. Not by worshipping PDFs — by fighting binaries and stealing answers when stuck 😈 
 
 That is active recall + contexual application = Skill Building on steroids!😤
 
