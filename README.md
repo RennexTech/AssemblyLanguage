@@ -71,8 +71,12 @@ Remember, I'm learning too! This is my attempt to make assembly a bit less scary
 
 **Tools I used:**
 
+ShareX for the images(If you know how to finetune it, you can do almost anything)
+
 CherryTree for the old note-taking in 2022 🍒
+
 Microsoft Word for reavamping/beautifying the notes in 2026📝
+
 Time ⏳
 
 **Let's rock the assembly world together! 🚀**
