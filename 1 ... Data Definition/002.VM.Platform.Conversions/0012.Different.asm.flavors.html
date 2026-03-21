@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Assembly Multiverse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --header-bg: #334155;
+            --accent-blue: #38bdf8;
+            --accent-green: #4ade80;
+            --accent-purple: #c084fc;
+            --accent-orange: #fb923c;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 50px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .header-section h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-section p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .window {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease;
+        }
+
+        .window:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+        }
+
+        .window-header {
+            background: var(--header-bg);
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .red { background: #ff5f56; }
+        .yellow { background: #ffbd2e; }
+        .green { background: #27c93f; }
+
+        .window-title {
+            color: #cbd5e1;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .arch-tag {
+            font-size: 10px;
+            background: rgba(0,0,0,0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--accent-blue);
+        }
+
+        .code-area {
+            padding: 15px;
+            margin: 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #e2e8f0;
+            overflow-x: auto;
+            background: #0f172a;
+            flex-grow: 1;
+        }
+
+        /* Syntax Highlighting */
+        .k { color: #7dd3fc; font-weight: 500; } /* Keyword/Instruction */
+        .d { color: #f472b6; } /* Directive */
+        .r { color: #fbbf24; } /* Register */
+        .n { color: #a78bfa; } /* Number */
+        .s { color: #fb7185; } /* Symbol/Label */
+        .c { color: #64748b; font-style: italic; } /* Comment */
+        .t { color: #2dd4bf; } /* String */
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header-section">
+    <h1>The Assembly Multiverse</h1>
+    <p>A comprehensive look at how different architectures and assemblers say "Hello" (or just exit gracefully).</p>
+</div>
+
+<div class="grid">
+    <!-- FASM (x64) -->
+    <div class="window">
+        <div class="window-header">
+            <div class="dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+            <div class="window-title">FASM</div>
+            <span class="arch-tag">x64 Windows</span>
+        </div>
+        <pre class="code-area">
+<span class="d">format</span> PE64 GUI
+<span class="d">entry</span> <span class="s">start</span>
+
+<span class="d">section</span> <span class="t">'.code'</span> <span class="d">code</span> <span class="d">readable</span> <span class="d">executable</span>
+<span class="s">start:</span>
+    <span class="k">sub</span> <span class="r">rsp</span>, <span class="n">8*5</span>       <span class="c">; Align stack</span>
+    <span class="k">xor</span> <span class="r">rcx</span>, <span class="r">rcx</span>       <span class="c">; Exit code 0</span>
+    <span class="k">call</span> [<span class="s">ExitProcess</span>]
+
+<span class="d">section</span> <span class="t">'.idata'</span> <span class="d">import</span> <span class="d">data</span> <span class="d">readable</span>
+<span class="d">library</span> <span class="s">kernel32</span>, <span class="t">'KERNEL32.DLL'</span>
+<span class="d">import</span> <span class="s">kernel32</span>, <span class="s">ExitProcess</span>, <span class="t">'ExitProcess'</span></pre>
+    </div>
+
+    <!-- ARM64 (Apple/Linux) -->
+    <div class="window">
+        <div class="window-header">
+            <div class="dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+            <div class="window-title">ARM64 (AArch64)</div>
+            <span class="arch-tag">Mobile/M1/M2</span>
+        </div>
+        <pre class="code-area">
+<span class="d">.global</span> <span class="s">_start</span>
+<span class="d">.align</span> <span class="n">2</span>
+
+<span class="s">_start:</span>
+    <span class="k">mov</span> <span class="r">x0</span>, <span class="n">#1</span>          <span class="c">// stdout</span>
+    <span class="k">adrp</span> <span class="r">x1</span>, <span class="s">msg@PAGE</span>   <span class="c">// Load address</span>
+    <span class="k">add</span> <span class="r">x1</span>, <span class="r">x1</span>, <span class="s">msg@PAGEOFF</span>
+    <span class="k">mov</span> <span class="r">x2</span>, <span class="n">#13</span>         <span class="c">// Length</span>
+    <span class="k">mov</span> <span class="r">x16</span>, <span class="n">#4</span>         <span class="c">// write syscall</span>
+    <span class="k">svc</span> <span class="n">#0x80</span>           <span class="c">// Super. Call</span>
+
+    <span class="k">mov</span> <span class="r">x0</span>, <span class="n">#0</span>          <span class="c">// status 0</span>
+    <span class="k">mov</span> <span class="r">x16</span>, <span class="n">#1</span>         <span class="c">// exit syscall</span>
+    <span class="k">svc</span> <span class="n">#0x80</span></pre>
+    </div>
+
+    <!-- RISC-V -->
+    <div class="window">
+        <div class="window-header">
+            <div class="dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+            <div class="window-title">RISC-V</div>
+            <span class="arch-tag">Embedded/OpenSource</span>
+        </div>
+        <pre class="code-area">
+<span class="d">.section</span> <span class="d">.text</span>
+<span class="d">.globl</span> <span class="s">_start</span>
+
+<span class="s">_start:</span>
+    <span class="k">li</span> <span class="r">a0</span>, <span class="n">0</span>            <span class="c"># exit code 0</span>
+    <span class="k">li</span> <span class="r">a7</span>, <span class="n">93</span>           <span class="c"># __NR_exit</span>
+    <span class="k">ecall</span>               <span class="c"># Env. Call</span>
+
+<span class="c"># RISC-V uses a very clean</span>
+<span class="c"># load-store architecture</span>
+<span class="c"># with 32 general purpose regs</span></pre>
+    </div>
+
+    <!-- 6502 (Retro/NES) -->
+    <div class="window">
+        <div class="window-header">
+            <div class="dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+            <div class="window-title">MOS 6502</div>
+            <span class="arch-tag">Retro/8-bit</span>
+        </div>
+        <pre class="code-area">
+<span class="c">; For the Apple II / NES</span>
+<span class="s">LDX</span> <span class="n">#$00</span>        <span class="c">; Load X with 0</span>
+<span class="s">loop:</span>
+    <span class="k">LDA</span> <span class="s">msg</span>, <span class="r">X</span>  <span class="c">; Load Accumulator</span>
+    <span class="k">BEQ</span> <span class="s">done</span>    <span class="c">; Branch if Zero</span>
+    <span class="k">JSR</span> <span class="s">$FDED</span>   <span class="c">; Jump to COUT</span>
+    <span class="k">INX</span>         <span class="c">; Increment X</span>
+    <span class="k">BNE</span> <span class="s">loop</span>    <span class="c">; Loop if not zero</span>
+<span class="s">done:</span>
+    <span class="k">RTS</span>         <span class="c">; Return from Sub</span>
+
+<span class="s">msg:</span> <span class="d">.byte</span> <span class="t">"HI!"</span>, <span class="n">$00</span></pre>
+    </div>
+
+    <!-- AVR (Arduino/Atmel) -->
+    <div class="window">
+        <div class="window-header">
+            <div class="dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+            <div class="window-title">AVR Assembly</div>
+            <span class="arch-tag">Arduino/IoT</span>
+        </div>
+        <pre class="code-area">
+<span class="d">.org</span> <span class="n">0x0000</span>
+    <span class="k">rjmp</span> <span class="s">main</span>
+
+<span class="s">main:</span>
+    <span class="k">ldi</span> <span class="r">r16</span>, <span class="n">0xFF</span>    <span class="c">; Load Immediate</span>
+    <span class="k">out</span> <span class="s">DDRB</span>, <span class="r">r16</span>    <span class="c">; Set Port B as Output</span>
+<span class="s">loop:</span>
+    <span class="k">sbi</span> <span class="s">PORTB</span>, <span class="n">5</span>     <span class="c">; Set Bit (LED ON)</span>
+    <span class="k">rcall</span> <span class="s">delay</span>
+    <span class="k">cbi</span> <span class="s">PORTB</span>, <span class="n">5</span>     <span class="c">; Clear Bit (LED OFF)</span>
+    <span class="k">rcall</span> <span class="s">delay</span>
+    <span class="k">rjmp</span> <span class="s">loop</span></pre>
+    </div>
+
+    <!-- Z80 (Gameboy/TI-83) -->
+    <div class="window">
+        <div class="window-header">
+            <div class="dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+            <div class="window-title">Z80 Assembly</div>
+            <span class="arch-tag">Gameboy/Legacy</span>
+        </div>
+        <pre class="code-area">
+<span class="d">org</span> <span class="n">$9D93</span>
+<span class="s">start:</span>
+    <span class="k">ld</span> <span class="r">hl</span>, <span class="s">msg</span>      <span class="c">; Load source address</span>
+    <span class="k">call</span> <span class="s">_puts</span>       <span class="c">; Call ROM routine</span>
+    <span class="k">ret</span>              <span class="c">; Return to OS</span>
+
+<span class="s">msg:</span>
+    <span class="d">db</span> <span class="t">"REVERSE ME"</span>, <span class="n">0</span>
+
+<span class="c">; The Z80 is a beast for</span>
+<span class="c">; learning register pairs</span>
+<span class="c">; like HL, BC, and DE.</span></pre>
+    </div>
+
+    <!-- WASM (WebAssembly Text) -->
+    <div class="window">
+        <div class="window-header">
+            <div class="dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+            <div class="window-title">Wasm (WAT)</div>
+            <span class="arch-tag">Modern Web</span>
+        </div>
+        <pre class="code-area">
+(<span class="d">module</span>
+  (<span class="d">func</span> <span class="s">$add</span> (<span class="d">param</span> <span class="r">$lhs</span> <span class="n">i32</span>) 
+             (<span class="d">param</span> <span class="r">$rhs</span> <span class="n">i32</span>) 
+             (<span class="d">result</span> <span class="n">i32</span>)
+    <span class="k">local.get</span> <span class="r">$lhs</span>
+    <span class="k">local.get</span> <span class="r">$rhs</span>
+    <span class="k">i32.add</span>)
+  (<span class="d">export</span> <span class="t">"add"</span> (<span class="d">func</span> <span class="s">$add</span>))
+)
+
+<span class="c">;; Stack-based virtual machine</span>
+<span class="c">;; used in modern browsers.</span></pre>
+    </div>
+
+    <!-- MIPS -->
+    <div class="window">
+        <div class="window-header">
+            <div class="dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+            <div class="window-title">MIPS</div>
+            <span class="arch-tag">Academia/PS1/N64</span>
+        </div>
+        <pre class="code-area">
+<span class="d">.text</span>
+<span class="d">.globl</span> <span class="s">main</span>
+<span class="s">main:</span>
+    <span class="k">li</span> <span class="r">$v0</span>, <span class="n">4</span>          <span class="c"># syscall 4 (print_str)</span>
+    <span class="k">la</span> <span class="r">$a0</span>, <span class="s">msg</span>        <span class="c"># load address</span>
+    <span class="k">syscall</span>
+
+    <span class="k">li</span> <span class="r">$v0</span>, <span class="n">10</span>         <span class="c"># syscall 10 (exit)</span>
+    <span class="k">syscall</span>
+
+<span class="d">.data</span>
+<span class="s">msg:</span> <span class="d">.asciiz</span> <span class="t">"MIPS is clean!"</span></pre>
+    </div>
+</div>
+
+<div class="footer">
+    Created for Nick's Reverse Engineering Hub • 2026
+</div>
+
+</body>
+</html>
