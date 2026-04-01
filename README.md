@@ -1,5 +1,9 @@
 **🔧 My World of Assembly Language 🔧**
 
+The notes are on the sites too:
+https://sites.google.com/view/rennextech/
+https://www.rennextech.co.ke/
+
 ![image](https://github.com/user-attachments/assets/e6802fbb-3c32-473b-ac7c-57262e88992a)
 
 How to read? If you're full of energy read all the pdfs. It will take time, but you'll be a beast.
