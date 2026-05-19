@@ -28,7 +28,7 @@ Hit a wall in x64dbg / Binary Ninja / IDA / Ghidra
 Repeat loop:
 Confusion → Targeted reading → Live application → Understanding → Muscle memory
 
-That’s how reversers actually learn. Not by worshipping PDFs — by fighting binaries and stealing answers when stuck 😈 
+That’s how reversers actually learn. Not by worshipping PDFs , by fighting binaries and stealing answers when stuck 😈 
 
 That is active recall + contexual application = Skill Building on steroids!😤
 
