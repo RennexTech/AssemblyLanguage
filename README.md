@@ -85,3 +85,6 @@ Time ⏳
 
 **Let's rock the assembly world together! 🚀**
 
+NB: Never wait to learn all of assembly so that you start applying the knowledge... with tools like IDA, Ghidra, Binary Ninja, x64dbg, Cutter, or any other tool you use. 
+
+Read, practice, try crackme's and other small challenges, don't just read like a textbook.
